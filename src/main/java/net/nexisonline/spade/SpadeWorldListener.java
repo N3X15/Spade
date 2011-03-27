@@ -19,7 +19,8 @@ public class SpadeWorldListener extends WorldListener {
 	public void loadWorlds() {		
 		File f = new File("plugins/Spade/Spade.yml");
 		Configuration cfg = new Configuration(f);
-		
+		if(f.exists())
+			cfg.load();
 		worlds = cfg.getKeys("worlds");
 		if(worlds!=null)
 		{
