@@ -2,18 +2,17 @@ package net.nexisonline.spade;
 
 import java.util.HashMap;
 
+import net.nexisonline.spade.chunkproviders.ChunkProviderFlatGrass;
+import net.nexisonline.spade.chunkproviders.ChunkProviderMountains;
+import net.nexisonline.spade.chunkproviders.ChunkProviderStock;
 import net.nexisonline.spade.commands.SetWorldGenCommand;
 
 import org.bukkit.ChunkProvider;
-import org.bukkit.World;
 import org.bukkit.World.Environment;
-import org.bukkit.WorldChunkManager;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Sample plugin for Bukkit
@@ -21,7 +20,6 @@ import org.bukkit.plugin.PluginManager;
  * @author Dinnerbone
  */
 public class SpadePlugin extends JavaPlugin {
-    private final SpadePlayerListener playerListener = new SpadePlayerListener(this);
     private final SpadeWorldListener worldListener = new SpadeWorldListener(this);
 	private HashMap<String,ChunkProvider> chunkProviders = new HashMap<String,ChunkProvider>();
 
@@ -33,6 +31,8 @@ public class SpadePlugin extends JavaPlugin {
         
         // Register our commands
         getCommand("setworldgen").setExecutor(new SetWorldGenCommand(this));
+        
+        registerChunkProviders();
 
         // Load World Settings
         worldListener.loadWorlds();
@@ -40,13 +40,20 @@ public class SpadePlugin extends JavaPlugin {
         // EXAMPLE: Custom code, here we just output some info so we can check all is well
         PluginDescriptionFile pdfFile = this.getDescription();
         System.out.println( pdfFile.getName() + " version " + pdfFile.getVersion() + " is enabled!" );
+        
+        
     }
-    public void onDisable() {
+    private void registerChunkProviders() {
+		chunkProviders.put("stock", new ChunkProviderStock());
+		chunkProviders.put("flatgrass", new ChunkProviderFlatGrass());
+		chunkProviders.put("mountains", new ChunkProviderMountains());
+	}
+	public void onDisable() {
     }
     
 	public void loadWorld(String worldName, String cmName, String cpName) {
 		ChunkProvider cp = chunkProviders.get(cpName);
-		World world = getServer().createWorld(worldName, Environment.NORMAL, null, cp);
+		getServer().createWorld(worldName, Environment.NORMAL, null, cp);
 	}
 
 }

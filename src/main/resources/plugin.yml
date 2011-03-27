@@ -1,0 +1,7 @@
+name: Spade
+version: 0.0.1-SNAPSHOT
+main: net.nexisonline.spade.SpadePlugin
+commands:
+  setworldgen:
+    description: Set the Chunk Provider
+    usage: What
