@@ -5,7 +5,24 @@ import org.bukkit.World;
 import org.bukkit.block.Biome;
 
 public class ChunkProviderMountains extends ChunkProvider {
+	@Override
+	public boolean hasCustomTerrainGenerator() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
+	@Override
+	public boolean hasCustomPopulator() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean hasCustomCaves() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	@Override
 	public void onLoad(World world, long seed) {
 		// TODO Auto-generated method stub
