@@ -5,3 +5,6 @@ commands:
   setworldgen:
     description: Set the Chunk Provider
     usage: What
+  tpw:
+    description: TP to some world
+    usage: /tpw <worldname>
