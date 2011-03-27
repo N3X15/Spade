@@ -27,27 +27,26 @@ package libnoiseforjava.module;
 
 import libnoiseforjava.exception.ExceptionInvalidParam;
 
-public class Add extends ModuleBase
-{
-   /// Noise module that outputs the additive value of the output value from
-   /// two source modules.
-   ///
-   /// This noise module requires two source modules.
+public class Add extends ModuleBase {
+	// / Noise module that outputs the additive value of the output value from
+	// / two source modules.
+	// /
+	// / This noise module requires two source modules.
 
-   public Add (ModuleBase sourceModuleOne, ModuleBase sourceModuleTwo) throws ExceptionInvalidParam
-   {
-      super(2);
-      setSourceModule(0, sourceModuleOne);
-      setSourceModule(1, sourceModuleTwo);
-   }
+	public Add(ModuleBase sourceModuleOne, ModuleBase sourceModuleTwo)
+			throws ExceptionInvalidParam {
+		super(2);
+		setSourceModule(0, sourceModuleOne);
+		setSourceModule(1, sourceModuleTwo);
+	}
 
-   public double getValue (double x, double y, double z)
-   {
-      assert (sourceModules[0] != null);
-      assert (sourceModules[1] != null);
+	@Override
+	public double getValue(double x, double y, double z) {
+		assert (sourceModules[0] != null);
+		assert (sourceModules[1] != null);
 
-      return sourceModules[0].getValue (x, y, z)
-      + sourceModules[1].getValue (x, y, z);
-   }
+		return sourceModules[0].getValue(x, y, z)
+				+ sourceModules[1].getValue(x, y, z);
+	}
 
 }

@@ -27,28 +27,27 @@ package libnoiseforjava.module;
 
 import libnoiseforjava.exception.ExceptionInvalidParam;
 
-public class Max extends ModuleBase
-{
-   /// Noise module that outputs the larger of the two output values from two
-   /// source modules.
-   ///
-   /// This noise module requires two source modules.
-   
-   public Max (ModuleBase sourceModuleOne, ModuleBase sourceModuleTwo) throws ExceptionInvalidParam
-   {
-      super(2);
-      setSourceModule(0, sourceModuleOne);
-      setSourceModule(1, sourceModuleTwo);
-   }
+public class Max extends ModuleBase {
+	// / Noise module that outputs the larger of the two output values from two
+	// / source modules.
+	// /
+	// / This noise module requires two source modules.
 
-   public double getValue (double x, double y, double z)
-    {
-      assert (sourceModules[0] != null);
-      assert (sourceModules[1] != null);
+	public Max(ModuleBase sourceModuleOne, ModuleBase sourceModuleTwo)
+			throws ExceptionInvalidParam {
+		super(2);
+		setSourceModule(0, sourceModuleOne);
+		setSourceModule(1, sourceModuleTwo);
+	}
 
-      double v0 = sourceModules[0].getValue (x, y, z);
-      double v1 = sourceModules[1].getValue (x, y, z);
-      return Math.max(v0, v1);
-    }
+	@Override
+	public double getValue(double x, double y, double z) {
+		assert (sourceModules[0] != null);
+		assert (sourceModules[1] != null);
+
+		double v0 = sourceModules[0].getValue(x, y, z);
+		double v1 = sourceModules[1].getValue(x, y, z);
+		return Math.max(v0, v1);
+	}
 
 }

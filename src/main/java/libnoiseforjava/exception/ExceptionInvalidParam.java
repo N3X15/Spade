@@ -25,18 +25,15 @@
 
 package libnoiseforjava.exception;
 
-public class ExceptionInvalidParam extends Exception
-{
+public class ExceptionInvalidParam extends Exception {
 
-   /**
+	/**
     * 
     */
-   private static final long serialVersionUID = 5603051793321603318L;
+	private static final long serialVersionUID = 5603051793321603318L;
 
-   public ExceptionInvalidParam(String message)
-   {
-      super(message);
-   }
+	public ExceptionInvalidParam(String message) {
+		super(message);
+	}
 
 }
-

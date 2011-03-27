@@ -27,26 +27,24 @@ package libnoiseforjava.module;
 
 import libnoiseforjava.exception.ExceptionInvalidParam;
 
-public class Abs extends ModuleBase
-{
-   /// Noise module that outputs the absolute value of the output value from
-   /// a source module.
-   ///
-   /// @image html moduleabs.png
-   ///
-   /// This noise module requires one source module.
+public class Abs extends ModuleBase {
+	// / Noise module that outputs the absolute value of the output value from
+	// / a source module.
+	// /
+	// / @image html moduleabs.png
+	// /
+	// / This noise module requires one source module.
 
-   Abs (ModuleBase sourceModule) throws ExceptionInvalidParam
-   {
-      super(1);
-      setSourceModule(0, sourceModule);
-   }
+	Abs(ModuleBase sourceModule) throws ExceptionInvalidParam {
+		super(1);
+		setSourceModule(0, sourceModule);
+	}
 
-   public double getValue (double x, double y, double z)
-   {
-      assert (this.sourceModules[0] != null);
+	@Override
+	public double getValue(double x, double y, double z) {
+		assert (this.sourceModules[0] != null);
 
-      return Math.abs(this.sourceModules[0].getValue (x, y, z));
-   }
+		return Math.abs(this.sourceModules[0].getValue(x, y, z));
+	}
 
 }

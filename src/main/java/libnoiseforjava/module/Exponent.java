@@ -27,53 +27,48 @@ package libnoiseforjava.module;
 
 import libnoiseforjava.exception.ExceptionInvalidParam;
 
-public class Exponent extends ModuleBase
-{
-   /// Noise module that maps the output value from a source module onto an
-   /// exponential curve.
-   ///
-   /// Because most noise modules will output values that range from -1.0 to
-   /// +1.0, this noise module first normalizes this output value (the range
-   /// becomes 0.0 to 1.0), maps that value onto an exponential curve, then
-   /// rescales that value back to the original range.
-   ///
-   /// This noise module requires one source module.
+public class Exponent extends ModuleBase {
+	// / Noise module that maps the output value from a source module onto an
+	// / exponential curve.
+	// /
+	// / Because most noise modules will output values that range from -1.0 to
+	// / +1.0, this noise module first normalizes this output value (the range
+	// / becomes 0.0 to 1.0), maps that value onto an exponential curve, then
+	// / rescales that value back to the original range.
+	// /
+	// / This noise module requires one source module.
 
-   /// Default exponent for the Exponent noise module.
-   static final double DEFAULT_EXPONENT = 1.0;
+	// / Default exponent for the Exponent noise module.
+	static final double DEFAULT_EXPONENT = 1.0;
 
+	// / Exponent to apply to the output value from the source module.
+	double exponent;
 
-   /// Exponent to apply to the output value from the source module.
-   double exponent;
+	public Exponent(ModuleBase sourceModule) throws ExceptionInvalidParam {
+		super(1);
+		setSourceModule(0, sourceModule);
+		exponent = DEFAULT_EXPONENT;
 
-   public Exponent (ModuleBase sourceModule) throws ExceptionInvalidParam
-   {
-      super(1);
-      setSourceModule(0, sourceModule);
-      exponent = DEFAULT_EXPONENT;
+	}
 
-   }
+	@Override
+	public double getValue(double x, double y, double z) {
+		assert (sourceModules[0] != null);
 
-   public double getValue (double x, double y, double z)
-   {
-      assert (sourceModules[0] != null);
+		double value = sourceModules[0].getValue(x, y, z);
+		return (Math.pow(Math.abs((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
+	}
 
-      double value = sourceModules[0].getValue (x, y, z);
-      return (Math.pow (Math.abs ((value + 1.0) / 2.0), exponent) * 2.0 - 1.0);
-   }
+	// / Returns the exponent value to apply to the output value from the
+	// / source module.
+	// /
+	// / @returns The exponent value.
+	public double getExponent() {
+		return exponent;
+	}
 
-   /// Returns the exponent value to apply to the output value from the
-   /// source module.
-   ///
-   /// @returns The exponent value.
-   public double getExponent ()
-   {
-      return exponent;
-   }
-
-   public void setExponent(double exponent)
-   {
-      this.exponent = exponent;
-   }
+	public void setExponent(double exponent) {
+		this.exponent = exponent;
+	}
 
 }

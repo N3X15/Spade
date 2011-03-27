@@ -27,30 +27,29 @@ package libnoiseforjava.module;
 
 import libnoiseforjava.exception.ExceptionInvalidParam;
 
-public class Min extends ModuleBase
-{
-   /// Noise module that outputs the smaller of the two output values from
-   /// two source modules.
-   ///
-   /// @image html modulemin.png
-   ///
-   /// This noise module requires two source modules.
+public class Min extends ModuleBase {
+	// / Noise module that outputs the smaller of the two output values from
+	// / two source modules.
+	// /
+	// / @image html modulemin.png
+	// /
+	// / This noise module requires two source modules.
 
-   public Min (ModuleBase sourceModuleOne, ModuleBase sourceModuleTwo) throws ExceptionInvalidParam
-   {
-      super(2);
-      setSourceModule(0, sourceModuleOne);
-      setSourceModule(1, sourceModuleTwo);
-   }
+	public Min(ModuleBase sourceModuleOne, ModuleBase sourceModuleTwo)
+			throws ExceptionInvalidParam {
+		super(2);
+		setSourceModule(0, sourceModuleOne);
+		setSourceModule(1, sourceModuleTwo);
+	}
 
-   public double getValue (double x, double y, double z)
-   {
-      assert (sourceModules[0] != null);
-      assert (sourceModules[1] != null);
+	@Override
+	public double getValue(double x, double y, double z) {
+		assert (sourceModules[0] != null);
+		assert (sourceModules[1] != null);
 
-      double v0 = sourceModules[0].getValue (x, y, z);
-      double v1 = sourceModules[1].getValue (x, y, z);
-      return Math.min(v0, v1);
-   } 
+		double v0 = sourceModules[0].getValue(x, y, z);
+		double v1 = sourceModules[1].getValue(x, y, z);
+		return Math.min(v0, v1);
+	}
 
 }

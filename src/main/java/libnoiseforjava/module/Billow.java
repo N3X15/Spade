@@ -28,157 +28,145 @@ package libnoiseforjava.module;
 import libnoiseforjava.NoiseGen;
 import libnoiseforjava.NoiseGen.NoiseQuality;
 
-public class Billow extends ModuleBase
-{
-   /// Noise module that outputs three-dimensional "billowy" noise.
-   ///
-   /// @image html modulebillow.png
-   ///
-   /// This noise module generates "billowy" noise suitable for clouds and
-   /// rocks.
-   ///
-   /// This noise module is nearly identical to noise::module::Perlin except
-   /// this noise module modifies each octave with an absolute-value
-   /// function.  See the documentation of noise::module::Perlin for more
-   /// information.
+public class Billow extends ModuleBase {
+	// / Noise module that outputs three-dimensional "billowy" noise.
+	// /
+	// / @image html modulebillow.png
+	// /
+	// / This noise module generates "billowy" noise suitable for clouds and
+	// / rocks.
+	// /
+	// / This noise module is nearly identical to noise::module::Perlin except
+	// / this noise module modifies each octave with an absolute-value
+	// / function. See the documentation of noise::module::Perlin for more
+	// / information.
 
+	// / Default frequency for the Billow noise module.
+	static final double DEFAULT_BILLOW_FREQUENCY = 1.0;
 
-   /// Default frequency for the Billow noise module.
-   static final double DEFAULT_BILLOW_FREQUENCY = 1.0;
+	// / Default lacunarity for the Billow noise module.
+	static final double DEFAULT_BILLOW_LACUNARITY = 2.0;
 
-   /// Default lacunarity for the Billow noise module.
-   static final double DEFAULT_BILLOW_LACUNARITY = 2.0;
+	// / Default number of octaves for the the noise::module::Billow noise
+	// / module.
+	static final int DEFAULT_BILLOW_OCTAVE_COUNT = 6;
 
-   /// Default number of octaves for the the noise::module::Billow noise
-   /// module.
-   static final int DEFAULT_BILLOW_OCTAVE_COUNT = 6;
+	// / Default persistence value for the the noise::module::Billow noise
+	// / module.
+	static final double DEFAULT_BILLOW_PERSISTENCE = 0.5;
 
-   /// Default persistence value for the the noise::module::Billow noise
-   /// module.
-   static final double DEFAULT_BILLOW_PERSISTENCE = 0.5;
+	// / Default noise quality for the the noise::module::Billow noise module.
+	static final NoiseQuality DEFAULT_BILLOW_QUALITY = NoiseQuality.QUALITY_STD;
 
-   /// Default noise quality for the the noise::module::Billow noise module.
-   static final NoiseQuality DEFAULT_BILLOW_QUALITY = NoiseQuality.QUALITY_STD;
+	// / Default noise seed for the the noise::module::Billow noise module.
+	static final int DEFAULT_BILLOW_SEED = 0;
 
-   /// Default noise seed for the the noise::module::Billow noise module.
-   static final int DEFAULT_BILLOW_SEED = 0;
+	// / Maximum number of octaves for the the noise::module::Billow noise
+	// / module.
+	static final int BILLOW_MAX_OCTAVE = 30;
 
-   /// Maximum number of octaves for the the noise::module::Billow noise
-   /// module.
-   static final int BILLOW_MAX_OCTAVE = 30;
+	double frequency, lacunarity, persistence;
+	int octaveCount, seed;
+	NoiseQuality noiseQuality;
 
-   double frequency, lacunarity, persistence;
-   int octaveCount, seed;
-   NoiseQuality noiseQuality;
+	public Billow() {
+		super(0);
+		frequency = DEFAULT_BILLOW_FREQUENCY;
+		lacunarity = DEFAULT_BILLOW_LACUNARITY;
+		noiseQuality = DEFAULT_BILLOW_QUALITY;
+		octaveCount = DEFAULT_BILLOW_OCTAVE_COUNT;
+		persistence = DEFAULT_BILLOW_PERSISTENCE;
+		seed = DEFAULT_BILLOW_SEED;
+	}
 
-   public Billow ()
-   {
-      super(0);
-      frequency = DEFAULT_BILLOW_FREQUENCY;
-      lacunarity = DEFAULT_BILLOW_LACUNARITY;
-      noiseQuality = DEFAULT_BILLOW_QUALITY;
-      octaveCount = DEFAULT_BILLOW_OCTAVE_COUNT;
-      persistence = DEFAULT_BILLOW_PERSISTENCE;
-      seed = DEFAULT_BILLOW_SEED;
-   }
+	@Override
+	public double getValue(double x, double y, double z) {
+		double value = 0.0;
+		double signal = 0.0;
+		double curPersistence = 1.0;
+		double nx, ny, nz;
+		int calcSeed;
 
-   public double getValue (double x, double y, double z)
-   {
-      double value = 0.0;
-      double signal = 0.0;
-      double curPersistence = 1.0;
-      double nx, ny, nz;
-      int calcSeed;
+		x *= frequency;
+		y *= frequency;
+		z *= frequency;
 
-      x *= frequency;
-      y *= frequency;
-      z *= frequency;
+		for (int curOctave = 0; curOctave < octaveCount; curOctave++) {
+			// Make sure that these floating-point values have the same range as
+			// a 32-
+			// bit integer so that we can pass them to the coherent-noise
+			// functions.
+			nx = NoiseGen.MakeInt32Range(x);
+			ny = NoiseGen.MakeInt32Range(y);
+			nz = NoiseGen.MakeInt32Range(z);
 
-      for (int curOctave = 0; curOctave < octaveCount; curOctave++)
-      {
-         // Make sure that these floating-point values have the same range as a 32-
-         // bit integer so that we can pass them to the coherent-noise functions.
-         nx = NoiseGen.MakeInt32Range (x);
-         ny = NoiseGen.MakeInt32Range (y);
-         nz = NoiseGen.MakeInt32Range (z);
+			// Get the coherent-noise value from the input value and add it to
+			// the
+			// final result.
+			calcSeed = (seed + curOctave) & 0xffffffff;
+			signal = NoiseGen.GradientCoherentNoise3D(nx, ny, nz, calcSeed,
+					noiseQuality);
+			signal = 2.0 * Math.abs(signal) - 1.0;
+			value += signal * curPersistence;
 
-         // Get the coherent-noise value from the input value and add it to the
-         // final result.
-         calcSeed = (seed + curOctave) & 0xffffffff;
-         signal = NoiseGen.GradientCoherentNoise3D (nx, ny, nz, calcSeed, noiseQuality);
-         signal = 2.0 * Math.abs(signal) - 1.0;
-         value += signal * curPersistence;
+			// Prepare the next octave.
+			x *= lacunarity;
+			y *= lacunarity;
+			z *= lacunarity;
+			curPersistence *= persistence;
+		}
 
-         // Prepare the next octave.
-         x *= lacunarity;
-         y *= lacunarity;
-         z *= lacunarity;
-         curPersistence *= persistence;
-      }
+		value += 0.5;
 
-      value += 0.5;
+		return value;
+	}
 
-      return value;
-   }
+	public double getFrequency() {
+		return frequency;
+	}
 
-   public double getFrequency()
-   {
-      return frequency;
-   }
+	public double getLacunarity() {
+		return lacunarity;
+	}
 
-   public double getLacunarity()
-   {
-      return lacunarity;
-   }
+	public double getPersistence() {
+		return persistence;
+	}
 
-   public double getPersistence()
-   {
-      return persistence;
-   }
+	public int getOctaveCount() {
+		return octaveCount;
+	}
 
-   public int getOctaveCount()
-   {
-      return octaveCount;
-   }
+	public int getSeed() {
+		return seed;
+	}
 
-   public int getSeed()
-   {
-      return seed;
-   }
+	public NoiseQuality getNoiseQuality() {
+		return noiseQuality;
+	}
 
-   public NoiseQuality getNoiseQuality()
-   {
-      return noiseQuality;
-   }
+	public void setFrequency(double frequency) {
+		this.frequency = frequency;
+	}
 
-   public void setFrequency(double frequency)
-   {
-      this.frequency = frequency;
-   }
+	public void setLacunarity(double lacunarity) {
+		this.lacunarity = lacunarity;
+	}
 
-   public void setLacunarity(double lacunarity)
-   {
-      this.lacunarity = lacunarity;
-   }
+	public void setPersistence(double persistence) {
+		this.persistence = persistence;
+	}
 
-   public void setPersistence(double persistence)
-   {
-      this.persistence = persistence;
-   }
+	public void setOctaveCount(int octaveCount) {
+		this.octaveCount = octaveCount;
+	}
 
-   public void setOctaveCount(int octaveCount)
-   {
-      this.octaveCount = octaveCount;
-   }
+	public void setSeed(int seed) {
+		this.seed = seed;
+	}
 
-   public void setSeed(int seed)
-   {
-      this.seed = seed;
-   }
-
-   public void setNoiseQuality(NoiseQuality noiseQuality)
-   {
-      this.noiseQuality = noiseQuality;
-   }
+	public void setNoiseQuality(NoiseQuality noiseQuality) {
+		this.noiseQuality = noiseQuality;
+	}
 
 }

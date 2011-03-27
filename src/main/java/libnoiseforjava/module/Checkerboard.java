@@ -27,36 +27,33 @@ package libnoiseforjava.module;
 
 import libnoiseforjava.NoiseGen;
 
-public class Checkerboard extends ModuleBase
-{
-   /// Noise module that outputs a checkerboard pattern.
-   ///
-   /// This noise module outputs unit-sized blocks of alternating values.
-   /// The values of these blocks alternate between -1.0 and +1.0.
-   ///
-   /// This noise module is not really useful by itself, but it is often used
-   /// for debugging purposes.
-   ///
-   /// This noise module does not require any source modules.
+public class Checkerboard extends ModuleBase {
+	// / Noise module that outputs a checkerboard pattern.
+	// /
+	// / This noise module outputs unit-sized blocks of alternating values.
+	// / The values of these blocks alternate between -1.0 and +1.0.
+	// /
+	// / This noise module is not really useful by itself, but it is often used
+	// / for debugging purposes.
+	// /
+	// / This noise module does not require any source modules.
 
-   public Checkerboard()    
-   {
-      super(0);
-   }
+	public Checkerboard() {
+		super(0);
+	}
 
-   public double getValue (double x, double y, double z)
-   {
-      int ix = (int)(Math.floor(NoiseGen.MakeInt32Range (x)));
-      int iy = (int)(Math.floor(NoiseGen.MakeInt32Range (y)));
-      int iz = (int)(Math.floor(NoiseGen.MakeInt32Range (z)));
+	@Override
+	public double getValue(double x, double y, double z) {
+		int ix = (int) (Math.floor(NoiseGen.MakeInt32Range(x)));
+		int iy = (int) (Math.floor(NoiseGen.MakeInt32Range(y)));
+		int iz = (int) (Math.floor(NoiseGen.MakeInt32Range(z)));
 
-      // original was 
-      //(ix & 1 ^ iy & 1 ^ iz & 1)
-      // not certain if this duplicates it or not
-      if ((ix%2 == 1) ^ (iy%2 ==  1) ^ (iz%2 == 1))
-         return -1.0;
-      else
-         return 1.0;
-   }
+		// original was
+		// (ix & 1 ^ iy & 1 ^ iz & 1)
+		// not certain if this duplicates it or not
+		if ((ix % 2 == 1) ^ (iy % 2 == 1) ^ (iz % 2 == 1))
+			return -1.0;
+		else
+			return 1.0;
+	}
 }
-

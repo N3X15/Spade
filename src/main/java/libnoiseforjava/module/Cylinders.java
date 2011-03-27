@@ -25,79 +25,77 @@
 
 package libnoiseforjava.module;
 
-public class Cylinders extends ModuleBase
-{
-   /// Noise module that outputs concentric cylinders.
-   ///
-   /// This noise module outputs concentric cylinders centered on the origin.
-   /// These cylinders are oriented along the @a y axis similar to the
-   /// concentric rings of a tree.  Each cylinder extends infinitely along
-   /// the @a y axis.
-   ///
-   /// The first cylinder has a radius of 1.0.  Each subsequent cylinder has
-   /// a radius that is 1.0 unit larger than the previous cylinder.
-   ///
-   /// The output value from this noise module is determined by the distance
-   /// between the input value and the the nearest cylinder surface.  The
-   /// input values that are located on a cylinder surface are given the
-   /// output value 1.0 and the input values that are equidistant from two
-   /// cylinder surfaces are given the output value -1.0.
-   ///
-   /// An application can change the frequency of the concentric cylinders.
-   /// Increasing the frequency reduces the distances between cylinders.  To
-   /// specify the frequency, call the setFrequency() method.
-   ///
-   /// This noise module, modified with some low-frequency, low-power
-   /// turbulence, is useful for generating wood-like textures.
-   ///
-   /// This noise module does not require any source modules.
+public class Cylinders extends ModuleBase {
+	// / Noise module that outputs concentric cylinders.
+	// /
+	// / This noise module outputs concentric cylinders centered on the origin.
+	// / These cylinders are oriented along the @a y axis similar to the
+	// / concentric rings of a tree. Each cylinder extends infinitely along
+	// / the @a y axis.
+	// /
+	// / The first cylinder has a radius of 1.0. Each subsequent cylinder has
+	// / a radius that is 1.0 unit larger than the previous cylinder.
+	// /
+	// / The output value from this noise module is determined by the distance
+	// / between the input value and the the nearest cylinder surface. The
+	// / input values that are located on a cylinder surface are given the
+	// / output value 1.0 and the input values that are equidistant from two
+	// / cylinder surfaces are given the output value -1.0.
+	// /
+	// / An application can change the frequency of the concentric cylinders.
+	// / Increasing the frequency reduces the distances between cylinders. To
+	// / specify the frequency, call the setFrequency() method.
+	// /
+	// / This noise module, modified with some low-frequency, low-power
+	// / turbulence, is useful for generating wood-like textures.
+	// /
+	// / This noise module does not require any source modules.
 
-   /// Default frequency value for the Cylinders noise module.
-   static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
+	// / Default frequency value for the Cylinders noise module.
+	static final double DEFAULT_CYLINDERS_FREQUENCY = 1.0;
 
-   /// Frequency of the concentric cylinders.
-   double frequency;
+	// / Frequency of the concentric cylinders.
+	double frequency;
 
-   public Cylinders ()
-   {
-      super(0);
-      frequency = DEFAULT_CYLINDERS_FREQUENCY;
-   }
+	public Cylinders() {
+		super(0);
+		frequency = DEFAULT_CYLINDERS_FREQUENCY;
+	}
 
-   public double getValue (double x, double y, double z)
-   {
-      x *= frequency;
-      z *= frequency;
+	@Override
+	public double getValue(double x, double y, double z) {
+		x *= frequency;
+		z *= frequency;
 
-      double distFromCenter = Math.sqrt(x * x + z * z);
-      double distFromSmallerSphere = distFromCenter - Math.floor(distFromCenter);
-      double distFromLargerSphere = 1.0 - distFromSmallerSphere;
-      double nearestDist = Math.min(distFromSmallerSphere, distFromLargerSphere);
+		double distFromCenter = Math.sqrt(x * x + z * z);
+		double distFromSmallerSphere = distFromCenter
+				- Math.floor(distFromCenter);
+		double distFromLargerSphere = 1.0 - distFromSmallerSphere;
+		double nearestDist = Math.min(distFromSmallerSphere,
+				distFromLargerSphere);
 
-      // Puts it in the -1.0 to +1.0 range.
-      return 1.0 - (nearestDist * 4.0);
-   }
+		// Puts it in the -1.0 to +1.0 range.
+		return 1.0 - (nearestDist * 4.0);
+	}
 
-   /// Returns the frequency of the concentric cylinders.
-   ///
-   /// @returns The frequency of the concentric cylinders.
-   ///
-   /// Increasing the frequency increases the density of the concentric
-   /// cylinders, reducing the distances between them.
-   public double getFrequency() 
-   {
-      return frequency;
-   }
+	// / Returns the frequency of the concentric cylinders.
+	// /
+	// / @returns The frequency of the concentric cylinders.
+	// /
+	// / Increasing the frequency increases the density of the concentric
+	// / cylinders, reducing the distances between them.
+	public double getFrequency() {
+		return frequency;
+	}
 
-   /// Sets the frequency of the concentric cylinders.
-   ///
-   /// @param frequency The frequency of the concentric cylinders.
-   ///
-   /// Increasing the frequency increases the density of the concentric
-   /// cylinders, reducing the distances between them.
-   public void setFrequency (double frequency)
-   {
-      this.frequency = frequency;
-   }
+	// / Sets the frequency of the concentric cylinders.
+	// /
+	// / @param frequency The frequency of the concentric cylinders.
+	// /
+	// / Increasing the frequency increases the density of the concentric
+	// / cylinders, reducing the distances between them.
+	public void setFrequency(double frequency) {
+		this.frequency = frequency;
+	}
 
 }
