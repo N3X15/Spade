@@ -41,7 +41,7 @@
 				<version>2.3.1</version>
 				<configuration>
 					<archive>
-						<manifestFile>src/resources/MANIFEST.MF</manifestFile>
+						<manifestFile>src/main/resources/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
 			</plugin>
