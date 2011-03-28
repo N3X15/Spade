@@ -36,6 +36,8 @@ public class ChunkProviderMountains extends ChunkProvider {
 	 */
 	@Override
 	public void onLoad(World world, long seed) {
+		this.setHasCustomTerrain(true);
+		
 		double Frequency = 0.1;
 		double Lacunarity = 1.5;//0.05;
 		double Persistance = 0.25;
@@ -60,7 +62,6 @@ public class ChunkProviderMountains extends ChunkProvider {
 			continentNoise.setPersistence(Persistance);
 		} catch (Exception e) {
 		}
-
 	}
 
 	/*
@@ -115,62 +116,4 @@ public class ChunkProviderMountains extends ChunkProvider {
 		}
 		Logger.getLogger("Minecraft").info(String.format("Chunk (%d,%d) Min Height: %dm",X,Z,minHeight));
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.bukkit.ChunkProvider#populateChunk(int, int, byte[],
-	 * org.bukkit.block.Biome[])
-	 */
-	@Override
-	public void populateChunk(World world, int x, int z, byte[] abyte, Biome[] biomes) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.bukkit.ChunkProvider#hasCustomTerrainGenerator()
-	 */
-	@Override
-	public boolean hasCustomTerrainGenerator() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.bukkit.ChunkProvider#hasCustomPopulator()
-	 */
-	@Override
-	public boolean hasCustomPopulator() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.bukkit.ChunkProvider#hasCustomCaves()
-	 */
-	@Override
-	public boolean hasCustomCaves() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.bukkit.ChunkProvider#generateCaves(java.lang.Object, int, int,
-	 * byte[])
-	 */
-	@Override
-	public void generateCaves(World world, int x, int z, byte[] abyte) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

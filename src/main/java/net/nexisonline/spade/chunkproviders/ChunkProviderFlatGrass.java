@@ -9,7 +9,7 @@ import org.bukkit.block.Biome;
 public class ChunkProviderFlatGrass extends ChunkProvider {
 
 	public void onLoad(World world, long seed) {
-		
+		this.setHasCustomTerrain(true);
 	}
 
 	@Override
@@ -25,37 +25,6 @@ public class ChunkProviderFlatGrass extends ChunkProvider {
 		}
 		Logger.getLogger("Minecraft")
 				.info(String.format("Chunk (%d,%d)", X, Z));
-	}
-
-	@Override
-	public void populateChunk(World world, int x, int z, byte[] abyte,
-			Biome[] biomes) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean hasCustomTerrainGenerator() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public boolean hasCustomPopulator() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean hasCustomCaves() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void generateCaves(World world, int x, int z, byte[] abyte) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

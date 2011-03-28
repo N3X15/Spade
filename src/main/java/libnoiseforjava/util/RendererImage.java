@@ -413,7 +413,8 @@ public class RendererImage {
 			destImageCafe.setSize(width, height);
 
 		for (int y = 0; y < height; y++) {
-			ColorCafe background = new ColorCafe(255, 255, 255, 255);
+			// N3X15 - Fixed warning.
+			//ColorCafe background = new ColorCafe(255, 255, 255, 255);
 
 			for (int x = 0; x < width; x++) {
 				// Get the color based on the value at the current point in the
