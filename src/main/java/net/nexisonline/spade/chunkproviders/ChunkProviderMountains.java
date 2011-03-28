@@ -1,5 +1,8 @@
 /**
+ * N3X15's Handy Dandy Mountain Generator
+ * 	From MineEdit
  * 
+ * INSERT BSD HERE
  */
 package net.nexisonline.spade.chunkproviders;
 
@@ -34,7 +37,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	@Override
 	public void onLoad(World world, long seed) {
 		double Frequency = 0.1;
-		double Lacunarity = 0.05;
+		double Lacunarity = 1.5;//0.05;
 		double Persistance = 0.25;
 		int OctaveCount = continentNoiseOctaves = 4;
 
@@ -72,18 +75,22 @@ public class ChunkProviderMountains extends ChunkProvider {
 		int minHeight = Integer.MAX_VALUE;
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
+				// Generate our continental noise.
 				double heightoffset = (continentNoise.getValue(
 						(double) (x + (X * 16)) / 10d,
 						(double) (z + (Z * 16)) / 10d, 0) + 1d);// *5d; // 2.0
 				double height = 30 + heightoffset;
+				// Add a wee bit o' terrain noise on top.
 				height += (int) ((terrainNoise.getValue(x + (X * 16), z
-						+ (Z * 16), 0) + heightoffset)*0.01);
+						+ (Z * 16), 0) + heightoffset)*0.001);
 				if (height < minHeight)
 					minHeight = (int) height;
 				for (int y = 0; y < 128; y++) {
 					// If below height, set rock. Otherwise, set air.
 					byte block = (y <= height) ? (byte) 1 : (byte) 0; // Fill
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
+					
+					// Old cave stuff, handled by CraftBukkit now.
 					// double _do = ((CaveNoise.GetValue(x + (X * chunksize.X),
 					// z + (Z * chunksize.Z), y * CaveDivisor) + 1) / 2.0);
 					// bool d3 = _do > CaveThreshold;
