@@ -1,6 +1,7 @@
 package net.nexisonline.spade.chunkproviders;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 import net.minecraft.server.NoiseGeneratorOctaves;
 
@@ -27,14 +28,14 @@ public class ChunkProviderFlatGrass extends ChunkProvider {
 			double[] temperature) {
 		for(int x = 0;x<16;x++) {
 			for(int z=0;z<16;z++) {
-				double h = hillnoise.a((X*16)+x, (Z*16)+z); // Yes we're doing a heightmap
+				double h = hillnoise.a((X*16)+x, (Z*16)+z)/10; // Yes we're doing a heightmap
 				for(int y=0;y<h+63;y++) {
 
 					abyte[getBlockIndex(x,y,z)]=(byte) ((y<2) ? Material.BEDROCK.getId() : 1);
 				}
 			}
 		}
-		
+		Logger.getLogger("Minecraft").info(String.format("Chunk (%d,%d)",X,Z));
 	}
 	@Override
 	public void populateChunk(World world, int x, int z, byte[] abyte, Biome[] biomes) {
