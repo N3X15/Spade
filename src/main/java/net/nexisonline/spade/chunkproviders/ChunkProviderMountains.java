@@ -69,7 +69,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	@Override
 	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
-		int minHeight = 128;
+		int minHeight = Integer.MAX_VALUE;
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				double heightoffset = (continentNoise.getValue(
@@ -77,7 +77,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 						(double) (z + (Z * 16)) / 10d, 0) + 1d);// *5d; // 2.0
 				double height = 30 + heightoffset;
 				height += (int) ((terrainNoise.getValue(x + (X * 16), z
-						+ (Z * 16), 0) /*+ heightoffset*/)/**0.33*/);
+						+ (Z * 16), 0) + heightoffset)*0.001);
 				if (height < minHeight)
 					minHeight = (int) height;
 				for (int y = 0; y < 128; y++) {
