@@ -17,7 +17,7 @@ public class ChunkProviderFlatGrass extends ChunkProvider {
 			Biome[] biomes, double[] temperature) {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
-				double h = 63;
+				double h = 64;
 				for (int y = 0; y < h; y++) {
 					abyte[getBlockIndex(x, y, z)] = (byte) ((y < 2) ? 7 : 1);
 				}
