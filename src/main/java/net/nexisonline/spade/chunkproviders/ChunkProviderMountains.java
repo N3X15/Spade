@@ -77,7 +77,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 						(double) (z + (Z * 16)) / 10d, 0) + 1d);// *5d; // 2.0
 				double height = 30 + heightoffset;
 				height += (int) ((terrainNoise.getValue(x + (X * 16), z
-						+ (Z * 16), 0) + heightoffset)*0.33);
+						+ (Z * 16), 0) /*+ heightoffset*/)/**0.33*/);
 				if (height < minHeight)
 					minHeight = (int) height;
 				for (int y = 0; y < 128; y++) {
