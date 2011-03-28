@@ -10,6 +10,7 @@ import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
 
 import org.bukkit.ChunkProvider;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
@@ -67,7 +68,6 @@ public class ChunkProviderMountains extends ChunkProvider {
 	@Override
 	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
-
 		int minHeight = 128;
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
@@ -96,8 +96,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 					// }
 					// else
 					// block = (d3) ? b[x, y, z] : (byte)1;
-					world.getBlockAt(x + (X * 16), y, z + (Z * 16)).setTypeId(
-							block);
+					abyte[getBlockIndex(x,y,z)]=(byte) ((y<2) ? Material.BEDROCK.getId() : block);
 				}
 			}
 		}

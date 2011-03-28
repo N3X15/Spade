@@ -2,13 +2,13 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.Random;
 
-import net.minecraft.server.Block;
-import net.minecraft.server.Chunk;
 import net.minecraft.server.NoiseGeneratorOctaves;
 
 import org.bukkit.ChunkProvider;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 
 public class ChunkProviderFlatGrass extends ChunkProvider {
 	
@@ -29,7 +29,8 @@ public class ChunkProviderFlatGrass extends ChunkProvider {
 			for(int z=0;z<16;z++) {
 				double h = hillnoise.a((X*16)+x, (Z*16)+z); // Yes we're doing a heightmap
 				for(int y=0;y<h+63;y++) {
-					world.getBlockAt(x+(X*16), y, z+(Z*16)).setTypeId(y<2?Block.BEDROCK.id:1);
+
+					abyte[getBlockIndex(x,y,z)]=(byte) ((y<2) ? Material.BEDROCK.getId() : 1);
 				}
 			}
 		}
