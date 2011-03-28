@@ -39,7 +39,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 		this.setHasCustomTerrain(true);
 		
 		double Frequency = 0.1;
-		double Lacunarity = 1.5;//0.05;
+		double Lacunarity = 0.05;
 		double Persistance = 0.25;
 		int OctaveCount = continentNoiseOctaves = 4;
 
@@ -48,12 +48,12 @@ public class ChunkProviderMountains extends ChunkProvider {
 			continentNoise = new Perlin();
 			terrainNoise.setSeed((int) seed);
 			continentNoise.setSeed((int) seed + 2);
-			new Random((int) seed);
 
 			terrainNoise.setFrequency(Frequency);
 			terrainNoise.setNoiseQuality(noiseQuality);
 			terrainNoise.setOctaveCount(OctaveCount);
 			terrainNoise.setLacunarity(Lacunarity);
+			
 
 			continentNoise.setFrequency(ContinentNoiseFrequency);
 			continentNoise.setNoiseQuality(noiseQuality);
