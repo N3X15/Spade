@@ -81,7 +81,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 				double heightoffset = (continentNoise.getValue(
 						(double) (x + (X * 16)) / 10d,
 						(double) (z + (Z * 16)) / 10d, 0) + 1d);// *5d; // 2.0
-				double height = 30 + heightoffset;
+				double height = heightoffset;
 				// Add a wee bit o' terrain noise on top.
 				height += (int) ((terrainNoise.getValue(x + (X * 16), z
 						+ (Z * 16), 0) + heightoffset)*0.01);
@@ -114,6 +114,6 @@ public class ChunkProviderMountains extends ChunkProvider {
 				}
 			}
 		}
-		Logger.getLogger("Minecraft").info(String.format("Chunk (%d,%d) Min Height: %dm",X,Z,minHeight));
+		Logger.getLogger("Minecraft").info(String.format("[Mountains] Chunk (%d,%d) Min Height: %dm",X,Z,minHeight));
 	}
 }
