@@ -93,7 +93,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 					
 					// Origin point + sand to prevent 5000 years of loading.
 					if(x==0&&z==0&&X==x&&Z==z&&y<=63)
-						y=(y==63)?12:7;
+						block=(byte) ((y==63)?12:7);
 					
 					// Old cave stuff, handled by CraftBukkit now.
 					// double _do = ((CaveNoise.GetValue(x + (X * chunksize.X),
