@@ -30,20 +30,20 @@ public class ChunkProviderStock extends ChunkProvider {
 	}
 
 	@Override
-	public void generateChunk(int x, int z, byte[] abyte, Biome[] biomes,
+	public void generateChunk(World world, int x, int z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void populateChunk(int x, int z, byte[] abyte, Biome[] biomes) {
+	public void populateChunk(World world, int x, int z, byte[] abyte, Biome[] biomes) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void generateCaves(Object parent, int x, int z, byte[] abyte) {
+	public void generateCaves(World world, int x, int z, byte[] abyte) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -13,31 +13,30 @@ import org.bukkit.block.Biome;
 public class ChunkProviderFlatGrass extends ChunkProvider {
 	
 	private Random random;
-	private World world;
+	//private World world;
 	private NoiseGeneratorOctaves hillnoise;
 
 	public void onLoad(World world, long seed) {
-		this.world=world;
+		//this.world=world;
 		this.random = new Random(seed);
 		this.hillnoise = new net.minecraft.server.NoiseGeneratorOctaves(random, 4);
 	}
 
 	@Override
-	public void generateChunk(int X, int Z, byte[] abyte, Biome[] biomes,
+	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
-		org.bukkit.Chunk c = (org.bukkit.Chunk)(new Chunk((net.minecraft.server.World)this.world, abyte, X, Z));
 		for(int x = 0;x<16;x++) {
 			for(int z=0;z<16;z++) {
 				double h = hillnoise.a((X*16)+x, (Z*16)+z); // Yes we're doing a heightmap
 				for(int y=0;y<h+63;y++) {
-					c.getBlock(x, y, z).setTypeId(y<2?Block.BEDROCK.id:1);
+					world.getBlockAt(x+(X*16), y, z+(Z*16)).setTypeId(y<2?Block.BEDROCK.id:1);
 				}
 			}
 		}
 		
 	}
 	@Override
-	public void populateChunk(int x, int z, byte[] abyte, Biome[] biomes) {
+	public void populateChunk(World world, int x, int z, byte[] abyte, Biome[] biomes) {
 		// TODO Auto-generated method stub
 
 	}
@@ -61,9 +60,9 @@ public class ChunkProviderFlatGrass extends ChunkProvider {
 	}
 
 	@Override
-	public void generateCaves(Object parent, int x, int z, byte[] abyte) {
+	public void generateCaves(World world, int x, int z, byte[] abyte) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

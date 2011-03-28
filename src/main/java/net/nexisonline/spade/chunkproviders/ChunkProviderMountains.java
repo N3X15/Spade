@@ -23,7 +23,6 @@ public class ChunkProviderMountains extends ChunkProvider {
 	private int continentNoiseOctaves = 16;
 	private NoiseQuality noiseQuality = NoiseQuality.QUALITY_STD;
 	private double ContinentNoiseFrequency;
-	private World world;
 
 	/*
 	 * (non-Javadoc)
@@ -32,7 +31,6 @@ public class ChunkProviderMountains extends ChunkProvider {
 	 */
 	@Override
 	public void onLoad(World world, long seed) {
-		this.world = world;
 		double Frequency = 0.1;
 		double Lacunarity = 0.05;
 		double Persistance = 0.25;
@@ -67,7 +65,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(int X, int Z, byte[] abyte, Biome[] biomes,
+	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
 
 		int minHeight = 128;
@@ -112,7 +110,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	 * org.bukkit.block.Biome[])
 	 */
 	@Override
-	public void populateChunk(int x, int z, byte[] abyte, Biome[] biomes) {
+	public void populateChunk(World world, int x, int z, byte[] abyte, Biome[] biomes) {
 		// TODO Auto-generated method stub
 
 	}
@@ -157,7 +155,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	 * byte[])
 	 */
 	@Override
-	public void generateCaves(Object parent, int x, int z, byte[] abyte) {
+	public void generateCaves(World world, int x, int z, byte[] abyte) {
 		// TODO Auto-generated method stub
 
 	}
