@@ -78,13 +78,13 @@ public class ChunkProviderMountains extends ChunkProvider {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				// Generate our continental noise.
-				double heightoffset = (continentNoise.getValue(
+				double height = (continentNoise.getValue(
 						(double) (x + (X * 16)) / 10d,
-						(double) (z + (Z * 16)) / 10d, 0) + 1d);// *5d; // 2.0
-				double height = heightoffset;
+						(double) (z + (Z * 16)) / 10d, 0));// *5d; // 2.0
 				// Add a wee bit o' terrain noise on top.
-				height += (int) ((terrainNoise.getValue(x + (X * 16), z
-						+ (Z * 16), 0) + heightoffset)*0.01);
+				height += ((terrainNoise.getValue(x + (X * 16), z
+						+ (Z * 16), 0))/16d);
+				height = (height*32d)+96d;
 				if (height < minHeight)
 					minHeight = (int) height;
 				for (int y = 0; y < 128; y++) {
