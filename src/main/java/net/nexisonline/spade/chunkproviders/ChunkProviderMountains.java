@@ -4,6 +4,7 @@
 package net.nexisonline.spade.chunkproviders;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 import libnoiseforjava.NoiseGen.NoiseQuality;
 import libnoiseforjava.module.Perlin;
@@ -100,6 +101,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 				}
 			}
 		}
+		Logger.getLogger("Minecraft").info(String.format("Chunk (%d,%d) Min Height: %dm",X,Z,minHeight));
 	}
 
 	/*
