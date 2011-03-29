@@ -53,13 +53,12 @@ public class ChunkProviderMountains extends ChunkProvider {
 			terrainNoise.setNoiseQuality(noiseQuality);
 			terrainNoise.setOctaveCount(OctaveCount);
 			terrainNoise.setLacunarity(Lacunarity);
-			
 
-			continentNoise.setFrequency(ContinentNoiseFrequency);
-			continentNoise.setNoiseQuality(noiseQuality);
+			//continentNoise.setFrequency(ContinentNoiseFrequency);
+			//continentNoise.setNoiseQuality(noiseQuality);
 			continentNoise.setOctaveCount(continentNoiseOctaves);
-			continentNoise.setLacunarity(Lacunarity);
-			continentNoise.setPersistence(Persistance);
+			//continentNoise.setLacunarity(Lacunarity);
+			//continentNoise.setPersistence(Persistance);
 		} catch (Exception e) {
 		}
 	}
@@ -78,9 +77,10 @@ public class ChunkProviderMountains extends ChunkProvider {
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
 				// Generate our continental noise.
-				double height = (continentNoise.getValue(
-						(double) (x + (X * 16)) / 10d,
-						(double) (z + (Z * 16)) / 10d, 0));// *5d; // 2.0
+				double dheight = continentNoise.getValue(
+						(double) (x + (X * 16)) * 0.5,
+						(double) (z + (Z * 16)) * 0.5,
+						0);// *5d; // 2.0
 				/*
 				// Add a wee bit o' terrain noise on top.
 				height += ((terrainNoise.getValue(
@@ -88,7 +88,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 						(z + (Z * 16)/1), 0)
 						)/10d);
 				*/
-				height = (height*32d)+96d;
+				int height = (int)((dheight*32d)+96d);
 				if (height < minHeight)
 					minHeight = (int) height;
 				for (int y = 0; y < 128; y++) {
