@@ -94,14 +94,24 @@ public class ChunkProviderMountains extends ChunkProvider {
 				if (height < minHeight)
 					minHeight = (int) height;
 				for (int y = 0; y < 128; y+=3) {
+					abyte[getBlockIndex(x,y,z)]=(y <= height) ? (byte) 1 : (byte) 0; // Fill;
+				}
+			}
+		}
+		Interpolator.LinearExpand(abyte);
+
+		for (int x = 0; x < 16; x+=3) {
+			for (int z = 0; z < 16; z+=3) {
+				for (int y = 0; y < 128; y+=3) {
+					byte block = abyte[getBlockIndex(x,y,z)];
+					block = (block>0) ? (byte)1 : (byte)0;
 					// If below height, set rock. Otherwise, set air.
-					byte block = (y <= height) ? (byte) 1 : (byte) 0; // Fill
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
-					
+
 					// Origin point + sand to prevent 5000 years of loading.
 					if(x==0&&z==0&&X==x&&Z==z&&y<=63)
 						block=(byte) ((y==63)?12:7);
-					
+
 					// Old cave stuff, handled by CraftBukkit now.
 					// double _do = ((CaveNoise.GetValue(x + (X * chunksize.X),
 					// z + (Z * chunksize.Z), y * CaveDivisor) + 1) / 2.0);
@@ -120,7 +130,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 				}
 			}
 		}
-		Interpolator.LinearExpand(abyte);
 		Logger.getLogger("Minecraft").info(String.format("[Mountains] Chunk (%d,%d) Min Height: %dm",X,Z,minHeight));
+		
 	}
 }
