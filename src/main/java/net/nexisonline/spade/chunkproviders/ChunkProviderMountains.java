@@ -78,8 +78,8 @@ public class ChunkProviderMountains extends ChunkProvider {
 			for (int z = 0; z < 16; z++) {
 				// Generate our continental noise.
 				double dheight = continentNoise.getValue(
-						(double) (x + (X * 16)) * 0.1,
-						(double) (z + (Z * 16)) * 0.1,
+						(double) (x + (X * 16)) * 0.01,
+						(double) (z + (Z * 16)) * 0.01,
 						0);// *5d; // 2.0
 				/*
 				// Add a wee bit o' terrain noise on top.
