@@ -12,7 +12,7 @@ public class Interpolator {
 		// Generate the xy and yz planes of blocks by interpolation
 		for (int x = 0; x < 16; x += 3)
 		{
-			for (int y = 0; y < 16; y += 3)
+			for (int y = 0; y < 128; y += 3)
 			{
 				for (int z = 0; z < 16; z += 3)
 				{
@@ -28,7 +28,7 @@ public class Interpolator {
 		// Generate the xz plane of blocks by interpolation
 		for (int x = 0; x < 16; x += 3)
 		{
-			for (int y = 0; y < 16; y++)
+			for (int y = 0; y < 128; y++)
 			{
 				for (int z = 0; z < 16; z += 3)
 				{
@@ -61,6 +61,6 @@ public class Interpolator {
 		return abyte;
 	}
 	private static byte lerp(byte a, byte b, float f) {
-		return (byte) (a-(b-a)*f);
+		return (byte) (a+(b-a)*f);
 	}
 }
