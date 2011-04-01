@@ -1,6 +1,7 @@
 package net.nexisonline.spade;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import net.nexisonline.spade.chunkproviders.ChunkProviderFlatGrass;
 import net.nexisonline.spade.chunkproviders.ChunkProviderMountains;
@@ -55,7 +56,7 @@ public class SpadePlugin extends JavaPlugin {
     
 	public void loadWorld(String worldName, String cmName, String cpName) {
 		ChunkProvider cp = chunkProviders.get(cpName);
-		getServer().createWorld(worldName, Environment.NORMAL, null, cp);
+		getServer().createWorld(worldName, Environment.NORMAL, (new Random()).nextLong(), null, cp);
 	}
 
 }
