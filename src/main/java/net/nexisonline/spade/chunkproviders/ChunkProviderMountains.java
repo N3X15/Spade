@@ -6,6 +6,7 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Random;
 import java.util.logging.Logger;
 
 import libnoiseforjava.NoiseGen.NoiseQuality;
@@ -75,8 +76,8 @@ public class ChunkProviderMountains extends ChunkProvider {
 			double[] temperature) {
 		
 		int minHeight = Integer.MAX_VALUE;
-		for (int x = 0; x < 16; x++) {
-			for (int z = 0; z < 16; z++) {
+		for (int x = 0; x < 16; x+=3) {
+			for (int z = 0; z < 16; z+=3) {
 				// Generate our continental noise.
 				double dheight = continentNoise.getValue(
 						(double) (x + (X * 16)) * 0.01,
@@ -92,16 +93,16 @@ public class ChunkProviderMountains extends ChunkProvider {
 				int height = (int)((dheight*32d)+96d);
 				if (height < minHeight)
 					minHeight = (int) height;
-				for (int y = 0; y < 128; y++) {
+				for (int y = 0; y < 128; y+=3) {
 					abyte[getBlockIndex(x,y,z)]=(y <= height) ? (byte) 1 : (byte) 0; // Fill;
 				}
 			}
 		}
-		//Interpolator.LinearExpand(abyte);
+		Interpolator.LinearExpand(abyte);
 
-		for (int x = 0; x < 16; x+=1) {
-			for (int z = 0; z < 16; z+=1) {
-				for (int y = 0; y < 128; y+=1) {
+		for (int x = 0; x < 16; x+=3) {
+			for (int z = 0; z < 16; z+=3) {
+				for (int y = 0; y < 128; y+=3) {
 					byte block = abyte[getBlockIndex(x,y,z)];
 					block = (block>0) ? (byte)1 : (byte)0;
 					// If below height, set rock. Otherwise, set air.
