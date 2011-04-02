@@ -38,9 +38,5 @@ public class SpadeWorldListener extends WorldListener {
 		}
 			
 	}
-	
-	public void onWorldLoad() {
-		
-	}
 
 }
