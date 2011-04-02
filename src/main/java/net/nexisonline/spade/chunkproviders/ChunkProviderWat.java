@@ -7,8 +7,10 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.logging.Logger;
 
+import libnoiseforjava.module.ModuleBase;
 import libnoiseforjava.module.Multiply;
 import libnoiseforjava.module.Perlin;
+import libnoiseforjava.module.RidgedMulti;
 import libnoiseforjava.module.Turbulence;
 
 import org.bukkit.ChunkProvider;
@@ -21,8 +23,8 @@ import org.bukkit.block.Biome;
  */
 public class ChunkProviderWat extends ChunkProvider
 {
-	private Perlin m_perlinGenerator1;
-	private Perlin m_perlinGenerator2;
+	private ModuleBase m_perlinGenerator1;
+	private ModuleBase m_perlinGenerator2;
 	private Multiply m_multiplier;
 	private Turbulence m_turbulence;
 
@@ -38,18 +40,18 @@ public class ChunkProviderWat extends ChunkProvider
 
 		try
 		{
-			m_perlinGenerator1 = new Perlin();
-			m_perlinGenerator2 = new Perlin();
+			m_perlinGenerator1 = new RidgedMulti(); //new Perlin();
+			m_perlinGenerator2 = new RidgedMulti(); //new Perlin();
 			m_multiplier = new Multiply(m_perlinGenerator1, m_perlinGenerator2);
 			m_turbulence = new Turbulence(m_perlinGenerator1);
 
-			m_perlinGenerator1.setSeed((int)(seed*1024));
-			m_perlinGenerator1.setOctaveCount(4);
-			m_perlinGenerator1.setFrequency(1.0f);
-			m_perlinGenerator1.setLacunarity(0.25f);
+			((RidgedMulti)m_perlinGenerator1).setSeed((int)(seed*1024));
+			((RidgedMulti)m_perlinGenerator1).setOctaveCount(1);
+			((RidgedMulti)m_perlinGenerator1).setFrequency(1.0f);
+			((RidgedMulti)m_perlinGenerator1).setLacunarity(0.25f);
 
-			m_perlinGenerator2.setSeed((int)(seed));
-			m_perlinGenerator2.setOctaveCount(1);
+			((RidgedMulti)m_perlinGenerator2).setSeed((int)(seed));
+			((RidgedMulti)m_perlinGenerator2).setOctaveCount(1);
 
 			m_turbulence.setSeed(135);
 			m_turbulence.setPower(0.125);
