@@ -85,7 +85,7 @@ public class ChunkProviderWat extends ChunkProvider
 					double posY = y - 64;
 					double posZ = z + Z;
 
-					double warpMod = m_multiplier.getValue(posX * 0.004, posY * 0.004, posZ * 0.004) * 8;
+					double warpMod = m_perlinGenerator2.getValue(posX * 0.004, posY * 0.004, posZ * 0.004) * 8;
 					double warpPosX = posX * warpMod;
 					double warpPosY = posY * warpMod;
 					double warpPosZ = posZ * warpMod;
@@ -159,6 +159,10 @@ public class ChunkProviderWat extends ChunkProvider
 					else
 					{
 						abyte[getBlockIndex(x,y,z)] = 0;
+					}
+					// Origin point + sand to prevent 5000 years of loading.
+					if ((x == 0) && (z == 0) && (X == x) && (Z == z) && (y <= 63)) {
+						abyte[getBlockIndex(x,y,z)] = (byte) ((y == 125) ? 12 : 7);
 					}
 				}
 			}
