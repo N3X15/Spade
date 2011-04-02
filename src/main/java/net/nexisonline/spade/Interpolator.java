@@ -10,6 +10,7 @@ public class Interpolator {
 	 */
 	public static byte[] LinearExpand(byte[] abyte) {
 		// Generate the xy and yz planes of blocks by interpolation
+		/*
 		for (int x = 0; x < 16; x += 3)
 		{
 			for (int y = 0; y < 128; y += 3)
@@ -24,7 +25,7 @@ public class Interpolator {
 				}
 			}
 		}
-
+		*/
 		// Generate the xz plane of blocks by interpolation
 		for (int x = 0; x < 16; x += 3)
 		{

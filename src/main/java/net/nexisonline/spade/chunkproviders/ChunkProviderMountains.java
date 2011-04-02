@@ -74,7 +74,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	@Override
 	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
-		
+		final int inc=1;
 		int minHeight = Integer.MAX_VALUE;
 		for (int x = 0; x < 16; x+=3) {
 			for (int z = 0; z < 16; z+=3) {
@@ -93,12 +93,12 @@ public class ChunkProviderMountains extends ChunkProvider {
 				int height = (int)((dheight*32d)+96d);
 				if (height < minHeight)
 					minHeight = (int) height;
-				for (int y = 0; y < 128; y+=3) {
+				for (int y = 0; y < 128; y+=inc) {
 					abyte[getBlockIndex(x,y,z)]=(y <= height) ? (byte) 1 : (byte) 0; // Fill;
 				}
 			}
 		}
-		Interpolator.LinearExpand(abyte);
+		Interpolator.LinearExpand(abyte);//,3,1,3);
 
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
