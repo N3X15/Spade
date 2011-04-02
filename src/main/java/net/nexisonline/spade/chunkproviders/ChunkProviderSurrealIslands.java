@@ -35,15 +35,15 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 			terrainNoise.setSeed((int) seed);
 			caveNoise.setSeed((int) seed*16);
 
-			terrainNoise.setFrequency(Frequency);
-			terrainNoise.setNoiseQuality(noiseQuality);
-			terrainNoise.setOctaveCount(OctaveCount);
-			terrainNoise.setLacunarity(Lacunarity);
+			//terrainNoise.setFrequency(Frequency);
+			//terrainNoise.setNoiseQuality(noiseQuality);
+			terrainNoise.setOctaveCount(3);
+			//terrainNoise.setLacunarity(Lacunarity);
 
-			caveNoise.setFrequency(Frequency);
-			caveNoise.setNoiseQuality(noiseQuality);
+			//caveNoise.setFrequency(Frequency);
+			//caveNoise.setNoiseQuality(noiseQuality);
 			caveNoise.setOctaveCount(7);
-			caveNoise.setLacunarity(Lacunarity);
+			//caveNoise.setLacunarity(Lacunarity);
 		} catch (Exception e) {
 		}
 	}
