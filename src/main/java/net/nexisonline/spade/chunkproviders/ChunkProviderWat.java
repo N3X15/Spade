@@ -43,12 +43,12 @@ public class ChunkProviderWat extends ChunkProvider
 			m_multiplier = new Multiply(m_perlinGenerator1, m_perlinGenerator2);
 			m_turbulence = new Turbulence(m_perlinGenerator1);
 
-			m_perlinGenerator1.setSeed(1234);
-			m_perlinGenerator1.setOctaveCount(8);
+			m_perlinGenerator1.setSeed((int)(seed*1024));
+			m_perlinGenerator1.setOctaveCount(4);
 			m_perlinGenerator1.setFrequency(1.0f);
 			m_perlinGenerator1.setLacunarity(0.25f);
 
-			m_perlinGenerator2.setSeed(543);
+			m_perlinGenerator2.setSeed((int)(seed));
 			m_perlinGenerator2.setOctaveCount(1);
 
 			m_turbulence.setSeed(135);
