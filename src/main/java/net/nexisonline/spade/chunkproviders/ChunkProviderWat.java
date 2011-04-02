@@ -90,7 +90,7 @@ public class ChunkProviderWat extends ChunkProvider
 					double warpPosY = posY * warpMod;
 					double warpPosZ = posZ * warpMod;
 
-					double mod = m_turbulence.getValue(warpPosX * 0.005, warpPosY * 0.005, warpPosZ * 0.005);
+					double mod = m_perlinGenerator1.getValue(warpPosX * 0.005, warpPosY * 0.005, warpPosZ * 0.005);
 
 					density[x][y][z] = -(y - 64);
 					density[x][y][z] += mod * 100;
@@ -164,6 +164,8 @@ public class ChunkProviderWat extends ChunkProvider
 					if ((x == 0) && (z == 0) && (X == x) && (Z == z) && (y <= 63)) {
 						abyte[getBlockIndex(x,y,z)] = (byte) ((y == 125) ? 12 : 7);
 					}
+					if(y==1)
+						abyte[getBlockIndex(x,y,z)]=7;
 				}
 			}
 		}
