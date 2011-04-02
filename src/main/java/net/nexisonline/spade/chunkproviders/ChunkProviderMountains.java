@@ -100,9 +100,9 @@ public class ChunkProviderMountains extends ChunkProvider {
 		}
 		Interpolator.LinearExpand(abyte);
 
-		for (int x = 0; x < 16; x+=3) {
-			for (int z = 0; z < 16; z+=3) {
-				for (int y = 0; y < 128; y+=3) {
+		for (int x = 0; x < 16; x++) {
+			for (int z = 0; z < 16; z++) {
+				for (int y = 0; y < 128; y++) {
 					byte block = abyte[getBlockIndex(x,y,z)];
 					block = (block>0) ? (byte)1 : (byte)0;
 					// If below height, set rock. Otherwise, set air.
