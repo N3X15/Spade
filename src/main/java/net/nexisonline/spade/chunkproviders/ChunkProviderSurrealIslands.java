@@ -61,8 +61,8 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 		for (int x = 0; x < 16; x+=1) {
 			for (int z = 0; z < 16; z+=1) {
 				for (int y = 0; y < 128; y+=1) {
-					byte block = (byte) (blockIsSolid(x+(X*16),y,z+(Z*16)) ? 1 : 0);
-					
+					//byte block = (byte) (blockIsSolid(x+(X*16),y,z+(Z*16)) ? 1 : 0);
+					byte block = (byte) (Math.pow(terrainNoise.getValue(x+(X*16), 0 , z+(Z*16)),y/128) > 0.5d ? 1 : 0);
 					// If below height, set rock. Otherwise, set air.
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
 
@@ -96,9 +96,9 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 		float noise, density, center_falloff, plateau_falloff;
 
 		/* caves */
-		if (Math.pow(caveNoise.getValue((double)x * 5.0d, (double)y * 5.0d,
-				(double)z * 5.0d), 3.0d) < -0.5d)
-			return false;
+		//if (Math.pow(caveNoise.getValue((double)x * 5.0d, (double)y * 5.0d,
+				//(double)z * 5.0d), 3.0d) < -0.5d)
+			//return false;
 
 		/* falloff from the top */
 		if (y > 115) // 128*0.9
