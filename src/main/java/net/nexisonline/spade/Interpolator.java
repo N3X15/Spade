@@ -18,8 +18,8 @@ public class Interpolator {
 				{
 					if (y != 15)
 					{
-						abyte[arrayindex(x , y + 1, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y + 3, z)], 0.45f);
-						abyte[arrayindex(x, y + 2, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y + 3, z)], 0.55f);
+						abyte[arrayindex(x , y + 1, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y + 3, z)], 0.25f);
+						abyte[arrayindex(x, y + 2, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y + 3, z)], 0.85f);
 					}
 				}
 			}
@@ -34,26 +34,26 @@ public class Interpolator {
 				{
 					if (x == 0 && z > 0)
 					{
-						abyte[arrayindex(x, y, z - 1)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y, z - 3)], 0.45f);
-						abyte[arrayindex(x, y, z - 2)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y, z - 3)], 0.55f);
+						abyte[arrayindex(x, y, z - 1)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y, z - 3)], 0.25f);
+						abyte[arrayindex(x, y, z - 2)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y, z - 3)], 0.85f);
 					}
 					else if (x > 0 && z > 0)
 					{
-						abyte[arrayindex(x - 1, y, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z)], 0.45f);
-						abyte[arrayindex(x - 2, y, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z)], 0.55f);
+						abyte[arrayindex(x - 1, y, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z)], 0.25f);
+						abyte[arrayindex(x - 2, y, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z)], 0.85f);
 
-						abyte[arrayindex(x, y, z - 1)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y, z - 3)], 0.45f);
-						abyte[arrayindex(x - 1, y, z - 1)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z - 3)], 0.45f);
-						abyte[arrayindex(x - 2, y, z - 1)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z - 3)], 0.55f);
+						abyte[arrayindex(x, y, z - 1)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y, z - 3)], 0.25f);
+						abyte[arrayindex(x - 1, y, z - 1)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z - 3)], 0.25f);
+						abyte[arrayindex(x - 2, y, z - 1)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z - 3)], 0.85f);
 
-						abyte[arrayindex(x, y, z - 2)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y, z - 3)], 0.55f);
-						abyte[arrayindex(x - 1, y, z - 2)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z - 3)], 0.45f);
-						abyte[arrayindex(x - 2, y, z - 2)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z - 3)], 0.55f);
+						abyte[arrayindex(x, y, z - 2)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x, y, z - 3)], 0.85f);
+						abyte[arrayindex(x - 1, y, z - 2)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z - 3)], 0.25f);
+						abyte[arrayindex(x - 2, y, z - 2)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z - 3)], 0.85f);
 					}
 					else if (x > 0 && z == 0)
 					{
-						abyte[arrayindex(x - 1, y, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z)], 0.5f);
-						abyte[arrayindex(x - 2, y, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z)], 0.5f);
+						abyte[arrayindex(x - 1, y, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z)], 0.25f);
+						abyte[arrayindex(x - 2, y, z)] = lerp(abyte[arrayindex(x, y, z)], abyte[arrayindex(x - 3, y, z)], 0.85f);
 					}
 				}
 			}
