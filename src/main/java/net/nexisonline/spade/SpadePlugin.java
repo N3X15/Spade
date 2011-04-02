@@ -6,6 +6,7 @@ import java.util.Random;
 import net.nexisonline.spade.chunkproviders.ChunkProviderFlatGrass;
 import net.nexisonline.spade.chunkproviders.ChunkProviderMountains;
 import net.nexisonline.spade.chunkproviders.ChunkProviderStock;
+import net.nexisonline.spade.chunkproviders.ChunkProviderSurrealIslands;
 import net.nexisonline.spade.commands.SetWorldGenCommand;
 import net.nexisonline.spade.commands.TP2WorldCommand;
 
@@ -50,6 +51,7 @@ public class SpadePlugin extends JavaPlugin {
 		chunkProviders.put("stock", new ChunkProviderStock());
 		chunkProviders.put("flatgrass", new ChunkProviderFlatGrass());
 		chunkProviders.put("mountains", new ChunkProviderMountains());
+		chunkProviders.put("islands", new ChunkProviderSurrealIslands());
 	}
 	public void onDisable() {
     }

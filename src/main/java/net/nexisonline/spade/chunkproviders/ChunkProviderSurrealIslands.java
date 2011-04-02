@@ -1,9 +1,3 @@
-/**
- * N3X15's Handy Dandy Mountain Generator
- * 	From MineEdit
- * 
- * INSERT BSD HERE
- */
 package net.nexisonline.spade.chunkproviders;
 
 import java.util.logging.Logger;
@@ -11,7 +5,6 @@ import java.util.logging.Logger;
 import libnoiseforjava.NoiseGen.NoiseQuality;
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
-
 import net.nexisonline.spade.Interpolator;
 
 import org.bukkit.ChunkProvider;
@@ -19,12 +12,9 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
-/**
- * @author Rob
- * 
- */
-public class ChunkProviderMountains extends ChunkProvider {
+public class ChunkProviderSurrealIslands extends ChunkProvider {
 	private RidgedMulti terrainNoise;
+	private Perlin caveNoise;
 	private Perlin continentNoise;
 	private int continentNoiseOctaves = 16;
 	private NoiseQuality noiseQuality = NoiseQuality.QUALITY_STD;
@@ -38,7 +28,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	@Override
 	public void onLoad(World world, long seed) {
 		this.setHasCustomTerrain(true);
-		
+
 		double Frequency = 0.1;
 		double Lacunarity = 0.05;
 		double Persistance = 0.25;
@@ -54,6 +44,11 @@ public class ChunkProviderMountains extends ChunkProvider {
 			terrainNoise.setNoiseQuality(noiseQuality);
 			terrainNoise.setOctaveCount(OctaveCount);
 			terrainNoise.setLacunarity(Lacunarity);
+
+			caveNoise.setFrequency(Frequency);
+			caveNoise.setNoiseQuality(noiseQuality);
+			caveNoise.setOctaveCount(7);
+			caveNoise.setLacunarity(Lacunarity);
 
 			//continentNoise.setFrequency(ContinentNoiseFrequency);
 			//continentNoise.setNoiseQuality(noiseQuality);
@@ -73,37 +68,12 @@ public class ChunkProviderMountains extends ChunkProvider {
 	@Override
 	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
-		
-		int minHeight = Integer.MAX_VALUE;
-		for (int x = 0; x < 16; x++) {
-			for (int z = 0; z < 16; z++) {
-				// Generate our continental noise.
-				double dheight = continentNoise.getValue(
-						(double) (x + (X * 16)) * 0.01,
-						(double) (z + (Z * 16)) * 0.01,
-						0);// *5d; // 2.0
-				/*
-				// Add a wee bit o' terrain noise on top.
-				height += ((terrainNoise.getValue(
-						(x + (X * 16)/1), 
-						(z + (Z * 16)/1), 0)
-						)/10d);
-				*/
-				int height = (int)((dheight*32d)+96d);
-				if (height < minHeight)
-					minHeight = (int) height;
-				for (int y = 0; y < 128; y++) {
-					abyte[getBlockIndex(x,y,z)]=(y <= height) ? (byte) 1 : (byte) 0; // Fill;
-				}
-			}
-		}
-		//Interpolator.LinearExpand(abyte);
 
 		for (int x = 0; x < 16; x+=1) {
 			for (int z = 0; z < 16; z+=1) {
 				for (int y = 0; y < 128; y+=1) {
-					byte block = abyte[getBlockIndex(x,y,z)];
-					block = (block>0) ? (byte)1 : (byte)0;
+					byte block = (byte) (blockIsSolid(x,y,z) ? 1 : 0);
+					
 					// If below height, set rock. Otherwise, set air.
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
 
@@ -125,11 +95,40 @@ public class ChunkProviderMountains extends ChunkProvider {
 					// }
 					// else
 					// block = (d3) ? b[x, y, z] : (byte)1;
-					abyte[getBlockIndex(x,y,z)]=(byte) ((y<2) ? Material.BEDROCK.getId() : block);
+					abyte[getBlockIndex(x,y,z)]=block;//(byte) ((y<2) ? Material.BEDROCK.getId() : block);
 				}
 			}
 		}
-		Logger.getLogger("Minecraft").info(String.format("[Mountains] Chunk (%d,%d) Min Height: %dm",X,Z,minHeight));
-		
+		Logger.getLogger("Minecraft").info(String.format("[Islands] Chunk (%d,%d)",X,Z));
+
+	}
+	boolean blockIsSolid(int x, int y, int z)
+	{
+		float noise, density, center_falloff, plateau_falloff;
+
+		/* caves */
+		if (Math.pow(caveNoise.getValue((double)x * 5.0d, (double)y * 5.0d,
+				(double)z * 5.0d), 3.0d) < -0.5d)
+			return false;
+
+		/* falloff from the top */
+		if (y > 115) // 128*0.9
+			return false;
+		else if (y > 102)
+			plateau_falloff = 128 - (y - 102) * 1280; // 10f;
+		else
+			plateau_falloff = 128;// 1f
+
+		/* falloff from center */
+		center_falloff = (float) (128 / (
+				Math.pow((x - 64) * 128, 2.0) +
+				Math.pow((y - 128) * 102, 2.0) +
+				Math.pow((z - 64) * 128, 2.0)
+		));
+
+		/* noise combined density */
+		noise = (float) terrainNoise.getValue(x, y * 0.5, z);
+		density = noise * center_falloff * plateau_falloff;
+		return density > 0.2f;
 	}
 }
