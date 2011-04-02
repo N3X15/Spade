@@ -5,21 +5,15 @@ import java.util.logging.Logger;
 import libnoiseforjava.NoiseGen.NoiseQuality;
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
-import net.nexisonline.spade.Interpolator;
-
 import org.bukkit.ChunkProvider;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 
 public class ChunkProviderSurrealIslands extends ChunkProvider {
 	private RidgedMulti terrainNoise;
 	private Perlin caveNoise;
-	private Perlin continentNoise;
 	private int continentNoiseOctaves = 16;
 	private NoiseQuality noiseQuality = NoiseQuality.QUALITY_STD;
-	private double ContinentNoiseFrequency;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -36,9 +30,10 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 
 		try {
 			terrainNoise = new RidgedMulti();
-			continentNoise = new Perlin();
+			caveNoise=new Perlin();
+			
 			terrainNoise.setSeed((int) seed);
-			continentNoise.setSeed((int) seed + 2);
+			caveNoise.setSeed((int) seed*16);
 
 			terrainNoise.setFrequency(Frequency);
 			terrainNoise.setNoiseQuality(noiseQuality);
@@ -49,12 +44,6 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 			caveNoise.setNoiseQuality(noiseQuality);
 			caveNoise.setOctaveCount(7);
 			caveNoise.setLacunarity(Lacunarity);
-
-			//continentNoise.setFrequency(ContinentNoiseFrequency);
-			//continentNoise.setNoiseQuality(noiseQuality);
-			continentNoise.setOctaveCount(continentNoiseOctaves);
-			//continentNoise.setLacunarity(Lacunarity);
-			//continentNoise.setPersistence(Persistance);
 		} catch (Exception e) {
 		}
 	}
@@ -72,7 +61,7 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 		for (int x = 0; x < 16; x+=1) {
 			for (int z = 0; z < 16; z+=1) {
 				for (int y = 0; y < 128; y+=1) {
-					byte block = (byte) (blockIsSolid(x,y,z) ? 1 : 0);
+					byte block = (byte) (blockIsSolid(x+(X*16),y,z+(Z*16)) ? 1 : 0);
 					
 					// If below height, set rock. Otherwise, set air.
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
