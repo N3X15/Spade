@@ -62,7 +62,7 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 			for (int z = 0; z < 16; z+=1) {
 				for (int y = 0; y < 128; y+=1) {
 					//byte block = (byte) (blockIsSolid(x+(X*16),y,z+(Z*16)) ? 1 : 0);
-					byte block = (byte) (Math.pow(terrainNoise.getValue(x+(X*16), 0 , z+(Z*16)),y/128) > 0.5d ? 1 : 0);
+					byte block = (byte)(terrainNoise.getValue(x+(X*16), 0 , z+(Z*16)) / ((double)y/64d) > 0.9d ? 1 : 0);
 					// If below height, set rock. Otherwise, set air.
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
 
