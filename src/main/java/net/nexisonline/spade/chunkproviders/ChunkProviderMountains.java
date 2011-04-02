@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import libnoiseforjava.NoiseGen.NoiseQuality;
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
+import net.nexisonline.spade.Heightmap;
 import net.nexisonline.spade.Interpolator;
 
 import org.bukkit.ChunkProvider;
@@ -70,31 +71,28 @@ public class ChunkProviderMountains extends ChunkProvider {
 	@Override
 	public void generateChunk(World world, int X, int Z, byte[] abyte,
 			Biome[] biomes, double[] temperature) {
-		final int inc = 1;
 		int minHeight = Integer.MAX_VALUE;
+		Heightmap hm = new Heightmap();
 		for (int x = 0; x < 16; x += 3) {
 			for (int z = 0; z < 16; z += 3) {
 				// Generate our continental noise.
-				final double dheight = continentNoise.getValue(
+				hm.set(x,z,continentNoise.getValue(
 						(x + (X * 16)) * 0.01,
-						(z + (Z * 16)) * 0.01, 0);// *5d; // 2.0
-				// Add a wee bit o' terrain noise on top. height += ((terrainNoise.getValue( (x + (X * 16)/1), (z + (Z * 16)/1),0) )/10d);
-				final int height = (int) ((dheight * 32d) + 96d);
-				if (height < minHeight) {
-					minHeight = height;
-				}
-				for (int y = 0; y < 128; y += inc) {
-					abyte[getBlockIndex(x, y, z)] = (y <= height) ? (byte) 1
-							: (byte) 0; // Fill;
-				}
+						(z + (Z * 16)) * 0.01, 0));// *5d; // 2.0
+				
 			}
 		}
-		Interpolator.LinearExpand(abyte);// ,3,1,3);
+		hm=Interpolator.LinearExpandHeightmap(hm);
 
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
+				final int height = (int) ((hm.get(x, z) * 32d) + 96d);
+				if (height < minHeight) {
+					minHeight = height;
+				}
 				for (int y = 0; y < 128; y++) {
-					byte block = abyte[getBlockIndex(x, y, z)];
+					
+					byte block = (y <= height) ? (byte) 1 : (byte) 0; // Fill;
 					block = (block > 0) ? (byte) 1 : (byte) 0;
 					// If below height, set rock. Otherwise, set air.
 					block = ((y <= 63) && (block == 0)) ? (byte) 9 : block; // Water
