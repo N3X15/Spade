@@ -81,9 +81,9 @@ public class ChunkProviderWat extends ChunkProvider
 			{
 				for (int z = 0; z < 16; z += 3)
 				{
-					double posX = x + X;
+					double posX = x + (X*16);
 					double posY = y - 64;
-					double posZ = z + Z;
+					double posZ = z + (Z*16);
 
 					double warpMod = m_perlinGenerator2.getValue(posX * 0.004, posY * 0.004, posZ * 0.004) * 8;
 					double warpPosX = posX * warpMod;
