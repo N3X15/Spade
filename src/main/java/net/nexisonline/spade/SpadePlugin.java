@@ -3,6 +3,7 @@ package net.nexisonline.spade;
 import java.util.HashMap;
 import java.util.Random;
 
+import net.nexisonline.spade.chunkproviders.ChunkProviderDoublePerlin;
 import net.nexisonline.spade.chunkproviders.ChunkProviderFlatGrass;
 import net.nexisonline.spade.chunkproviders.ChunkProviderMountains;
 import net.nexisonline.spade.chunkproviders.ChunkProviderStock;
@@ -54,6 +55,7 @@ public class SpadePlugin extends JavaPlugin {
 		chunkProviders.put("mountains", new ChunkProviderMountains());
 		chunkProviders.put("islands", new ChunkProviderSurrealIslands());
 		chunkProviders.put("wat", new ChunkProviderWat());
+		chunkProviders.put("doubleperlin", new ChunkProviderDoublePerlin());
 	}
 	public void onDisable() {
     }
