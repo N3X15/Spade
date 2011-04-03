@@ -31,10 +31,18 @@ public class SpadePlugin extends JavaPlugin {
 	private HashMap<String,SpadeChunkProvider> chunkProviders = new HashMap<String,SpadeChunkProvider>();
 
 	public double getChunkDistanceToSpawn(String worldName, int x, int z) {
-		return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x*16,0,z*16))/16d;
+		try {
+			return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x*16,0,z*16))/16d;
+		} catch(NullPointerException e) {
+			return 100000;
+		}
 	}
 	public double getBlockDistanceToSpawn(String worldName, int x, int y, int z) {
-		return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x,y,z));
+		try {
+			return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x,y,z));
+		} catch(NullPointerException e) {
+			return 1600000;
+		}
 	}
     public void onEnable() {
         // Register our events
