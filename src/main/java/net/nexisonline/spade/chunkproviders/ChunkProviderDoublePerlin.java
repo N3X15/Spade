@@ -112,7 +112,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 		double dist = this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z);
 		if(dist>this.distanceSquared) {
 			blocks=new byte[blocks.length];
-			Logger.getLogger("Minecraft").info(String.format("[wat] SKIPPING Chunk (%d,%d) (%d>%d)",X,Z,dist,distanceSquared));
+			Logger.getLogger("Minecraft").info(String.format("[wat] SKIPPING Chunk (%d,%d) (%d>%d)",X,Z,(int)dist,(int)distanceSquared));
 			return;
 		}
 		double density[][][] = new double[16][128][16];
@@ -215,7 +215,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			}
 		}
 
-		Logger.getLogger("Minecraft").info(String.format("[wat] Chunk (%d,%d) (%d<=%d)",X,Z,dist,distanceSquared));
+		Logger.getLogger("Minecraft").info(String.format("[wat] Chunk (%d,%d) (%d<=%d)",X,Z,(int)dist,(int)distanceSquared));
 	}
 	
 	/**
