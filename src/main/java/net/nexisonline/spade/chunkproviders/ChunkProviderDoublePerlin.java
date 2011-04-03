@@ -572,7 +572,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 		}
 		distanceSquared=node.getInt("chunks-from-spawn",0);
 		if(distanceSquared>0)
-			distanceSquared=distanceSquared^2;
+			distanceSquared=(int) Math.pow(distanceSquared,2);
 		return node;
 	}
 }
