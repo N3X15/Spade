@@ -111,6 +111,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	{
 		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
 			blocks=new byte[blocks.length];
+			Logger.getLogger("Minecraft").info(String.format("[wat] SKIPPING Chunk (%d,%d)",X,Z));
 			return;
 		}
 		double density[][][] = new double[16][128][16];
