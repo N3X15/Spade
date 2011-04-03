@@ -66,7 +66,7 @@ public class ChunkProviderWat extends ChunkProvider
 
 		try {
 			this.p = ((CraftWorld)world).getHandle();
-		} catch(Exception e) {}
+		} catch(Throwable e) {}
 
 		try
 		{
