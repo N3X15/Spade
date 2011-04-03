@@ -92,7 +92,7 @@ public class ChunkProviderWat extends ChunkProvider
 					double warpPosY = posY * warpMod;
 					double warpPosZ = posZ * warpMod;
 
-					double mod = m_perlinGenerator1.getValue(warpPosX * 0.005, warpPosY * 0.005, warpPosZ * 0.005);
+					double mod = m_perlinGenerator1.getValue(warpPosX * 0.0005, warpPosY * 0.0005, warpPosZ * 0.0005);
 
 					density[x][y][z] = -(y - 64);
 					density[x][y][z] += mod * 100;
