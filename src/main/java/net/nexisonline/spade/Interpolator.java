@@ -147,12 +147,12 @@ public class Interpolator {
 							x_diff);
 					l=lerp(nl,sl,z_diff);
 					// north, upper
-					nu = lerp(hm.get(x_coord_lo, y_coord_lo, z_coord_lo),
-							hm.get(x_coord_hi, y_coord_lo, z_coord_lo),
+					nu = lerp(hm.get(x_coord_lo, y_coord_hi, z_coord_lo),
+							hm.get(x_coord_hi, y_coord_hi, z_coord_lo),
 							x_diff);
 					// south, upper
-					su = lerp(hm.get(x_coord_lo, y_coord_lo, z_coord_hi),
-							hm.get(x_coord_hi, y_coord_lo, z_coord_hi),
+					su = lerp(hm.get(x_coord_lo, y_coord_hi, z_coord_hi),
+							hm.get(x_coord_hi, y_coord_hi, z_coord_hi),
 							x_diff);
 					u=lerp(nu,su,z_diff);
 					
