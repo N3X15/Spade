@@ -7,7 +7,6 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.Random;
 import java.util.logging.Logger;
-import java.lang.*;
 
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
@@ -571,10 +570,11 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	}
 
 	@Override
-	public void configure(ConfigurationNode node) {
+	public ConfigurationNode configure(ConfigurationNode node) {
 		distanceSquared=node.getInt("chunks-from-spawn",0);
 		if(distanceSquared>0)
 			distanceSquared=distanceSquared^2;
+		return node;
 
 	}
 }

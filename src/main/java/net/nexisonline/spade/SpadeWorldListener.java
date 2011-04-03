@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.World;
 import org.bukkit.event.world.WorldListener;
+import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.util.config.Configuration;
 
 
@@ -14,6 +15,11 @@ public class SpadeWorldListener extends WorldListener {
 
 	public SpadeWorldListener(SpadePlugin plugin) {
 		spade=plugin;
+	}
+	
+	@Override
+	public void onWorldLoad(WorldLoadEvent e) {
+		
 	}
 
 	public void loadWorlds() {		
@@ -31,8 +37,10 @@ public class SpadeWorldListener extends WorldListener {
 			for(World w : spade.getServer().getWorlds())
 			{
 				String worldName = w.getName();
-				cfg.setProperty("worlds."+worldName+".chunk-manager", "stock");
-				cfg.setProperty("worlds."+worldName+".chunk-provider", "stock");
+				cfg.setProperty("worlds."+worldName+".chunk-manager.name", "stock");
+				cfg.setProperty("worlds."+worldName+".chunk-manager.config", null);
+				cfg.setProperty("worlds."+worldName+".chunk-provider.name", "stock");
+				cfg.setProperty("worlds."+worldName+".chunk-provider.config", null);
 			}
 			cfg.save();
 		}

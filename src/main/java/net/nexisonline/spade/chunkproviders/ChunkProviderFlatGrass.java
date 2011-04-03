@@ -43,9 +43,8 @@ public class ChunkProviderFlatGrass extends SpadeChunkProvider {
 	}
 
 	@Override
-	public void configure(ConfigurationNode node) {
-		// TODO Auto-generated method stub
-		
+	public ConfigurationNode configure(ConfigurationNode node) {
+		return node;
 	}
 
 }

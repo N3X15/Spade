@@ -128,7 +128,8 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 	}
 
 	@Override
-	public void configure(ConfigurationNode node) {
+	public ConfigurationNode configure(ConfigurationNode node) {
+		return node;
 		// TODO Auto-generated method stub
 		
 	}

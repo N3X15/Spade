@@ -28,6 +28,7 @@ import net.nexisonline.spade.SpadePlugin;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.util.BiomeUtils;
+import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 /**
@@ -563,10 +564,13 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	}
 
 	@Override
-	public void configure(ConfigurationNode node) {
+	public ConfigurationNode configure(ConfigurationNode node) {
+		if(node==null) {
+			node = Configuration.getEmptyNode();
+		}
 		distanceSquared=node.getInt("chunks-from-spawn",0);
 		if(distanceSquared>0)
 			distanceSquared=distanceSquared^2;
-		
+		return node;
 	}
 }

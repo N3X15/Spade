@@ -68,11 +68,12 @@ public class SpadePlugin extends JavaPlugin {
 	public void onDisable() {
     }
     
-	public void loadWorld(String worldName, String cmName, String cpName, ConfigurationNode node) {
+	public ConfigurationNode loadWorld(String worldName, String cmName, String cpName, ConfigurationNode node) {
 		SpadeChunkProvider cp = chunkProviders.get(cpName);
 		cp.setWorldName(cpName);
-		cp.configure(node);
+		node=cp.configure(node);
 		getServer().createWorld(worldName, Environment.NORMAL, (new Random()).nextLong(), null, cp);
+		return node;
 	}
 
 }
