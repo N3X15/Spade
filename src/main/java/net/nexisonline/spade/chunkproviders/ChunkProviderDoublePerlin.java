@@ -109,9 +109,10 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
-		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+		double dist = this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z);
+		if(dist>this.distanceSquared) {
 			blocks=new byte[blocks.length];
-			Logger.getLogger("Minecraft").info(String.format("[wat] SKIPPING Chunk (%d,%d)",X,Z));
+			Logger.getLogger("Minecraft").info(String.format("[wat] SKIPPING Chunk (%d,%d) (%d>%d)",X,Z,dist,distanceSquared));
 			return;
 		}
 		double density[][][] = new double[16][128][16];
@@ -122,9 +123,9 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			{
 				for (int z = 0; z < 16; z += 3)
 				{
-					double posX = Math.abs(x + (X*16));
-					double posY = Math.abs(y - 96);
-					double posZ = Math.abs(z + (Z*16));
+					double posX = /*Math.abs*/(x + (X*16));
+					double posY = /*Math.abs*/(y - 96);
+					double posZ = /*Math.abs*/(z + (Z*16));
 
 					final double warp = 0.004;
 					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
@@ -214,7 +215,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			}
 		}
 
-		Logger.getLogger("Minecraft").info(String.format("[wat] Chunk (%d,%d)",X,Z));
+		Logger.getLogger("Minecraft").info(String.format("[wat] Chunk (%d,%d) (%d<=%d)",X,Z,dist,distanceSquared));
 	}
 	
 	/**
