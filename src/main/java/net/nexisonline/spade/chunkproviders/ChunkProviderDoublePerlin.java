@@ -59,6 +59,10 @@ public class ChunkProviderDoublePerlin extends ChunkProvider
 		this.setHasCustomSedimenter(true);
 		this.setHasCustomPopulator(true);
 
+		try {
+			this.p = (net.minecraft.server.World)world;
+		} catch(Throwable e) {}
+
 		try
 		{
 			m_perlinGenerator = new Perlin(); //new Perlin();
