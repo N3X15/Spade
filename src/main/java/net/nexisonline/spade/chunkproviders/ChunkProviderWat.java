@@ -7,6 +7,7 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.Random;
 import java.util.logging.Logger;
+import java.lang.*;
 
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
@@ -126,11 +127,15 @@ public class ChunkProviderWat extends SpadeChunkProvider
 					double posY = y - 96;
 					double posZ = z + (Z*16);
 
+                                        double absPosX = Math.abs(posX);
+                                        double absPosY = Math.abs(posY);
+                                        double absPosZ = Math.abs(posZ);
+
 					final double warp = 0.004;
 					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
-					double warpPosX = posX * warpMod;
-					double warpPosY = posY * warpMod;
-					double warpPosZ = posZ * warpMod;
+					double warpPosX = absPosX * warpMod;
+					double warpPosY = absPosY * warpMod;
+					double warpPosZ = absPosZ * warpMod;
 
 					double mod = m_perlinGenerator.getValue(warpPosX * 0.005, warpPosY * 0.005, warpPosZ * 0.005);
 
