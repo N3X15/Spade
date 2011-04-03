@@ -2,18 +2,16 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.logging.Logger;
 
-import libnoiseforjava.NoiseGen.NoiseQuality;
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
-import org.bukkit.ChunkProvider;
-import org.bukkit.World;
-import org.bukkit.block.Biome;
+import net.nexisonline.spade.SpadeChunkProvider;
 
-public class ChunkProviderSurrealIslands extends ChunkProvider {
+import org.bukkit.block.Biome;
+import org.bukkit.util.config.ConfigurationNode;
+
+public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	private RidgedMulti terrainNoise;
 	private Perlin caveNoise;
-	private int continentNoiseOctaves = 16;
-	private NoiseQuality noiseQuality = NoiseQuality.QUALITY_STD;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -22,11 +20,6 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 	@Override
 	public void onLoad(Object world, long seed) {
 		this.setHasCustomTerrain(true);
-
-		double Frequency = 0.1;
-		double Lacunarity = 0.05;
-		double Persistance = 0.25;
-		int OctaveCount = continentNoiseOctaves = 4;
 
 		try {
 			terrainNoise = new RidgedMulti();
@@ -119,5 +112,11 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 		noise = (float) terrainNoise.getValue(x, y * 0.5, z);
 		density = noise * center_falloff * plateau_falloff;
 		return density > 0.2f;
+	}
+
+	@Override
+	public void configure(ConfigurationNode node) {
+		// TODO Auto-generated method stub
+		
 	}
 }

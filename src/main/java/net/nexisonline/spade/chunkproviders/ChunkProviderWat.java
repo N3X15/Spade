@@ -23,18 +23,21 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
+import net.nexisonline.spade.SpadeChunkProvider;
+import net.nexisonline.spade.SpadePlugin;
 
-import org.bukkit.ChunkProvider;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.util.BiomeUtils;
+import org.bukkit.util.config.ConfigurationNode;
 
 /**
  * @author PrettyPonyyy
  *
  */
-public class ChunkProviderWat extends ChunkProvider
+public class ChunkProviderWat extends SpadeChunkProvider
 {
+	public int distanceSquared=-1;
 	private static final int WATER_HEIGHT = 32;
 	private double[] r = new double[256];
 	private double[] s = new double[256];
@@ -47,6 +50,11 @@ public class ChunkProviderWat extends ChunkProvider
 
 	private Perlin m_perlinGenerator;
 	private RidgedMulti m_fractalGenerator;
+	private SpadePlugin plugin;
+	
+	public ChunkProviderWat(SpadePlugin plugin) {
+		this.plugin=plugin;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -99,8 +107,12 @@ public class ChunkProviderWat extends ChunkProvider
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(Object world, int X, int Z, byte[] abyte, Biome[] biomes, double[] temperature)
+	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
+		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+			blocks=new byte[blocks.length];
+			return;
+		}
 		
 		double density[][][] = new double[16][128][16];
 
@@ -197,7 +209,7 @@ public class ChunkProviderWat extends ChunkProvider
 					}
 					if(y==1)
 						block=7;
-					abyte[getBlockIndex(x,y,z)]=block;
+					blocks[getBlockIndex(x,y,z)]=block;
 				}
 			}
 		}
@@ -209,30 +221,39 @@ public class ChunkProviderWat extends ChunkProvider
 	 * Stolen standard terrain populator, screwed with to generate water at the desired height.
 	 */
 	@Override
-	public void generateSediment(Object world, int X, int Y, byte[] blocks, Biome[] biomes) {
-
-		
+	public void generateSediment(Object world, int X, int Z, byte[] blocks, Biome[] biomes) {
+		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+			blocks=new byte[blocks.length];
+			return;
+		}
 		double var6 = 0.03125D;
-		this.r = this.n.a(this.r, (double)(X * 16), (double)(Y * 16), 0.0D, 16, 16, 1, var6, var6, 1.0D);
-		this.s = this.n.a(this.s, (double)(X * 16), 109.0134D, (double)(Y * 16), 16, 1, 16, var6, 1.0D, var6);
-		this.t = this.o.a(this.t, (double)(X * 16), (double)(Y * 16), 0.0D, 16, 16, 1, var6 * 2.0D, var6 * 2.0D, var6 * 2.0D);
+		this.r = this.n.a(this.r, (double)(X * 16), (double)(Z * 16), 0.0D, 16, 16, 1, var6, var6, 1.0D);
+		this.s = this.n.a(this.s, (double)(X * 16), 109.0134D, (double)(Z * 16), 16, 1, 16, var6, 1.0D, var6);
+		this.t = this.o.a(this.t, (double)(X * 16), (double)(Z * 16), 0.0D, 16, 16, 1, var6 * 2.0D, var6 * 2.0D, var6 * 2.0D);
 
-		for(int var8 = 0; var8 < 16; ++var8) {
-			for(int var9 = 0; var9 < 16; ++var9) {
-				BiomeBase biome = BiomeUtils.biome2BiomeBase(biomes[var8 + var9 * 16]);
-				boolean var11 = this.r[var8 + var9 * 16] + this.j.nextDouble() * 0.2D > 0.0D;
-				boolean var12 = this.s[var8 + var9 * 16] + this.j.nextDouble() * 0.2D > 3.0D;
-				int var13 = (int)(this.t[var8 + var9 * 16] / 3.0D + 3.0D + this.j.nextDouble() * 0.25D);
+		for(int x = 0; x < 16; ++x) {
+			for(int z = 0; z < 16; ++z) {
+				double columnDist=this.plugin.getBlockDistanceToSpawn(this.worldName,x+(X*16),0,z+(Z*16));
+				BiomeBase biome = BiomeUtils.biome2BiomeBase(biomes[x + z * 16]);
+				boolean var11 = this.r[x + z * 16] + this.j.nextDouble() * 0.2D > 0.0D;
+				boolean var12 = this.s[x + z * 16] + this.j.nextDouble() * 0.2D > 3.0D;
+				int var13 = (int)(this.t[x + z * 16] / 3.0D + 3.0D + this.j.nextDouble() * 0.25D);
 				int var14 = -1;
 				byte grass = biome.o;
 				byte soil = biome.p;
-
 				for(int y = 127; y >= 0; --y) {
-					int var18 = (var9 * 16 + var8) * 128 + y;
+					int idx = (z * 16 + x) * 128 + y;
+					if(columnDist==(int)(this.distanceSquared-(8^2))) {
+						blocks[idx]=7; // Bedrock
+						continue;
+					}else if(columnDist>(int)(this.distanceSquared-(8^2))) {
+						blocks[idx]=0; // Air
+						continue;
+					}
 					if(y <= 0 + this.j.nextInt(5)) {
-						blocks[var18] = (byte)Material.BEDROCK.getId();
+						blocks[idx] = (byte)Material.BEDROCK.getId();
 					} else {
-						byte var19 = blocks[var18];
+						byte var19 = blocks[idx];
 						if(var19 == 0) {
 							var14 = -1;
 						} else if(var19 == Material.STONE.getId()) {
@@ -266,13 +287,13 @@ public class ChunkProviderWat extends ChunkProvider
 
 								var14 = var13;
 								if(y >= WATER_HEIGHT - 1) {
-									blocks[var18] = grass;
+									blocks[idx] = grass;
 								} else {
-									blocks[var18] = soil;
+									blocks[idx] = soil;
 								}
 							} else if(var14 > 0) {
 								--var14;
-								blocks[var18] = soil;
+								blocks[idx] = soil;
 								if(var14 == 0 && soil == Material.SAND.getId()) {
 									var14 = this.j.nextInt(4);
 									soil = (byte)Material.SANDSTONE.getId();
@@ -283,18 +304,22 @@ public class ChunkProviderWat extends ChunkProvider
 				}
 			}
 		}
-
 	}
 	
-	public void populateChunk(Object ch,int var2, int var3) {
+	public void populateChunk(Object ch,int X, int Z) {
+
+		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+			return;
+		}
+		
 		BlockSand.a = true;
-		int var4 = var2 * 16;
-		int var5 = var3 * 16;
+		int var4 = X * 16;
+		int var5 = Z * 16;
 		BiomeBase var6 = this.p.a().a(var4 + 16, var5 + 16);
 		this.j.setSeed(this.p.k());
 		long var7 = this.j.nextLong() / 2L * 2L + 1L;
 		long var9 = this.j.nextLong() / 2L * 2L + 1L;
-		this.j.setSeed((long)var2 * var7 + (long)var3 * var9 ^ this.p.k());
+		this.j.setSeed((long)X * var7 + (long)Z * var9 ^ this.p.k());
 		double var11 = 0.25D;
 		int var13;
 		int x;
@@ -535,6 +560,16 @@ public class ChunkProviderWat extends ChunkProvider
 			}
 		}
 		*/
+		
+		
 		BlockSand.a = false;
+	}
+
+	@Override
+	public void configure(ConfigurationNode node) {
+		distanceSquared=node.getInt("chunks-from-spawn",0);
+		if(distanceSquared>0)
+			distanceSquared=distanceSquared^2;
+		
 	}
 }

@@ -49,6 +49,7 @@ public class TP2WorldCommand implements CommandExecutor {
 			loc.setY(y);
 			loc.setZ(z);
 		}
+		loc.setY(loc.getX()+2);
 		return p.teleport(w.getSpawnLocation());
 	}
 

@@ -2,12 +2,12 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.logging.Logger;
 
-import org.bukkit.ChunkProvider;
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.CraftWorld;
+import net.nexisonline.spade.SpadeChunkProvider;
 
-public class ChunkProviderFlatGrass extends ChunkProvider {
+import org.bukkit.block.Biome;
+import org.bukkit.util.config.ConfigurationNode;
+
+public class ChunkProviderFlatGrass extends SpadeChunkProvider {
 	private byte[] template;
 	
 	public void onLoad(Object world, long seed) {
@@ -40,6 +40,12 @@ public class ChunkProviderFlatGrass extends ChunkProvider {
 		}
 		Logger.getLogger("Minecraft")
 				.info(String.format("[Flatgrass] Chunk (%d,%d)", X, Z));
+	}
+
+	@Override
+	public void configure(ConfigurationNode node) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -18,6 +18,8 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
+import org.bukkit.util.config.ConfigurationNode;
 
 /**
  * Sample plugin for Bukkit
@@ -26,8 +28,14 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class SpadePlugin extends JavaPlugin {
     private final SpadeWorldListener worldListener = new SpadeWorldListener(this);
-	private HashMap<String,ChunkProvider> chunkProviders = new HashMap<String,ChunkProvider>();
+	private HashMap<String,SpadeChunkProvider> chunkProviders = new HashMap<String,SpadeChunkProvider>();
 
+	public double getChunkDistanceToSpawn(String worldName, int x, int z) {
+		return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x*16,0,z*16))/16d;
+	}
+	public double getBlockDistanceToSpawn(String worldName, int x, int y, int z) {
+		return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x,y,z));
+	}
     public void onEnable() {
         // Register our events
         PluginManager pm = getServer().getPluginManager();
@@ -54,14 +62,16 @@ public class SpadePlugin extends JavaPlugin {
 		chunkProviders.put("flatgrass", new ChunkProviderFlatGrass());
 		chunkProviders.put("mountains", new ChunkProviderMountains());
 		chunkProviders.put("islands", new ChunkProviderSurrealIslands());
-		chunkProviders.put("wat", new ChunkProviderWat());
-		chunkProviders.put("doubleperlin", new ChunkProviderDoublePerlin());
+		chunkProviders.put("wat", new ChunkProviderWat(this));
+		chunkProviders.put("doubleperlin", new ChunkProviderDoublePerlin(this));
 	}
 	public void onDisable() {
     }
     
-	public void loadWorld(String worldName, String cmName, String cpName) {
-		ChunkProvider cp = chunkProviders.get(cpName);
+	public void loadWorld(String worldName, String cmName, String cpName, ConfigurationNode node) {
+		SpadeChunkProvider cp = chunkProviders.get(cpName);
+		cp.setWorldName(cpName);
+		cp.configure(node);
 		getServer().createWorld(worldName, Environment.NORMAL, (new Random()).nextLong(), null, cp);
 	}
 

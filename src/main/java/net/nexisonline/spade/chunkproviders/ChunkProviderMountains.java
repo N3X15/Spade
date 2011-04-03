@@ -13,17 +13,17 @@ import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
 import net.nexisonline.spade.Heightmap;
 import net.nexisonline.spade.Interpolator;
+import net.nexisonline.spade.SpadeChunkProvider;
 
-import org.bukkit.ChunkProvider;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.util.config.ConfigurationNode;
 
 /**
  * @author N3X15
  * 
  */
-public class ChunkProviderMountains extends ChunkProvider {
+public class ChunkProviderMountains extends SpadeChunkProvider {
 	private RidgedMulti terrainNoise;
 	private Perlin continentNoise;
 	private int continentNoiseOctaves = 16;
@@ -125,5 +125,11 @@ public class ChunkProviderMountains extends ChunkProvider {
 				String.format("[Mountains] Chunk (%d,%d) Min Height: %dm", X,
 						Z, minHeight));
 
+	}
+
+	@Override
+	public void configure(ConfigurationNode node) {
+		// TODO Auto-generated method stub
+		
 	}
 }

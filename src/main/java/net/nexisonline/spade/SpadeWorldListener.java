@@ -25,7 +25,7 @@ public class SpadeWorldListener extends WorldListener {
 		if(worlds!=null)
 		{
 			for(String worldName : worlds) {
-				spade.loadWorld(worldName,cfg.getString("worlds."+worldName+".chunk-manager"), cfg.getString("worlds."+worldName+".chunk-provider"));
+				spade.loadWorld(worldName,cfg.getString("worlds."+worldName+".chunk-manager.name"), cfg.getString("worlds."+worldName+".chunk-provider.name"), cfg.getNode("worlds."+worldName+".chunk-provider.config"));
 			}
 		} else {
 			for(World w : spade.getServer().getWorlds())
