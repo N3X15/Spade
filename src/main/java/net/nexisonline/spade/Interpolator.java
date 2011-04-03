@@ -110,6 +110,7 @@ public class Interpolator {
 	 * @return
 	 */
 	public static Densitymap LinearExpandDensitymap(Densitymap hm, int newheight, int newdepth, int newwidth) {
+		Densitymap ndm = new Densitymap(newheight, newdepth, newwidth);
 		double x_coord = 0;
 		double y_coord=0;
 		double z_coord = 0;
@@ -128,7 +129,7 @@ public class Interpolator {
 			int z_coord_hi = z_coord_lo + 1;
 			for (int x = 0; x < newwidth; x++) {
 				x_coord = x*width_ratio - 0.5f;
-				for (int y = 0; y < newwidth; y++) {
+				for (int y = 0; y < newdepth; y++) {
 					y_coord = y*depth_ratio - 0.5f;
 					int x_coord_lo = (int)x_coord;
 					int x_coord_hi = x_coord_lo + 1;
@@ -163,6 +164,55 @@ public class Interpolator {
 		return hm;
 	}
 	
+
+
+	
+	/**
+	 * Adapted from Oddlabs' Procedurality
+	 * @param hm
+	 * @return
+	 */
+	public static Densitymap HURP_LinearExpandDensitymap(Densitymap hm, int newheight, int newdepth, int newwidth) {
+		int ixl, ixh, iyl, iyh, izl, izh;
+		double na, nb, nc, nd, ne, nf, ng, nh;
+		double la, lb, lc, ld, le, lf;
+		Densitymap ndm = new Densitymap(newheight,newdepth,newwidth);
+		for (int z = 0; z < newheight; z++) {
+			for (int x = 0; x < newdepth; x++) {
+				for (int y = 0; y < newwidth; y++) {
+					float i = (float) (((float)x) * 1 / 0.25);
+					float j = (float) (((float)y) / 0.25 * 1);
+					float k = (float) (((float)z) * 1 / 0.25);
+					
+					ixl = (x + 0) % 4;
+					ixh = (x + 1) % 4;
+					iyl = (y + 0) % 32;
+					iyh = (y + 1) % 32;
+					izl = (z + 0) % 4;
+					izh = (z + 1) % 4;
+
+					na = hm.get(ixl, iyl, izl);
+					nb = hm.get(ixh, iyl, izl);
+					nc = hm.get(ixl, iyh, izl);
+					nd = hm.get(ixh, iyh, izl);
+					ne = hm.get(ixl, iyl, izh);
+					nf = hm.get(ixh, iyl, izh);
+					ng = hm.get(ixl, iyh, izh);
+					nh = hm.get(ixh, iyh, izh);
+
+					la = lerp(na, nb, i - (int)i);
+					lb = lerp(nc, nd, i - (int)i);
+					lc = lerp(ne, nf, j - (int)j);
+					ld = lerp(ng, nh, j - (int)j);
+					le = lerp(la, lb, k - (int)k);
+					lf = lerp(lc, ld, k - (int)k);
+
+					ndm.set(x, y, z, lerp(le, lf, i - (int)k));
+				}
+			}
+		}
+		return hm;
+	}
 	/**
 	 * Linear Interpolator
 	 * @author PrettyPony <prettypony@7chan.org>
