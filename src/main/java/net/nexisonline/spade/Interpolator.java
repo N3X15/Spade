@@ -1,6 +1,5 @@
 package net.nexisonline.spade;
 
-import com.oddlabs.procedurality.Tools;
 
 public class Interpolator {
 	/**
@@ -94,13 +93,14 @@ public class Interpolator {
 				float x_diff = (float) (x_coord - x_coord_lo);
 				val1 = lerp(hm.get(x_coord_lo, y_coord_lo),
 						hm.get(x_coord_hi, y_coord_lo),
-					x_diff);
+						x_diff);
 				val2 = lerp(hm.get(x_coord_lo, y_coord_hi),
 						hm.get(x_coord_hi, y_coord_hi),
-					x_diff);
+						x_diff);
 				hm.set(x, y, Math.max(Math.min(lerp(val1, val2, (float) (z_coord - y_coord_lo)), 1f), 0f));
 			}
 		}
+		return hm;
 	}
 
 	
@@ -113,15 +113,19 @@ public class Interpolator {
 		double x_coord = 0;
 		double y_coord=0;
 		double z_coord = 0;
-		double val1 = 0;
-		double val2 = 0;
+		double nl = 0;
+		double sl = 0;
+		double nu = 0;
+		double su = 0;
+		double l = 0;
+		double u = 0;
 		double height_ratio = (double)hm.height/newheight;
 		double width_ratio = (double)hm.width/newwidth;
 		double depth_ratio = (double)hm.depth/newdepth;
 		for (int z = 0; z < newheight; z++) {
 			z_coord = z*height_ratio - 0.5f;
-			int y_coord_lo = (int)z_coord;
-			int y_coord_hi = y_coord_lo + 1;
+			int z_coord_lo = (int)z_coord;
+			int z_coord_hi = z_coord_lo + 1;
 			for (int x = 0; x < newwidth; x++) {
 				x_coord = x*width_ratio - 0.5f;
 				for (int y = 0; y < newwidth; y++) {
@@ -129,16 +133,34 @@ public class Interpolator {
 					int x_coord_lo = (int)x_coord;
 					int x_coord_hi = x_coord_lo + 1;
 					float x_diff = (float) (x_coord - x_coord_lo);
-					val1 = lerp(hm.get(x_coord_lo,0, y_coord_lo),
-							hm.get(x_coord_hi,0, y_coord_lo),
+					float z_diff=(float) (z_coord - z_coord_lo);
+					int y_coord_lo = (int)y_coord;
+					int y_coord_hi = y_coord_lo + 1;
+					float y_diff = (float) (y_coord - y_coord_lo);
+					// north, lower
+					nl = lerp(hm.get(x_coord_lo, y_coord_lo, z_coord_lo),
+							hm.get(x_coord_hi, y_coord_lo, z_coord_lo),
 							x_diff);
-					val2 = lerp(hm.get(x_coord_lo, 0,y_coord_hi),
-							hm.get(x_coord_hi, 0,y_coord_hi),
+					// south, lower
+					sl = lerp(hm.get(x_coord_lo, y_coord_lo, z_coord_hi),
+							hm.get(x_coord_hi, y_coord_lo, z_coord_hi),
 							x_diff);
-					hm.set(x, y, z, Math.max(Math.min(lerp(val1, val2, (float) (z_coord - y_coord_lo)), 1f), 0f));
+					l=lerp(nl,sl,z_diff);
+					// north, upper
+					nu = lerp(hm.get(x_coord_lo, y_coord_lo, z_coord_lo),
+							hm.get(x_coord_hi, y_coord_lo, z_coord_lo),
+							x_diff);
+					// south, upper
+					su = lerp(hm.get(x_coord_lo, y_coord_lo, z_coord_hi),
+							hm.get(x_coord_hi, y_coord_lo, z_coord_hi),
+							x_diff);
+					u=lerp(nu,su,z_diff);
+					
+					hm.set(x, y, z, Math.max(Math.min(lerp(l, u, y_diff), 1f), 0f));
 				}
 			}
 		}
+		return hm;
 	}
 	
 	/**
@@ -178,10 +200,6 @@ public class Interpolator {
 			}
 		}
 		return hm;
-	}
-	private static int hmi(int x, int i) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	private static double lerp(double a, double b, float f) {
 		return  (a+(b-a)*f);

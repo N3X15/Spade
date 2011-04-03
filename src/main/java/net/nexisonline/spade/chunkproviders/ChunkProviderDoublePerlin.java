@@ -22,6 +22,8 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
+import net.nexisonline.spade.Densitymap;
+import net.nexisonline.spade.Interpolator;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
 
@@ -115,6 +117,31 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d) (%d>%d)",X,Z,(int)dist,(int)distanceSquared));
 			return;
 		}
+		Densitymap density = new Densitymap(4,32,4);
+
+		for (int x = 0; x < 4; x += 3)
+		{
+			for (int y = 0; y < 32; y += 3)
+			{
+				for (int z = 0; z < 4; z += 3)
+				{
+					double posX = (x + (X*16));
+					double posY = (y - 96);
+					double posZ = (z + (Z*16));
+
+					final double warp = 0.004;
+					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
+					double warpPosX = posX * warpMod;
+					double warpPosY = posY * warpMod;
+					double warpPosZ = posZ * warpMod;
+
+					double mod = m_perlinGenerator.getValue(warpPosX * 0.0005, warpPosY * 0.0005, warpPosZ * 0.005);
+
+					density.set(x, y, z, (mod*100)-(y - 64));
+				}
+			}
+		}
+		/*
 		double density[][][] = new double[16][128][16];
 
 		for (int x = 0; x < 16; x += 3)
@@ -123,9 +150,9 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			{
 				for (int z = 0; z < 16; z += 3)
 				{
-					double posX = /*Math.abs*/(x + (X*16));
-					double posY = /*Math.abs*/(y - 96);
-					double posZ = /*Math.abs*/(z + (Z*16));
+					double posX = (x + (X*16));
+					double posY = (y - 96);
+					double posZ = (z + (Z*16));
 
 					final double warp = 0.004;
 					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
@@ -187,8 +214,9 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 					}
 				}
 			}
-		}
+		}*/
 
+		density=Interpolator.LinearExpandDensitymap(density, 16, 128, 16);
 		for (int x = 0; x < 16; x++)
 		{
 			for (int y = 0; y < 128; y++)
@@ -196,7 +224,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 				for (int z = 0; z < 16; z++)
 				{
 					byte block = 0;
-					if (density[x][y][z] > 0)
+					if (density.get(x,y,z) > 0)
 					{
 						block = 1;
 					}

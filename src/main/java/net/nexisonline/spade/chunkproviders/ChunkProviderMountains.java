@@ -72,17 +72,17 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 	public void generateChunk(Object world, int X, int Z, byte[] abyte,
 			Biome[] biomes, double[] temperature) {
 		int minHeight = Integer.MAX_VALUE;
-		Heightmap hm = new Heightmap();
-		for (int x = 0; x < 16; x += 3) {
-			for (int z = 0; z < 16; z += 3) {
+		Heightmap hm = new Heightmap(4,4);
+		for (int x = 0; x < 4; x ++) {
+			for (int z = 0; z < 4; z ++) {
 				// Generate our continental noise.
 				hm.set(x,z,continentNoise.getValue(
-						(x + (X * 16)) * 0.01,
-						(z + (Z * 16)) * 0.01, 0));// *5d; // 2.0
+						((x*4) + (X * 16)) * 0.01,
+						((z*4) + (Z * 16)) * 0.01, 0));// *5d; // 2.0
 				
 			}
 		}
-		hm=Interpolator.LinearExpandHeightmap(hm);
+		hm=Interpolator.LinearExpandHeightmap(hm, 16, 16);
 
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {
