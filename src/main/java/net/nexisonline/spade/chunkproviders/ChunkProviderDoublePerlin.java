@@ -120,9 +120,9 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			{
 				for (int z = 0; z < 16; z += 3)
 				{
-					double posX = x + (X*16);
-					double posY = y - 96;
-					double posZ = z + (Z*16);
+					double posX = Math.abs(x + (X*16));
+					double posY = Math.abs(y - 96);
+					double posZ = Math.abs(z + (Z*16));
 
 					final double warp = 0.004;
 					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;

@@ -52,7 +52,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	private Perlin m_perlinGenerator;
 	private RidgedMulti m_fractalGenerator;
 	private SpadePlugin plugin;
-	
+
 	public ChunkProviderWat(SpadePlugin plugin) {
 		this.plugin=plugin;
 	}
@@ -85,7 +85,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 			m_fractalGenerator.setSeed((int)(seed*1024));
 			m_fractalGenerator.setOctaveCount(1);
 			m_fractalGenerator.setFrequency(0.25f);
-			
+
 			this.j = new Random(seed*500);
 			this.n = new NoiseGeneratorOctaves(this.j, 4);
 			this.o = new NoiseGeneratorOctaves(this.j, 4);
@@ -114,7 +114,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 			blocks=new byte[blocks.length];
 			return;
 		}
-		
+
 		double density[][][] = new double[16][128][16];
 
 		for (int x = 0; x < 16; x += 3)
@@ -127,9 +127,9 @@ public class ChunkProviderWat extends SpadeChunkProvider
 					double posY = y - 96;
 					double posZ = z + (Z*16);
 
-                                        double absPosX = Math.abs(posX);
-                                        double absPosY = Math.abs(posY);
-                                        double absPosZ = Math.abs(posZ);
+					double absPosX = Math.abs(posX);
+					double absPosY = Math.abs(posY);
+					double absPosZ = Math.abs(posZ);
 
 					final double warp = 0.004;
 					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
@@ -221,7 +221,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 
 		Logger.getLogger("Minecraft").info(String.format("[wat] Chunk (%d,%d)",X,Z));
 	}
-	
+
 	/**
 	 * Stolen standard terrain populator, screwed with to generate water at the desired height.
 	 */
@@ -310,13 +310,13 @@ public class ChunkProviderWat extends SpadeChunkProvider
 			}
 		}
 	}
-	
+
 	public void populateChunk(Object ch,int X, int Z) {
 
 		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
 			return;
 		}
-		
+
 		BlockSand.a = true;
 		int var4 = X * 16;
 		int var5 = Z * 16;
@@ -564,9 +564,9 @@ public class ChunkProviderWat extends SpadeChunkProvider
 				this.p.e(var17, var23, var19, Material.LOCKED_CHEST.getId());
 			}
 		}
-		*/
-		
-		
+		 */
+
+
 		BlockSand.a = false;
 	}
 
@@ -575,6 +575,6 @@ public class ChunkProviderWat extends SpadeChunkProvider
 		distanceSquared=node.getInt("chunks-from-spawn",0);
 		if(distanceSquared>0)
 			distanceSquared=distanceSquared^2;
-		
+
 	}
 }
