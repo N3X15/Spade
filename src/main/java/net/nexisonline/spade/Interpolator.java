@@ -157,11 +157,11 @@ public class Interpolator {
 							x_diff);
 					u=lerp(nu,su,z_diff);
 					
-					hm.set(x, y, z, Math.max(Math.min(lerp(l, u, y_diff), 1f), 0f));
+					ndm.set(x, y, z, Math.max(Math.min(lerp(l, u, y_diff), 1f), 0f));
 				}
 			}
 		}
-		return hm;
+		return ndm;
 	}
 	
 
