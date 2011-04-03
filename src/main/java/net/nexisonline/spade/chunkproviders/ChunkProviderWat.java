@@ -12,7 +12,6 @@ import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
 import net.minecraft.server.BiomeBase;
 import net.minecraft.server.BlockSand;
-import net.minecraft.server.IChunkProvider;
 import net.minecraft.server.NoiseGeneratorOctaves;
 import net.minecraft.server.WorldGenCactus;
 import net.minecraft.server.WorldGenClay;
@@ -24,13 +23,10 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
-import net.minecraft.server.WorldServer;
 
 import org.bukkit.ChunkProvider;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.util.BiomeUtils;
 
 /**
@@ -58,14 +54,14 @@ public class ChunkProviderWat extends ChunkProvider
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(World world, long seed)
+	public void onLoad(Object world, long seed)
 	{
 		this.setHasCustomTerrain(true);
 		this.setHasCustomSedimenter(true);
 		this.setHasCustomPopulator(true);
 
 		try {
-			this.p = ((CraftWorld)world).getHandle();
+			this.p = (net.minecraft.server.World)world;
 		} catch(Throwable e) {}
 
 		try
@@ -103,12 +99,8 @@ public class ChunkProviderWat extends ChunkProvider
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes, double[] temperature)
+	public void generateChunk(Object world, int X, int Z, byte[] abyte, Biome[] biomes, double[] temperature)
 	{
-		if(p==null) 
-		try{
-			this.p = ((CraftWorld)world).getHandle();
-		} catch(Throwable e) {}
 		
 		double density[][][] = new double[16][128][16];
 
@@ -217,11 +209,8 @@ public class ChunkProviderWat extends ChunkProvider
 	 * Stolen standard terrain populator, screwed with to generate water at the desired height.
 	 */
 	@Override
-	public void generateSediment(World world, int X, int Y, byte[] blocks, Biome[] biomes) {
+	public void generateSediment(Object world, int X, int Y, byte[] blocks, Biome[] biomes) {
 
-		try{
-			this.p = ((CraftWorld)world).getHandle();
-		} catch(Throwable e) {}
 		
 		double var6 = 0.03125D;
 		this.r = this.n.a(this.r, (double)(X * 16), (double)(Y * 16), 0.0D, 16, 16, 1, var6, var6, 1.0D);

@@ -5,7 +5,7 @@ import org.bukkit.World;
 
 public class ChunkProviderStock extends ChunkProvider {
 	@Override
-	public void onLoad(World world, long seed) {
+	public void onLoad(Object world, long seed) {
 		// Everything is stock.
 	}
 }

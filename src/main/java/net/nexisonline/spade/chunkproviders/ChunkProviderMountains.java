@@ -35,7 +35,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(World world, long seed) {
+	public void onLoad(Object world, long seed) {
 		setHasCustomTerrain(true);
 
 		final double Frequency = 0.1;
@@ -69,7 +69,7 @@ public class ChunkProviderMountains extends ChunkProvider {
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[] abyte,
+	public void generateChunk(Object world, int X, int Z, byte[] abyte,
 			Biome[] biomes, double[] temperature) {
 		int minHeight = Integer.MAX_VALUE;
 		Heightmap hm = new Heightmap();

@@ -20,7 +20,7 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(World world, long seed) {
+	public void onLoad(Object world, long seed) {
 		this.setHasCustomTerrain(true);
 
 		double Frequency = 0.1;
@@ -55,7 +55,7 @@ public class ChunkProviderSurrealIslands extends ChunkProvider {
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes,
+	public void generateChunk(Object world, int X, int Z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
 
 		for (int x = 0; x < 16; x+=1) {

@@ -5,10 +5,12 @@ import java.util.logging.Logger;
 import org.bukkit.ChunkProvider;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.craftbukkit.CraftWorld;
 
 public class ChunkProviderFlatGrass extends ChunkProvider {
 	private byte[] template;
-	public void onLoad(World world, long seed) {
+	
+	public void onLoad(Object world, long seed) {
 		this.setHasCustomTerrain(true);
 		
 		template=new byte[16*128*16];
@@ -23,7 +25,7 @@ public class ChunkProviderFlatGrass extends ChunkProvider {
 	}
 
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[] abyte,
+	public void generateChunk(Object world, int X, int Z, byte[] abyte,
 			Biome[] biomes, double[] temperature) {
 		abyte=template;
 		if(X==0&&Z==0) {
