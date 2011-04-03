@@ -235,7 +235,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 		for(int x = 0; x < 16; ++x) {
 			for(int z = 0; z < 16; ++z) {
 
-				double columnDist=this.plugin.getBlockDistanceToSpawn(this.worldName,x+(X*16),0,z+(Z*16));
+				//double columnDist=this.plugin.getBlockDistanceToSpawn(this.worldName,x+(X*16),0,z+(Z*16));
 				BiomeBase biome = BiomeUtils.biome2BiomeBase(biomes[x + z * 16]);
 				boolean var11 = this.r[x + z * 16] + this.j.nextDouble() * 0.2D > 0.0D;
 				boolean var12 = this.s[x + z * 16] + this.j.nextDouble() * 0.2D > 3.0D;
@@ -246,13 +246,13 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 
 				for(int y = 127; y >= 0; --y) {
 					int idx = (z * 16 + x) * 128 + y;
-					if(columnDist==(int)(this.distanceSquared-64)) {
+					/*if(columnDist==(int)(this.distanceSquared-64)) {
 						blocks[idx]=7; // Bedrock
 						continue;
 					}else if(columnDist>(int)(this.distanceSquared-64)) {
 						blocks[idx]=0; // Air
 						continue;
-					}
+					}*/
 					if(y <= 0 + this.j.nextInt(5)) {
 						blocks[idx] = (byte)Material.BEDROCK.getId();
 					} else {
