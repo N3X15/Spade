@@ -34,14 +34,14 @@ public class SpadePlugin extends JavaPlugin {
 		try {
 			return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x*16,0,z*16))/16d;
 		} catch(NullPointerException e) {
-			return 0;
+			return (new Vector(0,0,0)).distanceSquared(new Vector(x*16,0,z*16))/16d;
 		}
 	}
 	public double getBlockDistanceToSpawn(String worldName, int x, int y, int z) {
 		try {
 			return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x,y,z));
 		} catch(NullPointerException e) {
-			return 0;
+			return (new Vector(0,0,0)).distanceSquared(new Vector(x,y,z));
 		}
 	}
     public void onEnable() {
