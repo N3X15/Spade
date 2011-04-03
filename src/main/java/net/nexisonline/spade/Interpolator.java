@@ -1,5 +1,7 @@
 package net.nexisonline.spade;
 
+import com.oddlabs.procedurality.Tools;
+
 public class Interpolator {
 	/**
 	 * Density map index.
@@ -68,12 +70,83 @@ public class Interpolator {
 		}
 		return abyte;
 	}
+	
+	/**
+	 * From Oddlabs' Procedurality
+	 * @param hm
+	 * @return
+	 */
+	public static Heightmap LinearExpandHeightmap(Heightmap hm, int newheight, int newwidth) {
+		double x_coord = 0;
+		double z_coord = 0;
+		double val1 = 0;
+		double val2 = 0;
+		double height_ratio = (double)hm.height/newheight;
+		double width_ratio = (double)hm.width/newwidth;
+		for (int y = 0; y < newheight; y++) {
+			z_coord = y*height_ratio - 0.5f;
+			int y_coord_lo = (int)z_coord;
+			int y_coord_hi = y_coord_lo + 1;
+			for (int x = 0; x < newwidth; x++) {
+				x_coord = x*width_ratio - 0.5f;
+				int x_coord_lo = (int)x_coord;
+				int x_coord_hi = x_coord_lo + 1;
+				float x_diff = (float) (x_coord - x_coord_lo);
+				val1 = lerp(hm.get(x_coord_lo, y_coord_lo),
+						hm.get(x_coord_hi, y_coord_lo),
+					x_diff);
+				val2 = lerp(hm.get(x_coord_lo, y_coord_hi),
+						hm.get(x_coord_hi, y_coord_hi),
+					x_diff);
+				hm.set(x, y, Math.max(Math.min(lerp(val1, val2, (float) (z_coord - y_coord_lo)), 1f), 0f));
+			}
+		}
+	}
+
+	
+	/**
+	 * Adapted from Oddlabs' Procedurality
+	 * @param hm
+	 * @return
+	 */
+	public static Densitymap LinearExpandDensitymap(Densitymap hm, int newheight, int newdepth, int newwidth) {
+		double x_coord = 0;
+		double y_coord=0;
+		double z_coord = 0;
+		double val1 = 0;
+		double val2 = 0;
+		double height_ratio = (double)hm.height/newheight;
+		double width_ratio = (double)hm.width/newwidth;
+		double depth_ratio = (double)hm.depth/newdepth;
+		for (int z = 0; z < newheight; z++) {
+			z_coord = z*height_ratio - 0.5f;
+			int y_coord_lo = (int)z_coord;
+			int y_coord_hi = y_coord_lo + 1;
+			for (int x = 0; x < newwidth; x++) {
+				x_coord = x*width_ratio - 0.5f;
+				for (int y = 0; y < newwidth; y++) {
+					y_coord = y*depth_ratio - 0.5f;
+					int x_coord_lo = (int)x_coord;
+					int x_coord_hi = x_coord_lo + 1;
+					float x_diff = (float) (x_coord - x_coord_lo);
+					val1 = lerp(hm.get(x_coord_lo,0, y_coord_lo),
+							hm.get(x_coord_hi,0, y_coord_lo),
+							x_diff);
+					val2 = lerp(hm.get(x_coord_lo, 0,y_coord_hi),
+							hm.get(x_coord_hi, 0,y_coord_hi),
+							x_diff);
+					hm.set(x, y, z, Math.max(Math.min(lerp(val1, val2, (float) (z_coord - y_coord_lo)), 1f), 0f));
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Linear Interpolator
 	 * @author PrettyPony <prettypony@7chan.org>
 	 * @param hm 16x16 grid of height values.
 	 */
-	public static Heightmap LinearExpandHeightmap(Heightmap hm) {
+	public static Heightmap OLD_LinearExpandHeightmap(Heightmap hm) {
 		// Generate the xz plane of blocks by interpolation
 		for (int x = 0; x < 16; x += 3)
 		{
