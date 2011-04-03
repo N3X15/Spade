@@ -47,7 +47,7 @@ public class ChunkProviderWat extends ChunkProvider
 	private NoiseGeneratorOctaves o;
 	private Random j;
 	private NoiseGeneratorOctaves c;
-	net.minecraft.server.World p;
+	net.minecraft.server.World p=null;
 
 	private Perlin m_perlinGenerator;
 	private RidgedMulti m_fractalGenerator;
@@ -105,8 +105,10 @@ public class ChunkProviderWat extends ChunkProvider
 	@Override
 	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes, double[] temperature)
 	{
-		if(p==null)
+		if(p==null) 
+		try{
 			this.p = ((CraftWorld)world).getHandle();
+		} catch(Throwable e) {}
 		
 		double density[][][] = new double[16][128][16];
 
@@ -217,8 +219,9 @@ public class ChunkProviderWat extends ChunkProvider
 	@Override
 	public void generateSediment(World world, int X, int Y, byte[] blocks, Biome[] biomes) {
 
-		if(p==null)
+		try{
 			this.p = ((CraftWorld)world).getHandle();
+		} catch(Throwable e) {}
 		
 		double var6 = 0.03125D;
 		this.r = this.n.a(this.r, (double)(X * 16), (double)(Y * 16), 0.0D, 16, 16, 1, var6, var6, 1.0D);
