@@ -75,6 +75,11 @@ public class ChunkProviderDoublePerlin extends ChunkProvider
 			m_fractalGenerator.setSeed((int)(seed*1024) + 55);
 			m_fractalGenerator.setOctaveCount(1);
 			m_fractalGenerator.setFrequency(3f);
+			
+			this.j = new Random(seed+77);
+			this.n = new NoiseGeneratorOctaves(this.j, 4);
+			this.o = new NoiseGeneratorOctaves(this.j, 4);
+			this.c = new NoiseGeneratorOctaves(this.j, 8);
 		}
 		catch (Exception e)
 		{
