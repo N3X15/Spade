@@ -120,7 +120,7 @@ public class ChunkProviderWat extends ChunkProvider
                                         double absPosZ = Math.abs(posZ);
 
 					final double warp = 0.004;
-					double warpMod = m_fractalGenerator.getValue(absPosX * warp, absPosY * warp, absPosZ * warp) * 5;
+					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
 					double warpPosX = absPosX * warpMod;
 					double warpPosY = absPosY * warpMod;
 					double warpPosZ = absPosZ * warpMod;
