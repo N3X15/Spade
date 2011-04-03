@@ -109,7 +109,7 @@ public class Interpolator {
 	 * @param hm
 	 * @return
 	 */
-	public static Densitymap LinearExpandDensitymap(Densitymap hm, int newheight, int newdepth, int newwidth) {
+	public static Densitymap _DERPLinearExpandDensitymap(Densitymap hm, int newheight, int newdepth, int newwidth) {
 		Densitymap ndm = new Densitymap(newheight, newdepth, newwidth);
 		double x_coord = 0;
 		double y_coord=0;
@@ -166,13 +166,7 @@ public class Interpolator {
 	
 
 
-	
-	/**
-	 * Adapted from Oddlabs' Procedurality
-	 * @param hm
-	 * @return
-	 */
-	public static Densitymap HURP_LinearExpandDensitymap(Densitymap hm, int newheight, int newdepth, int newwidth) {
+	public static Densitymap LinearExpandDensitymap(Densitymap hm, int newheight, int newdepth, int newwidth) {
 		int ixl, ixh, iyl, iyh, izl, izh;
 		double na, nb, nc, nd, ne, nf, ng, nh;
 		double la, lb, lc, ld, le, lf;
