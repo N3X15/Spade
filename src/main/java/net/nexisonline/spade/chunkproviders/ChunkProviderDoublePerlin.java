@@ -117,6 +117,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d) (%d>%d)",X,Z,(int)dist,(int)distanceSquared));
 			return;
 		}
+		/*
 		Densitymap density = new Densitymap(4,32,4);
 
 		for (int x = 0; x < 4; x += 3)
@@ -141,7 +142,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 				}
 			}
 		}
-		/*
+		/*/
 		double density[][][] = new double[16][128][16];
 
 		for (int x = 0; x < 16; x += 3)
@@ -214,9 +215,9 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 					}
 				}
 			}
-		}*/
+		}
 
-		density=Interpolator.LinearExpandDensitymap(density, 16, 128, 16);
+		//density=Interpolator.LinearExpandDensitymap(density, 16, 128, 16);
 		for (int x = 0; x < 16; x++)
 		{
 			for (int y = 0; y < 128; y++)
@@ -224,7 +225,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 				for (int z = 0; z < 16; z++)
 				{
 					byte block = 0;
-					if (density.get(x,y,z) > 0)
+					if (density[x][y][z] > 0)
 					{
 						block = 1;
 					}
