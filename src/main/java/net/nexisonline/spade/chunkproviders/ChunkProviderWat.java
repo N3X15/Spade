@@ -12,6 +12,7 @@ import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
 import net.minecraft.server.BiomeBase;
 import net.minecraft.server.BlockSand;
+import net.minecraft.server.IChunkProvider;
 import net.minecraft.server.NoiseGeneratorOctaves;
 import net.minecraft.server.WorldGenCactus;
 import net.minecraft.server.WorldGenClay;
@@ -45,8 +46,8 @@ public class ChunkProviderWat extends ChunkProvider
 	private NoiseGeneratorOctaves n;
 	private NoiseGeneratorOctaves o;
 	private Random j;
-	private WorldServer p;
 	private NoiseGeneratorOctaves c;
+	net.minecraft.server.World p;
 
 	private Perlin m_perlinGenerator;
 	private RidgedMulti m_fractalGenerator;
@@ -62,7 +63,10 @@ public class ChunkProviderWat extends ChunkProvider
 		this.setHasCustomTerrain(true);
 		this.setHasCustomSedimenter(true);
 		this.setHasCustomPopulator(true);
-		this.p=((CraftWorld)world).getHandle();
+
+		try {
+			this.p = ((CraftWorld)world).getHandle();
+		} catch(Exception e) {}
 
 		try
 		{
@@ -101,6 +105,9 @@ public class ChunkProviderWat extends ChunkProvider
 	@Override
 	public void generateChunk(World world, int X, int Z, byte[] abyte, Biome[] biomes, double[] temperature)
 	{
+		if(p==null)
+			this.p = ((CraftWorld)world).getHandle();
+		
 		double density[][][] = new double[16][128][16];
 
 		for (int x = 0; x < 16; x += 3)
@@ -208,7 +215,11 @@ public class ChunkProviderWat extends ChunkProvider
 	 * Stolen standard terrain populator, screwed with to generate water at the desired height.
 	 */
 	@Override
-	public void generateSediment(World wrld, int X, int Y, byte[] blocks, Biome[] biomes) {
+	public void generateSediment(World world, int X, int Y, byte[] blocks, Biome[] biomes) {
+
+		if(p==null)
+			this.p = ((CraftWorld)world).getHandle();
+		
 		double var6 = 0.03125D;
 		this.r = this.n.a(this.r, (double)(X * 16), (double)(Y * 16), 0.0D, 16, 16, 1, var6, var6, 1.0D);
 		this.s = this.n.a(this.s, (double)(X * 16), 109.0134D, (double)(Y * 16), 16, 1, 16, var6, 1.0D, var6);
