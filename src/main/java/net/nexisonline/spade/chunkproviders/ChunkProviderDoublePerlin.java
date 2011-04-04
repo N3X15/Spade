@@ -128,7 +128,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 					double posZ = (z + (Z*16));
 
 					final double warp = 0.004;
-					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 8;
+					double warpMod = Math.abs(m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 8);
 					double warpPosX = posX * warpMod;
 					double warpPosY = posY * warpMod;
 					double warpPosZ = posZ * warpMod;
@@ -222,7 +222,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 				for (int z = 0; z < 16; z++)
 				{
 					byte block = 0;
-					if ((int)density[x][y][z] > 2)
+					if ((int)density[x][y][z] > 5)
 					{
 						block = 1;
 					}
