@@ -83,9 +83,9 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			m_perlinGenerator.setOctaveCount(1);
 			m_perlinGenerator.setFrequency(1f);
 
-			m_fractalGenerator.setSeed((int)(seed*1024) + 55);
+			m_fractalGenerator.setSeed((int)(seed*1024) + 1);
 			m_fractalGenerator.setOctaveCount(1);
-			m_fractalGenerator.setFrequency(3f);
+			m_fractalGenerator.setFrequency(2f);
 			
 			this.j = new Random(seed+77);
 			this.n = new NoiseGeneratorOctaves(this.j, 4);
@@ -131,12 +131,12 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 					double posZ = (z + (Z*16));
 
 					final double warp = 0.004;
-					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
+					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 8;
 					double warpPosX = posX * warpMod;
 					double warpPosY = posY * warpMod;
 					double warpPosZ = posZ * warpMod;
 
-					double mod = m_perlinGenerator.getValue(warpPosX * 0.0005, warpPosY * 0.0005, warpPosZ * 0.005);
+					double mod = m_perlinGenerator.getValue(warpPosX * 0.0005, warpPosY * 0.0005, warpPosZ * 0.0005);
 
 					density.set(x, y, z, (mod*100)-(y - 64));
 				}
