@@ -109,7 +109,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
-		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
 			blocks=new byte[blocks.length];
 			return;
 		}
@@ -226,7 +226,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	 */
 	@Override
 	public void generateSediment(Object world, int X, int Z, byte[] blocks, Biome[] biomes) {
-		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
 			blocks=new byte[blocks.length];
 			return;
 		}
@@ -237,7 +237,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 
 		for(int x = 0; x < 16; ++x) {
 			for(int z = 0; z < 16; ++z) {
-				double columnDist=this.plugin.getBlockDistanceToSpawn(this.worldName,x+(X*16),0,z+(Z*16));
+				//double columnDist=this.plugin.getBlockDistanceToSpawn(this.worldName,x+(X*16),0,z+(Z*16));
 				BiomeBase biome = BiomeUtils.biome2BiomeBase(biomes[x + z * 16]);
 				boolean var11 = this.r[x + z * 16] + this.j.nextDouble() * 0.2D > 0.0D;
 				boolean var12 = this.s[x + z * 16] + this.j.nextDouble() * 0.2D > 3.0D;
@@ -247,13 +247,14 @@ public class ChunkProviderWat extends SpadeChunkProvider
 				byte soil = biome.p;
 				for(int y = 127; y >= 0; --y) {
 					int idx = (z * 16 + x) * 128 + y;
+					/*
 					if(columnDist==(int)(this.distanceSquared-(8^2))) {
 						blocks[idx]=7; // Bedrock
 						continue;
 					}else if(columnDist>(int)(this.distanceSquared-(8^2))) {
 						blocks[idx]=0; // Air
 						continue;
-					}
+					}*/
 					if(y <= 0 + this.j.nextInt(5)) {
 						blocks[idx] = (byte)Material.BEDROCK.getId();
 					} else {
@@ -312,7 +313,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 
 	public void populateChunk(Object ch,int X, int Z) {
 
-		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
 			return;
 		}
 

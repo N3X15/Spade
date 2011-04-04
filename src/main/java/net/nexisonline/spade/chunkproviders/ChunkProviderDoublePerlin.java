@@ -111,10 +111,10 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
-		if (X > 64 || X < -64 || Z > 64 || Z < -64)
+		if(plugin.shouldGenerateChunk(worldName,X,Z))
 		{
 				blocks=new byte[blocks.length];
-				Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)",X,Z);
+				Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)",X,Z));
 				return;
 		}
 
@@ -245,7 +245,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			}
 		}
 
-		Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] Chunk (%d,%d) (%d<=%d)",X,Z,(int)dist,(int)distanceSquared));
+		Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] Chunk (%d,%d)",X,Z));
 	}
 	
 	/**
@@ -253,7 +253,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	 */
 	@Override
 	public void generateSediment(Object world, int X, int Z, byte[] blocks, Biome[] biomes) {
-		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
 			blocks=new byte[blocks.length];
 			return;
 		}		
@@ -341,7 +341,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	}
 	
 	public void populateChunk(Object ch,int X, int Z) {
-		if(this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z)>this.distanceSquared) {
+		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
 			return;
 		}
 		BlockSand.a = true;
@@ -600,9 +600,6 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 		if(node==null) {
 			node = Configuration.getEmptyNode();
 		}
-		distanceSquared=node.getInt("chunks-from-spawn",0);
-		if(distanceSquared>0)
-			distanceSquared=(int) Math.pow(distanceSquared,2);
 		return node;
 	}
 }

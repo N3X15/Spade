@@ -29,21 +29,8 @@ import org.bukkit.util.config.ConfigurationNode;
 public class SpadePlugin extends JavaPlugin {
     private final SpadeWorldListener worldListener = new SpadeWorldListener(this);
 	private HashMap<String,SpadeChunkProvider> chunkProviders = new HashMap<String,SpadeChunkProvider>();
+	public HashMap<String, GenerationLimits> genLimits = new HashMap<String, GenerationLimits>();
 
-	public double getChunkDistanceToSpawn(String worldName, int x, int z) {
-		try {
-			return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x*16,0,z*16))/16d;
-		} catch(NullPointerException e) {
-			return (new Vector(0,0,0)).distanceSquared(new Vector(x*16,0,z*16))/16d;
-		}
-	}
-	public double getBlockDistanceToSpawn(String worldName, int x, int y, int z) {
-		try {
-			return getServer().getWorld(worldName).getSpawnLocation().toVector().distanceSquared(new Vector(x,y,z));
-		} catch(NullPointerException e) {
-			return (new Vector(0,0,0)).distanceSquared(new Vector(x,y,z));
-		}
-	}
     public void onEnable() {
         // Register our events
         PluginManager pm = getServer().getPluginManager();
@@ -82,6 +69,20 @@ public class SpadePlugin extends JavaPlugin {
 		node=cp.configure(node);
 		getServer().createWorld(worldName, Environment.NORMAL, (new Random()).nextLong(), null, cp);
 		return node;
+	}
+	public boolean shouldGenerateChunk(String worldName, int x, int z) {
+		GenerationLimits gl = genLimits.get(worldName);
+		if(gl==null)
+			return true;
+		if(gl.round) {
+			long d2 = Math.round(Math.pow(x-gl.distance,2)+Math.pow(z-gl.distance,2));
+			return(d2>gl.distanceSquared);
+		} else {
+			return (x > gl.distance || x < -gl.distance || z > gl.distance || z < -gl.distance);
+		}
+	}
+	public double getBlockDistanceToSpawn(String worldName, int i, int j, int k) {
+		return 0;
 	}
 
 }

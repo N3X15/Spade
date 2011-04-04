@@ -31,7 +31,11 @@ public class SpadeWorldListener extends WorldListener {
 		if(worlds!=null)
 		{
 			for(String worldName : worlds) {
-				spade.loadWorld(worldName,cfg.getString("worlds."+worldName+".chunk-manager.name"), cfg.getString("worlds."+worldName+".chunk-provider.name"), cfg.getNode("worlds."+worldName+".chunk-provider.config"));
+				spade.genLimits.put(worldName, new GenerationLimits(cfg.getNode("worlds."+worldName+".limits")));
+				spade.loadWorld(worldName,
+						cfg.getString("worlds."+worldName+".chunk-manager.name"), 
+						cfg.getString("worlds."+worldName+".chunk-provider.name"), 
+						cfg.getNode("worlds."+worldName+".chunk-provider.config"));
 			}
 		} else {
 			for(World w : spade.getServer().getWorlds())
@@ -41,6 +45,7 @@ public class SpadeWorldListener extends WorldListener {
 				cfg.setProperty("worlds."+worldName+".chunk-manager.config", null);
 				cfg.setProperty("worlds."+worldName+".chunk-provider.name", "stock");
 				cfg.setProperty("worlds."+worldName+".chunk-provider.config", null);
+				cfg.setProperty("worlds."+worldName+".limits",(new GenerationLimits()).getConfig());
 			}
 			cfg.save();
 		}
