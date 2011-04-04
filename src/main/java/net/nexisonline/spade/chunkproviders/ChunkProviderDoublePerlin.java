@@ -75,11 +75,11 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			m_perlinGenerator = new Perlin(); //new Perlin();
 			m_fractalGenerator = new Perlin(); //new Perlin();
 
-			m_perlinGenerator.setSeed((int)(seed*1024));
+			m_perlinGenerator.setSeed(1234);
 			m_perlinGenerator.setOctaveCount(1);
 			m_perlinGenerator.setFrequency(1f);
 
-			m_fractalGenerator.setSeed((int)(seed*1024) + 1);
+			m_fractalGenerator.setSeed(1235);
 			m_fractalGenerator.setOctaveCount(1);
 			m_fractalGenerator.setFrequency(2f);
 			
