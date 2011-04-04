@@ -245,7 +245,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			}
 		}
 
-		Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] Chunk (%d,%d) (%d<=%d)",X,Z,(int)dist,(int)distanceSquared));
+		Logger.getLogger("Minecraft").info(String.format("[DoublePerlin %s] Chunk (%d,%d) (%d<=%d)",m_perlinGenerator.getSeed().toString(),X,Z,(int)dist,(int)distanceSquared));
 	}
 	
 	/**
