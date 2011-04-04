@@ -368,7 +368,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 		}
 
 		int z;
-		for(var13 = 0; var13 < 8; ++var13) {
+		for(var13 = 0; var13 < 16; ++var13) {
 			x = var4 + this.j.nextInt(16) + 8;
 			y = this.j.nextInt(128);
 			z = var5 + this.j.nextInt(16) + 8;
@@ -417,12 +417,13 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			(new WorldGenMinable(Material.GOLD_ORE.getId(), 8)).a(this.p, this.j, x, y, z);
 		}
 
-		// ADDED GLOWSTONE, MAX OF 8 PER CHUNK
-		for(var13 = 0; var13 < 8; ++var13) {
+		// ADDED GLOWSTONE, MAX OF 12 PER CHUNK, MAX HEIGHT 128
+		for(var13 = 0; var13 < 12; ++var13) {
 			x = var4 + this.j.nextInt(16);
-			y = this.j.nextInt(32);
+			y = this.j.nextInt(128);
 			z = var5 + this.j.nextInt(16);
-			(new WorldGenMinable(Material.GLOWSTONE.getId(), 32)).a(this.p, this.j, x, y, z);
+			(new WorldGenMinable(Material.NETHERRACK.getId(), 32)).a(this.p, this.j, x, y, z);
+			(new WorldGenMinable(Material.GLOWSTONE.getId(), 16)).a(this.p, this.j, x, y, z);
 		}
 
 		for(var13 = 0; var13 < 8; ++var13) {
