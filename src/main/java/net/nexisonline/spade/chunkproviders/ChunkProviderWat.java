@@ -109,7 +109,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
-		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
+		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			blocks=new byte[blocks.length];
 			return;
 		}
@@ -226,7 +226,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	 */
 	@Override
 	public void generateSediment(Object world, int X, int Z, byte[] blocks, Biome[] biomes) {
-		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
+		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			blocks=new byte[blocks.length];
 			return;
 		}
@@ -313,7 +313,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 
 	public void populateChunk(Object ch,int X, int Z) {
 
-		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
+		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			return;
 		}
 

@@ -107,7 +107,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
-		if(plugin.shouldGenerateChunk(worldName,X,Z))
+		if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		{
 				blocks=new byte[blocks.length];
 				Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)",X,Z));
@@ -248,7 +248,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	 */
 	@Override
 	public void generateSediment(Object world, int X, int Z, byte[] blocks, Biome[] biomes) {
-		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
+		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			blocks=new byte[blocks.length];
 			return;
 		}		
@@ -336,7 +336,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	}
 	
 	public void populateChunk(Object ch,int X, int Z) {
-		if(plugin.shouldGenerateChunk(worldName,X,Z)) {
+		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			return;
 		}
 		BlockSand.a = true;
