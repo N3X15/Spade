@@ -12,13 +12,11 @@ import net.nexisonline.spade.chunkproviders.ChunkProviderWat;
 import net.nexisonline.spade.commands.SetWorldGenCommand;
 import net.nexisonline.spade.commands.TP2WorldCommand;
 
-import org.bukkit.ChunkProvider;
 import org.bukkit.World.Environment;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
 import org.bukkit.util.config.ConfigurationNode;
 
 /**
@@ -81,7 +79,7 @@ public class SpadePlugin extends JavaPlugin {
 			return (x > gl.distance || x < -gl.distance || z > gl.distance || z < -gl.distance);
 		}
 	}
-	public double getBlockDistanceToSpawn(String worldName, int i, int j, int k) {
+	public double getBlockDistanceToSpawn(String worldName, int x, int y, int z) {
 		return 0;
 	}
 

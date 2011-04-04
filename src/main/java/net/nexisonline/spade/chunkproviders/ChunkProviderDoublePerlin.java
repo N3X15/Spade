@@ -22,8 +22,6 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
-import net.nexisonline.spade.Densitymap;
-import net.nexisonline.spade.Interpolator;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
 
@@ -52,8 +50,6 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	private Perlin m_perlinGenerator;
 	private Perlin m_fractalGenerator;
 	private SpadePlugin plugin;
-	private int distanceSquared;
-	
 	public ChunkProviderDoublePerlin(SpadePlugin plugin) {
 		this.plugin=plugin;
 	}
@@ -244,8 +240,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 				}
 			}
 		}
-
-		Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] Chunk (%d,%d)",X,Z));
+		Logger.getLogger("Minecraft").info(String.format("[DoublePerlin %d] Chunk (%d,%d)",m_perlinGenerator.getSeed(),X,Z));
 	}
 	
 	/**
