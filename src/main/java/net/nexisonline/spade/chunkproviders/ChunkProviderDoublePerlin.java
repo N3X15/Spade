@@ -111,12 +111,13 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
-		double dist = this.plugin.getChunkDistanceToSpawn(this.worldName,X,Z);
-		if(dist>this.distanceSquared) {
-			blocks=new byte[blocks.length];
-			Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d) (%d>%d)",X,Z,(int)dist,(int)distanceSquared));
-			return;
+		if (X > 64 || X < -64 || Z > 64 || Z < -64)
+		{
+				blocks=new byte[blocks.length];
+				Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)",X,Z);
+				return;
 		}
+
 		/*
 		Densitymap density = new Densitymap(4,32,4);
 
