@@ -69,14 +69,18 @@ public class SpadePlugin extends JavaPlugin {
 		return node;
 	}
 	public boolean shouldGenerateChunk(String worldName, int x, int z) {
-		GenerationLimits gl = genLimits.get(worldName);
+		GenerationLimits gl = genLimits.get(worldName.toLowerCase());
 		if(gl==null)
 			return true;
+		
+		if(!gl.enabled)
+			return true;
+		
 		if(gl.round) {
 			long d2 = Math.round(Math.pow(x-gl.distance,2)+Math.pow(z-gl.distance,2));
-			return(d2>gl.distanceSquared);
+			return(d2 < gl.distanceSquared);
 		} else {
-			return (x > gl.distance || x < -gl.distance || z > gl.distance || z < -gl.distance);
+			return (x < gl.distance || x < -gl.distance || z < gl.distance || z < -gl.distance);
 		}
 	}
 	public double getBlockDistanceToSpawn(String worldName, int x, int y, int z) {

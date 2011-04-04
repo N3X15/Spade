@@ -7,7 +7,7 @@ public class GenerationLimits {
 	public boolean round=false;
 	public int distanceSquared=10000;
 	public int distance=100;
-	private boolean enabled=false;
+	public boolean enabled=false;
 	
 	public GenerationLimits() { }
 		

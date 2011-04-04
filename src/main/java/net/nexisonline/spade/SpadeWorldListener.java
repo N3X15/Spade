@@ -31,7 +31,7 @@ public class SpadeWorldListener extends WorldListener {
 		if(worlds!=null)
 		{
 			for(String worldName : worlds) {
-				spade.genLimits.put(worldName, new GenerationLimits(cfg.getNode("worlds."+worldName+".limits")));
+				spade.genLimits.put(worldName.toLowerCase(), new GenerationLimits(cfg.getNode("worlds."+worldName+".limits")));
 				spade.loadWorld(worldName,
 						cfg.getString("worlds."+worldName+".chunk-manager.name"), 
 						cfg.getString("worlds."+worldName+".chunk-provider.name"), 
