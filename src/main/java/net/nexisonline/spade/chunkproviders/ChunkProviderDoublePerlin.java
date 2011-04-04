@@ -99,7 +99,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 
 	private static double lerp(double a, double b, double f)
 	{
-		return (a * (1 - f) + b * f);
+		return (a + (a - b) * f);
 	}
 
 	/*
