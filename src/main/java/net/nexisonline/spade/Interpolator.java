@@ -246,6 +246,6 @@ public class Interpolator {
 		return hm;
 	}
 	private static double lerp(double a, double b, float f) {
-		return  (a+(b-a)*f);
+		return  (a * (1 - f) + b * f);
 	}
 }
