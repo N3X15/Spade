@@ -222,7 +222,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 				for (int z = 0; z < 16; z++)
 				{
 					byte block = 0;
-					if (density[x][y][z] > 0)
+					if ((int)density[x][y][z] > 2)
 					{
 						block = 1;
 					}
