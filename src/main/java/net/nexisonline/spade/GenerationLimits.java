@@ -1,5 +1,8 @@
 package net.nexisonline.spade;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
@@ -20,11 +23,11 @@ public class GenerationLimits {
 		distanceSquared=(int) Math.pow(distance, 2);
 	}
 
-	public ConfigurationNode getConfig() {
-		ConfigurationNode node = Configuration.getEmptyNode();
-		node.setProperty("enabled", enabled);
-		node.setProperty("round", round);
-		node.setProperty("chunks-from-spawn",distance);
+	public Map<String,Object> getConfig() {
+		Map<String,Object> node = new HashMap<String,Object>();
+		node.put("enabled", enabled);
+		node.put("round", round);
+		node.put("chunks-from-spawn",distance);
 		return node;
 	}
 }
