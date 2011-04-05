@@ -31,6 +31,8 @@ import org.bukkit.craftbukkit.util.BiomeUtils;
 import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
+import toxi.math.noise.SimplexOctaves;
+
 /**
  * @author PrettyPonyyy
  *
@@ -50,6 +52,8 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	private Perlin m_perlinGenerator;
 	private Perlin m_fractalGenerator;
 	private SpadePlugin plugin;
+	private SimplexOctaves m_simplexGenerator;
+	private SimplexOctaves m_simplexGenerator2;
 	public ChunkProviderDoublePerlin(SpadePlugin plugin) {
 		this.plugin=plugin;
 	}
@@ -75,6 +79,10 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			m_perlinGenerator = new Perlin(); //new Perlin();
 			m_fractalGenerator = new Perlin(); //new Perlin();
 
+			m_simplexGenerator=new SimplexOctaves(1234,4);
+			m_simplexGenerator2=new SimplexOctaves(1234+51,4);
+			
+			/*
 			m_perlinGenerator.setSeed(1234);
 			m_perlinGenerator.setOctaveCount(1);
 			m_perlinGenerator.setFrequency(1f);
@@ -82,6 +90,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			m_fractalGenerator.setSeed(1235);
 			m_fractalGenerator.setOctaveCount(1);
 			m_fractalGenerator.setFrequency(2f);
+			*/
 			
 			this.j = new Random(seed+77);
 			this.n = new NoiseGeneratorOctaves(this.j, 4);
@@ -153,12 +162,12 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 					double posZ = (z + (Z*16));
 
 					final double warp = 0.004;
-					double warpMod = m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
+					double warpMod = m_simplexGenerator.noise(posX * warp, posY * warp, posZ * warp) * 5;//m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 5;
 					double warpPosX = posX * warpMod;
 					double warpPosY = posY * warpMod;
 					double warpPosZ = posZ * warpMod;
 
-					double mod = m_perlinGenerator.getValue(warpPosX * 0.0005, warpPosY * 0.0005, warpPosZ * 0.005);
+					double mod = m_simplexGenerator2.noise(warpPosX * 0.0005, warpPosY * 0.0005, warpPosZ * 0.005);//m_perlinGenerator.getValue(warpPosX * 0.0005, warpPosY * 0.0005, warpPosZ * 0.005);
 
 					density[x][y][z] = -(y - 64);
 					density[x][y][z] += mod * 100;
