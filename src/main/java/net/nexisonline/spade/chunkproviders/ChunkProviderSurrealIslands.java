@@ -43,7 +43,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					
 					// If below height, set rock. Otherwise, set air.
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
-					block = (y <= 5 && block==9) ? (byte)Material.SAND.getId() : block;
+					block = (y <= 32) ? (byte)Material.STONE.getId() : block;
 					block = (y <= 1) ? (byte)Material.BEDROCK.getId() : block;
 					
 					// Origin point + sand to prevent 5000 years of loading.
