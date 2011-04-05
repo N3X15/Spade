@@ -8,17 +8,17 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.util.config.ConfigurationNode;
 
-import toxi.math.noise.SimplexNoise;
+import toxi.math.noise.SimplexOctaves;
 
 public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
-	private SimplexNoise terrainNoiseA;
-	private SimplexNoise terrainNoiseB;
+	private SimplexOctaves terrainNoiseA;
+	private SimplexOctaves terrainNoiseB;
 	@Override
 	public void onLoad(Object world, long seed) {
 		this.setHasCustomTerrain(true);
 		try {
-			terrainNoiseA=new SimplexNoise(seed);
-			terrainNoiseB=new SimplexNoise(seed+51);
+			terrainNoiseA=new SimplexOctaves(seed,4);
+			terrainNoiseB=new SimplexOctaves(seed+51,4);
 		} catch (Exception e) {
 		}
 	}
@@ -37,7 +37,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		for (int x = 0; x < 16; x+=1) {
 			for (int z = 0; z < 16; z+=1) {
 				for (int y = 0; y < 128; y+=1) {
-					
 					double a = terrainNoiseA.noise((double)(x+(X*16))*SCALE, (double)y*SCALE , (double)(z+(Z*16))*SCALE);
 					double b = terrainNoiseB.noise((double)(x+(X*16))*SCALE, (double)y*SCALE , (double)(z+(Z*16))*SCALE);
 					byte block = (byte) ((a*b<THRESHOLD) ? Material.STONE.getId() : Material.AIR.getId());
@@ -62,7 +61,5 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	@Override
 	public ConfigurationNode configure(ConfigurationNode node) {
 		return node;
-		// TODO Auto-generated method stub
-		
 	}
 }
