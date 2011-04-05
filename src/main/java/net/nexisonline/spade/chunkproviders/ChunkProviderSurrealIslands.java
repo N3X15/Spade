@@ -1,35 +1,24 @@
 package net.nexisonline.spade.chunkproviders;
 
-import java.util.Random;
 import java.util.logging.Logger;
 
-import net.minecraft.server.NoiseGeneratorOctaves;
-import net.minecraft.server.NoiseGeneratorPerlin;
 import net.nexisonline.spade.SpadeChunkProvider;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.util.config.ConfigurationNode;
 
+import toxi.math.noise.SimplexNoise;
+
 public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
-	 */
-	private Random randA;
-	private Random randB;
-	private NoiseGeneratorPerlin terrainNoiseA;
-	private NoiseGeneratorPerlin terrainNoiseB;
+	private SimplexNoise terrainNoiseA;
+	private SimplexNoise terrainNoiseB;
 	@Override
 	public void onLoad(Object world, long seed) {
 		this.setHasCustomTerrain(true);
-
-		this.randA=new Random(seed);
-		this.randB=new Random(seed+51);
 		try {
-			terrainNoiseA=new NoiseGeneratorPerlin(randA);
-			terrainNoiseB=new NoiseGeneratorPerlin(randB);
+			terrainNoiseA=new SimplexNoise(seed);
+			terrainNoiseB=new SimplexNoise(seed+51);
 		} catch (Exception e) {
 		}
 	}
@@ -47,8 +36,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		for (int x = 0; x < 16; x+=1) {
 			for (int z = 0; z < 16; z+=1) {
 				for (int y = 0; y < 128; y+=1) {
-					double a = terrainNoiseA.a(x+(X*16)*0.0001, y*0.0001 , z+(Z*16)*0.0001);
-					double b = terrainNoiseB.a(x+(X*16)*0.0001, y*0.0001 , z+(Z*16)*0.0001);
+					double a = terrainNoiseA.noise(x+(X*16)*0.0001, y*0.0001 , z+(Z*16)*0.0001);
+					double b = terrainNoiseB.noise(x+(X*16)*0.0001, y*0.0001 , z+(Z*16)*0.0001);
 					byte block = (byte) ((a*b>0d) ? Material.STONE.getId() : Material.AIR.getId());
 					
 					// If below height, set rock. Otherwise, set air.
