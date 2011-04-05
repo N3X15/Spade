@@ -33,13 +33,12 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	public void generateChunk(Object world, int X, int Z, byte[] abyte, Biome[] biomes,
 			double[] temperature) {
 		final double SCALE=0.01;
-		final double THRESHOLD=-0.3;
 		for (int x = 0; x < 16; x+=1) {
 			for (int z = 0; z < 16; z+=1) {
 				for (int y = 0; y < 128; y+=1) {
 					double a = terrainNoiseA.noise((double)(x+(X*16))*SCALE, (double)y*SCALE , (double)(z+(Z*16))*SCALE);
 					double b = terrainNoiseB.noise((double)(x+(X*16))*SCALE, (double)y*SCALE , (double)(z+(Z*16))*SCALE);
-					byte block = (byte) ((a*b<1-(y/128)*THRESHOLD) ? Material.STONE.getId() : Material.AIR.getId());
+					byte block = (byte) ((a*b<1-(y/128)) ? Material.STONE.getId() : Material.AIR.getId());
 					
 					// If below height, set rock. Otherwise, set air.
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
