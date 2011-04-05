@@ -38,7 +38,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 				for (int y = 0; y < 128; y+=1) {
 					double a = terrainNoiseA.noise((double)(x+(X*16))*SCALE, (double)y*SCALE , (double)(z+(Z*16))*SCALE);
 					double b = terrainNoiseB.noise((double)(x+(X*16))*SCALE, (double)y*SCALE , (double)(z+(Z*16))*SCALE);
-					byte block = (byte) ((a*b<1-(y/128)) ? Material.STONE.getId() : Material.AIR.getId());
+					byte block = (byte) ((a*b<(y/128)) ? Material.STONE.getId() : Material.AIR.getId());
 					
 					// If below height, set rock. Otherwise, set air.
 					block = (y <= 63 && block == 0) ? (byte) 9 : block; // Water
