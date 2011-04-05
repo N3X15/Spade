@@ -239,6 +239,11 @@ public class SimplexNoise {
 		return 70.0 * (n0 + n1 + n2);
 	}
 
+        public double sample(double x, double y, double z, double frequency, double amplitude)
+        {
+                return noise(x * frequency, y * frequency, z * frequency) * amplitude;
+        }
+
 	/**
 	 * Computes 3D Simplex Noise.
 	 * 
