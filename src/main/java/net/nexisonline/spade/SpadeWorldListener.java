@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.World;
 import org.bukkit.event.world.WorldListener;
 import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.util.config.Configuration;
 
 
@@ -18,9 +19,10 @@ public class SpadeWorldListener extends WorldListener {
 	}
 	
 	@Override
-	public void onWorldLoad(WorldLoadEvent e) {
-		
-	}
+	public void onWorldLoad(WorldLoadEvent e) {}
+	
+	@Override
+	public void onWorldSave(WorldSaveEvent e) {}
 
 	public void loadWorlds() {		
 		File f = new File("plugins/Spade/Spade.yml");

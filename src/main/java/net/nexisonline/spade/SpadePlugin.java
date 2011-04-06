@@ -54,7 +54,7 @@ public class SpadePlugin extends JavaPlugin {
 		chunkProviders.put("stock", new ChunkProviderStock());
 		chunkProviders.put("flatgrass", new ChunkProviderFlatGrass());
 		chunkProviders.put("mountains", new ChunkProviderMountains());
-		chunkProviders.put("islands", new ChunkProviderSurrealIslands());
+		chunkProviders.put("islands", new ChunkProviderSurrealIslands(this));
 		chunkProviders.put("wat", new ChunkProviderWat(this));
 		chunkProviders.put("doubleperlin", new ChunkProviderDoublePerlin(this));
 	}
