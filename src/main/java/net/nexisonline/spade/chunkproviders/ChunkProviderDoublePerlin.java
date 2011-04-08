@@ -50,7 +50,6 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	net.minecraft.server.World p=null;
 	
 	private Perlin m_perlinGenerator;
-	private Perlin m_fractalGenerator;
 	private SpadePlugin plugin;
 	private SimplexOctaves m_simplexGenerator;
 	private SimplexOctaves m_simplexGenerator2;
@@ -77,7 +76,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 		try
 		{
 			m_perlinGenerator = new Perlin(); //new Perlin();
-			m_fractalGenerator = new Perlin(); //new Perlin();
+			new Perlin();
 
 			m_simplexGenerator=new SimplexOctaves(1234,4);
 			m_simplexGenerator2=new SimplexOctaves(1234+51,4);

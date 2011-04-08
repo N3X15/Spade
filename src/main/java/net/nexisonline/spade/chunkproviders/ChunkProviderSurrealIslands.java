@@ -21,6 +21,7 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
+import net.nexisonline.spade.MathUtils;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
 
@@ -254,10 +255,12 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		this.s = this.n.a(this.s, (double)(X * 16), 109.0134D, (double)(Z * 16), 16, 1, 16, var6, 1.0D, var6);
 		this.t = this.o.a(this.t, (double)(X * 16), (double)(Z * 16), 0.0D, 16, 16, 1, var6 * 2.0D, var6 * 2.0D, var6 * 2.0D);
 
+		int maxColumnDistSquared = (int) Math.round(Math.pow((this.plugin.getChunkRadius(worldName)*16)-8,2));
+		
 		for(int x = 0; x < 16; ++x) {
 			for(int z = 0; z < 16; ++z) {
 
-				//double columnDist=this.plugin.getBlockDistanceToSpawn(this.worldName,x+(X*16),0,z+(Z*16));
+				double columnDistSquared=MathUtils.getDist2DSquared(0,0,x+(X*16),z+(Z*16));
 				BiomeBase biome = BiomeUtils.biome2BiomeBase(biomes[x + z * 16]);
 				boolean var11 = this.r[x + z * 16] + this.j.nextDouble() * 0.2D > 0.0D;
 				boolean var12 = this.s[x + z * 16] + this.j.nextDouble() * 0.2D > 3.0D;
@@ -268,13 +271,13 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 
 				for(int y = 127; y >= 0; --y) {
 					int idx = (z * 16 + x) * 128 + y;
-					/*if(columnDist==(int)(this.distanceSquared-64)) {
+					if(columnDistSquared==maxColumnDistSquared) {
 						blocks[idx]=7; // Bedrock
 						continue;
-					}else if(columnDist>(int)(this.distanceSquared-64)) {
+					} else if(columnDistSquared>maxColumnDistSquared) {
 						blocks[idx]=0; // Air
 						continue;
-					}*/
+					}
 					if(y <= 0 + this.j.nextInt(5)) {
 						blocks[idx] = (byte)Material.BEDROCK.getId();
 					} else {
