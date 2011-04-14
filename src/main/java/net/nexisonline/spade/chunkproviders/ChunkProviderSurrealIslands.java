@@ -271,6 +271,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 
 				for(int y = 127; y >= 0; --y) {
 					int idx = (z * 16 + x) * 128 + y;
+					
 					if(columnDistSquared==maxColumnDistSquared) {
 						blocks[idx]=7; // Bedrock
 						continue;

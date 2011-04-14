@@ -53,7 +53,7 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 	private SpadePlugin plugin;
 	private SimplexOctaves m_simplexGenerator;
 	private SimplexOctaves m_simplexGenerator2;
-	public ChunkProviderDoublePerlin(SpadePlugin plugin) {
+	public ChunkProviderMountains2(SpadePlugin plugin) {
 		this.plugin=plugin;
 	}
 
