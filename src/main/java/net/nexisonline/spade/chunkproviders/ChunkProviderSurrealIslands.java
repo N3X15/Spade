@@ -343,11 +343,11 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		BlockSand.a = true;
 		int var4 = X * 16;
 		int var5 = Z * 16;
-		BiomeBase var6 = this.p.a().a(var4 + 16, var5 + 16);
-		this.j.setSeed(this.p.k());
+		BiomeBase var6 = this.p.getWorldChunkManager().getBiome(var4 + 16, var5 + 16);
+		this.j.setSeed(this.p.getSeed());
 		long var7 = this.j.nextLong() / 2L * 2L + 1L;
 		long var9 = this.j.nextLong() / 2L * 2L + 1L;
-		this.j.setSeed((long)X * var7 + (long)Z * var9 ^ this.p.k());
+		this.j.setSeed((long)X * var7 + (long)Z * var9 ^ this.p.getSeed());
 		double var11 = 0.25D;
 		int var13;
 		int x;
@@ -489,7 +489,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 			var17 = var5 + this.j.nextInt(16) + 8;
 			WorldGenerator var18 = var6.a(this.j);
 			var18.a(1.0D, 1.0D, 1.0D);
-			var18.a(this.p, this.j, z, this.p.d(z, var17), var17);
+			var18.a(this.p, this.j, z, this.p.getHighestBlockYAt(z, var17), var17);
 		}
 
 		int var23;
@@ -562,7 +562,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 			(new WorldGenLiquids(Material.LAVA.getId())).a(this.p, this.j, var17, var23, var19);
 		}
 
-		double[] w = this.p.a().a(new double[256], var4 + 8, var5 + 8, 16, 16);
+		double[] w = this.p.getWorldChunkManager().a(new double[256], var4 + 8, var5 + 8, 16, 16);
 
 		for(z = var4 + 8; z < var4 + 8 + 16; ++z) {
 			for(var17 = var5 + 8; var17 < var5 + 8 + 16; ++var17) {
@@ -571,7 +571,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				int var20 = this.p.e(z, var17);
 				double var21 = w[var23 * 16 + var19] - (double)(var20 - 64) / 64.0D * 0.3D;
 				if(var21 < 0.5D && var20 > 0 && var20 < 128 && this.p.isEmpty(z, var20, var17) && this.p.getMaterial(z, var20 - 1, var17).isSolid() && this.p.getMaterial(z, var20 - 1, var17) != net.minecraft.server.Material.ICE) {
-					this.p.e(z, var20, var17, Material.SNOW.getId());
+					this.p.setTypeId(z, var20, var17, Material.SNOW.getId());
 				}
 			}
 		}
