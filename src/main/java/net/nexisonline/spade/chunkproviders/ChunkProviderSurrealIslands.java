@@ -21,6 +21,7 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
+import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.MathUtils;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
@@ -116,16 +117,16 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 			return;
 		}
 
-		double density[][][] = new double[16][128][16];
+		InterpolatedDensityMap density = new InterpolatedDensityMap();
 
 		double frequency = 0;
 		double amplitude = 0;
 
-		for (int x = 0; x < 16; x += 3)
+		for (int x = 0; x < 16; ++x)
 		{
-			for (int y = 0; y < 128; y += 3)
+			for (int y = 0; y < 128; y += 16)
 			{
-				for (int z = 0; z < 16; z += 3)
+				for (int z = 0; z < 16; ++z)
 				{
 					double posX = (x + (X*16));
 					double posY = (y - 64);
@@ -152,19 +153,22 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 					double warpZ = posZ - warp;
 
 					// This is the starting density. If it is lower, then there will be more open space.
-					density[x][y][z] = -12;
+					double d = -12;
 
 					frequency = 0.005;
 					amplitude = 50;
-					density[x][y][z] -= m_simplexGenerator1.sample(warpX, warpY, warpZ, frequency, amplitude);
+					d -= m_simplexGenerator1.sample(warpX, warpY, warpZ, frequency, amplitude);
 
 					frequency = 0.0005;
 					amplitude = 25;
-					density[x][y][z] -= m_simplexGenerator2.sample(warpX, warpY, warpZ, frequency, amplitude);
+					d -= m_simplexGenerator2.sample(warpX, warpY, warpZ, frequency, amplitude);
+					
+					//density[x][y][z]=d;
+					density.setDensity(x, y, z, d);
 				}
 			}
 		}
-
+/*
 		for (int x = 0; x < 16; x += 3)
 		{
 			for (int y = 0; y < 128; y += 3)
@@ -214,14 +218,15 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		}
 
 		//density=Interpolator.LinearExpandDensitymap(density, 16, 128, 16);
-		for (int x = 0; x < 16; x++)
+		*/
+		for (int x = 0; x < 16; ++x)
 		{
-			for (int y = 0; y < 128; y++)
+			for (int y = 0; y < 128; ++y)
 			{
-				for (int z = 0; z < 16; z++)
+				for (int z = 0; z < 16; ++z)
 				{
 					byte block = 0;
-					if ((int)density[x][y][z] > 5)
+					if ((int)density.getDensity(x, y, z) > 5)
 					{
 						block = 1;
 					}
@@ -239,7 +244,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				}
 			}
 		}
-		Logger.getLogger("Minecraft").info(String.format("[DoublePerlin %d] Chunk (%d,%d)",seed,X,Z));
+		Logger.getLogger("Minecraft").info(String.format("[Islands %d] Chunk (%d,%d)",seed,X,Z));
 	}
 
 	/**
