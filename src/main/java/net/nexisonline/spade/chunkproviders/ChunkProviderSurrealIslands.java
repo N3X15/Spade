@@ -21,6 +21,7 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
+import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.MathUtils;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
@@ -94,11 +95,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		}
 	}
 
-	private static double lerp(double a, double b, double f)
-	{
-		return (a + (b - a) * f);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -115,10 +111,9 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				return;
 		}
 
-		double density[][][] = new double[16][128][16];
-
 		double frequency = 0;
 		double amplitude = 0;
+		InterpolatedDensityMap density = new InterpolatedDensityMap();
 
 		for (int x = 0; x < 16; x += 3)
 		{
@@ -151,63 +146,16 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 					double warpZ = posZ - warp;
 
 					// This is the starting density. If it is lower, then there will be more open space.
-					density[x][y][z] = -12;
+					double d  = -12;
 
 					frequency = 0.005;
 					amplitude = 50;
-					density[x][y][z] -= m_simplexGenerator1.sample(warpX, warpY, warpZ, frequency, amplitude);
+					d -= m_simplexGenerator1.sample(warpX, warpY, warpZ, frequency, amplitude);
 					
 					frequency = 0.0005;
 					amplitude = 25;
-					density[x][y][z] -= m_simplexGenerator2.sample(warpX, warpY, warpZ, frequency, amplitude);
-				}
-			}
-		}
-
-		for (int x = 0; x < 16; x += 3)
-		{
-			for (int y = 0; y < 128; y += 3)
-			{
-				for (int z = 0; z < 16; z += 3)
-				{
-					if (y != 126)
-					{
-						density[x][y+1][z] = lerp(density[x][y][z], density[x][y+3][z], 0.2);
-						density[x][y+2][z] = lerp(density[x][y][z], density[x][y+3][z], 0.8);
-					}
-				}
-			}
-		}
-
-		for (int x = 0; x < 16; x += 3)
-		{
-			for (int y = 0; y < 128; y++)
-			{
-				for (int z = 0; z < 16; z += 3)
-				{
-					if (x == 0 && z > 0)
-					{
-						density[x][y][z-1] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
-						density[x][y][z-2] = lerp(density[x][y][z], density[x][y][z-3], 0.85);
-					}
-					else if (x > 0 && z > 0)
-					{
-						density[x-1][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.25);
-						density[x-2][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.85);
-
-						density[x][y][z-1] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
-						density[x-1][y][z-1] = lerp(density[x][y][z], density[x-3][y][z-3], 0.25);
-						density[x-2][y][z-1] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
-
-						density[x][y][z-2] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
-						density[x-1][y][z-2] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
-						density[x-2][y][z-2] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
-					}
-					else if (x > 0 && z == 0)
-					{
-						density[x-1][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.25);
-						density[x-2][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.85);
-					}
+					d -= m_simplexGenerator2.sample(warpX, warpY, warpZ, frequency, amplitude);
+					density.setDensity(x,y,z,d);
 				}
 			}
 		}
@@ -220,7 +168,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				for (int z = 0; z < 16; z++)
 				{
 					byte block = 0;
-					if ((int)density[x][y][z] > 5)
+					if ((int)density.getDensity(x, y, z) > 5)
 					{
 						block = 1;
 					}

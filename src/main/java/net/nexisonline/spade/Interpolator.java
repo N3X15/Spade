@@ -1,6 +1,6 @@
 package net.nexisonline.spade;
 
-
+@Deprecated
 public class Interpolator {
 	/**
 	 * Density map index.

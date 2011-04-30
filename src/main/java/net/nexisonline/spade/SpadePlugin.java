@@ -9,6 +9,7 @@ import net.nexisonline.spade.chunkproviders.ChunkProviderMountains;
 import net.nexisonline.spade.chunkproviders.ChunkProviderStock;
 import net.nexisonline.spade.chunkproviders.ChunkProviderSurrealIslands;
 import net.nexisonline.spade.chunkproviders.ChunkProviderWat;
+import net.nexisonline.spade.commands.RegenCommand;
 import net.nexisonline.spade.commands.SetWorldGenCommand;
 import net.nexisonline.spade.commands.TP2WorldCommand;
 
@@ -28,7 +29,7 @@ public class SpadePlugin extends JavaPlugin {
     private final SpadeWorldListener worldListener = new SpadeWorldListener(this);
 	private HashMap<String,SpadeChunkProvider> chunkProviders = new HashMap<String,SpadeChunkProvider>();
 	public HashMap<String, GenerationLimits> genLimits = new HashMap<String, GenerationLimits>();
-
+	private HashMap<String,SpadeChunkProvider> assignedProviders = new HashMap<String,SpadeChunkProvider>();
     public void onEnable() {
         // Register our events
         PluginManager pm = getServer().getPluginManager();
@@ -36,7 +37,8 @@ public class SpadePlugin extends JavaPlugin {
         pm.registerEvent(Event.Type.WORLD_SAVE, worldListener, Event.Priority.Monitor, this);
         
         // Register our commands
-        getCommand("setworldgen").setExecutor(new SetWorldGenCommand(this));
+        //getCommand("setworldgen").setExecutor(new SetWorldGenCommand(this));
+        getCommand("regen").setExecutor(new RegenCommand(this));
         getCommand("tpw").setExecutor(new TP2WorldCommand(this));
         
         registerChunkProviders();
@@ -65,6 +67,7 @@ public class SpadePlugin extends JavaPlugin {
 		SpadeChunkProvider cp = chunkProviders.get(cpName);
 		cp.setWorldName(cpName);
 		node=cp.configure(node);
+		assignedProviders.put(worldName, cp);
 		getServer().createWorld(worldName, Environment.NORMAL, (new Random()).nextLong(), null, cp);
 		return node;
 	}
@@ -78,6 +81,11 @@ public class SpadePlugin extends JavaPlugin {
 		
 		return gl.distanceSquared;
 	}
+	
+	public SpadeChunkProvider getProviderFor(String worldName) {
+		return assignedProviders.get(worldName);
+	}
+	
 	public boolean getRound(String worldName) {
 		GenerationLimits gl = genLimits.get(worldName.toLowerCase());
 		if(gl==null)

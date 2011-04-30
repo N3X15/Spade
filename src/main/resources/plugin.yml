@@ -8,3 +8,6 @@ commands:
   tpw:
     description: TP to some world
     usage: /tpw <worldname>
+  regen:
+    description: Regenerate the chunk you're standing in
+    usage: /regen chunk
