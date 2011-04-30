@@ -108,12 +108,12 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
-		/*if(!plugin.shouldGenerateChunk(worldName,X,Z))
+		if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		{
 			blocks=new byte[blocks.length];
 			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING Chunk (%d,%d)",X,Z));
 			return;
-		}*/
+		}
 
 		double density[][][] = new double[16][128][16];
 
@@ -247,7 +247,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	@Override
 	public void generateSediment(Object world, int X, int Z, byte[] blocks, Biome[] biomes) {
 		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-			//blocks=new byte[blocks.length];
+			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING generateSediment on Chunk (%d,%d)",X,Z));
 			return;
 		}
 		double var6 = 0.03125D;
@@ -338,6 +338,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 
 	public void populateChunk(Object ch,int X, int Z) {
 		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
+			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING populate Chunk (%d,%d)",X,Z));
 			return;
 		}
 		BlockSand.a = true;
@@ -575,20 +576,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				}
 			}
 		}
-
-		/* FUCK locked chests
-Calendar var24 = Calendar.getInstance();
-var24.setTimeInMillis(System.currentTimeMillis());
-if(var24.get(2) == 3 && var24.get(5) == 1) {
-var17 = var4 + this.j.nextInt(16) + 8;
-var23 = this.j.nextInt(128);
-var19 = var5 + this.j.nextInt(16) + 8;
-if(this.p.getTypeId(var17, var23, var19) == 0 && this.p.d(var17, var23 - 1, var19)) {
-System.out.println("added a chest!!");
-this.p.e(var17, var23, var19, Material.LOCKED_CHEST.getId());
-}
-}
-		 */
+		
 		BlockSand.a = false;
 	}
 
