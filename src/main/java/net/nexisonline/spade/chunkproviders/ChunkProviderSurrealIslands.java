@@ -110,7 +110,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	{
 		if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		{
-			blocks=new byte[blocks.length];
+			// Never do this, var gets passed by-val instead of by-ref.
+			//blocks=new byte[blocks.length];
 			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING Chunk (%d,%d)",X,Z));
 			return;
 		}
