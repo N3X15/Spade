@@ -21,7 +21,6 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
-import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.MathUtils;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
@@ -95,6 +94,11 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		}
 	}
 
+	private static double lerp(double a, double b, double f)
+	{
+		return (a + (b - a) * f);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -106,20 +110,21 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	{
 		if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		{
-				blocks=new byte[blocks.length];
-				Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING Chunk (%d,%d)",X,Z));
-				return;
+			blocks=new byte[blocks.length];
+			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING Chunk (%d,%d)",X,Z));
+			return;
 		}
+
+		double density[][][] = new double[16][128][16];
 
 		double frequency = 0;
 		double amplitude = 0;
-		InterpolatedDensityMap density = new InterpolatedDensityMap();
 
-		for (int x = 0; x < 16; x += 1)
+		for (int x = 0; x < 16; x += 3)
 		{
-			for (int y = 0; y < 128; y += 16)
+			for (int y = 0; y < 128; y += 3)
 			{
-				for (int z = 0; z < 16; z += 1)
+				for (int z = 0; z < 16; z += 3)
 				{
 					double posX = (x + (X*16));
 					double posY = (y - 64);
@@ -146,16 +151,63 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 					double warpZ = posZ - warp;
 
 					// This is the starting density. If it is lower, then there will be more open space.
-					double d  = -12;
+					density[x][y][z] = -12;
 
 					frequency = 0.005;
 					amplitude = 50;
-					d -= m_simplexGenerator1.sample(warpX, warpY, warpZ, frequency, amplitude);
-					
+					density[x][y][z] -= m_simplexGenerator1.sample(warpX, warpY, warpZ, frequency, amplitude);
+
 					frequency = 0.0005;
 					amplitude = 25;
-					d -= m_simplexGenerator2.sample(warpX, warpY, warpZ, frequency, amplitude);
-					density.setDensity(x,y,z,d);
+					density[x][y][z] -= m_simplexGenerator2.sample(warpX, warpY, warpZ, frequency, amplitude);
+				}
+			}
+		}
+
+		for (int x = 0; x < 16; x += 3)
+		{
+			for (int y = 0; y < 128; y += 3)
+			{
+				for (int z = 0; z < 16; z += 3)
+				{
+					if (y != 126)
+					{
+						density[x][y+1][z] = lerp(density[x][y][z], density[x][y+3][z], 0.2);
+						density[x][y+2][z] = lerp(density[x][y][z], density[x][y+3][z], 0.8);
+					}
+				}
+			}
+		}
+
+		for (int x = 0; x < 16; x += 3)
+		{
+			for (int y = 0; y < 128; y++)
+			{
+				for (int z = 0; z < 16; z += 3)
+				{
+					if (x == 0 && z > 0)
+					{
+						density[x][y][z-1] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
+						density[x][y][z-2] = lerp(density[x][y][z], density[x][y][z-3], 0.85);
+					}
+					else if (x > 0 && z > 0)
+					{
+						density[x-1][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.25);
+						density[x-2][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.85);
+
+						density[x][y][z-1] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
+						density[x-1][y][z-1] = lerp(density[x][y][z], density[x-3][y][z-3], 0.25);
+						density[x-2][y][z-1] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
+
+						density[x][y][z-2] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
+						density[x-1][y][z-2] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
+						density[x-2][y][z-2] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
+					}
+					else if (x > 0 && z == 0)
+					{
+						density[x-1][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.25);
+						density[x-2][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.85);
+					}
 				}
 			}
 		}
@@ -168,7 +220,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				for (int z = 0; z < 16; z++)
 				{
 					byte block = 0;
-					if ((int)density.getDensity(x, y, z) > 5)
+					if ((int)density[x][y][z] > 5)
 					{
 						block = 1;
 					}
@@ -204,7 +256,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		this.t = this.o.a(this.t, (double)(X * 16), (double)(Z * 16), 0.0D, 16, 16, 1, var6 * 2.0D, var6 * 2.0D, var6 * 2.0D);
 
 		int maxColumnDistSquared = (int) Math.round(Math.pow((this.plugin.getChunkRadius(worldName)*16)-8,2));
-		
+
 		for(int x = 0; x < 16; ++x) {
 			for(int z = 0; z < 16; ++z) {
 
@@ -219,7 +271,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 
 				for(int y = 127; y >= 0; --y) {
 					int idx = (z * 16 + x) * 128 + y;
-					
+
 					if(columnDistSquared==maxColumnDistSquared) {
 						blocks[idx]=7; // Bedrock
 						continue;
@@ -525,18 +577,18 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		}
 
 		/* FUCK locked chests
-		Calendar var24 = Calendar.getInstance();
-		var24.setTimeInMillis(System.currentTimeMillis());
-		if(var24.get(2) == 3 && var24.get(5) == 1) {
-			var17 = var4 + this.j.nextInt(16) + 8;
-			var23 = this.j.nextInt(128);
-			var19 = var5 + this.j.nextInt(16) + 8;
-			if(this.p.getTypeId(var17, var23, var19) == 0 && this.p.d(var17, var23 - 1, var19)) {
-				System.out.println("added a chest!!");
-				this.p.e(var17, var23, var19, Material.LOCKED_CHEST.getId());
-			}
-		}
-		*/
+Calendar var24 = Calendar.getInstance();
+var24.setTimeInMillis(System.currentTimeMillis());
+if(var24.get(2) == 3 && var24.get(5) == 1) {
+var17 = var4 + this.j.nextInt(16) + 8;
+var23 = this.j.nextInt(128);
+var19 = var5 + this.j.nextInt(16) + 8;
+if(this.p.getTypeId(var17, var23, var19) == 0 && this.p.d(var17, var23 - 1, var19)) {
+System.out.println("added a chest!!");
+this.p.e(var17, var23, var19, Material.LOCKED_CHEST.getId());
+}
+}
+		 */
 		BlockSand.a = false;
 	}
 
