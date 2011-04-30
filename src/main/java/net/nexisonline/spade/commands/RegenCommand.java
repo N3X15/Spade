@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 
 /**
@@ -36,15 +37,16 @@ public class RegenCommand implements CommandExecutor {
 		
 		if(args[0].equalsIgnoreCase("chunk")) {
 			World w = p.getWorld();
+			WorldServer W = ((CraftWorld)w).getHandle();
 			int cx = p.getLocation().getBlockX()>>4;
 			int cz = p.getLocation().getBlockZ()>>4;
-			net.minecraft.server.Chunk oc = ((WorldServer)w).worldProvider.c().getOrCreateChunk(cx,cz);
+			net.minecraft.server.Chunk oc = W.worldProvider.c().getOrCreateChunk(cx,cz);
 			for(int x=0;x<16;++x) {
 				for(int z=0;z<16;++z) {
 					for(int y=0;y<128;++y) {
 						int type = oc.getTypeId(x, y, z);
 						byte data = (byte) oc.getData(x, y, z);
-						((WorldServer)w).setTypeIdAndData(x+(cx<<4),y,z+(cz<<4),type, data);
+						W.setTypeIdAndData(x+(cx<<4),y,z+(cz<<4),type, data);
 					}
 				}
 			}
