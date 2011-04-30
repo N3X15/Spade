@@ -115,11 +115,11 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		double amplitude = 0;
 		InterpolatedDensityMap density = new InterpolatedDensityMap();
 
-		for (int x = 0; x < 16; x += 3)
+		for (int x = 0; x < 16; x += 1)
 		{
-			for (int y = 0; y < 128; y += 3)
+			for (int y = 0; y < 128; y += 16)
 			{
-				for (int z = 0; z < 16; z += 3)
+				for (int z = 0; z < 16; z += 1)
 				{
 					double posX = (x + (X*16));
 					double posY = (y - 64);
