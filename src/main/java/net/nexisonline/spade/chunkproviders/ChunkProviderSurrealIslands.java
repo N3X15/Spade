@@ -122,11 +122,11 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		double frequency = 0;
 		double amplitude = 0;
 
-		for (int x = 0; x < 16; ++x)
+		for (int x = 0; x < 16; x++)
 		{
 			for (int y = 0; y < 128; y += 16)
 			{
-				for (int z = 0; z < 16; ++z)
+				for (int z = 0; z < 16; z++)
 				{
 					double posX = (x + (X*16));
 					double posY = (y - 64);
