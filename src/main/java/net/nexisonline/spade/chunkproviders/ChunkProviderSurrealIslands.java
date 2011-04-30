@@ -55,8 +55,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	private SimplexNoise m_simplexGenerator2;
 	private SimplexNoise m_simplexGenerator3;
 	private SimplexNoise m_simplexGenerator4;
-	private long seed;
-
+	
 	public ChunkProviderSurrealIslands(SpadePlugin plugin) {
 		this.plugin=plugin;
 	}
@@ -69,7 +68,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	@Override
 	public void onLoad(Object world, long seed)
 	{
-		this.seed=seed;
 		this.setHasCustomTerrain(true);
 		this.setHasCustomSedimenter(true);
 		this.setHasCustomPopulator(true);
@@ -104,13 +102,13 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
 	{
-		if(!plugin.shouldGenerateChunk(worldName,X,Z))
+		/*if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		{
 			// Never do this, var gets passed by-val instead of by-ref.
 			//blocks=new byte[blocks.length];
 			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING Chunk (%d,%d)",X,Z));
 			return;
-		}
+		}*/
 
 		InterpolatedDensityMap density = new InterpolatedDensityMap();
 
@@ -163,57 +161,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				}
 			}
 		}
-/*
-		for (int x = 0; x < 16; x += 3)
-		{
-			for (int y = 0; y < 128; y += 3)
-			{
-				for (int z = 0; z < 16; z += 3)
-				{
-					if (y != 126)
-					{
-						density[x][y+1][z] = lerp(density[x][y][z], density[x][y+3][z], 0.2);
-						density[x][y+2][z] = lerp(density[x][y][z], density[x][y+3][z], 0.8);
-					}
-				}
-			}
-		}
-
-		for (int x = 0; x < 16; x += 3)
-		{
-			for (int y = 0; y < 128; y++)
-			{
-				for (int z = 0; z < 16; z += 3)
-				{
-					if (x == 0 && z > 0)
-					{
-						density[x][y][z-1] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
-						density[x][y][z-2] = lerp(density[x][y][z], density[x][y][z-3], 0.85);
-					}
-					else if (x > 0 && z > 0)
-					{
-						density[x-1][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.25);
-						density[x-2][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.85);
-
-						density[x][y][z-1] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
-						density[x-1][y][z-1] = lerp(density[x][y][z], density[x-3][y][z-3], 0.25);
-						density[x-2][y][z-1] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
-
-						density[x][y][z-2] = lerp(density[x][y][z], density[x][y][z-3], 0.25);
-						density[x-1][y][z-2] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
-						density[x-2][y][z-2] = lerp(density[x][y][z], density[x-3][y][z-3], 0.85);
-					}
-					else if (x > 0 && z == 0)
-					{
-						density[x-1][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.25);
-						density[x-2][y][z] = lerp(density[x][y][z], density[x-3][y][z], 0.85);
-					}
-				}
-			}
-		}
-
-		//density=Interpolator.LinearExpandDensitymap(density, 16, 128, 16);
-		*/
 		double minDensity=Double.MAX_VALUE;
 		double maxDensity=Double.MIN_VALUE;
 		for (int x = 0; x < 16; ++x)
@@ -252,10 +199,10 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	 */
 	@Override
 	public void generateSediment(Object world, int X, int Z, byte[] blocks, Biome[] biomes) {
-		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
+		/*if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING generateSediment on Chunk (%d,%d)",X,Z));
 			return;
-		}
+		}*/
 		double var6 = 0.03125D;
 		this.r = this.n.a(this.r, (double)(X * 16), (double)(Z * 16), 0.0D, 16, 16, 1, var6, var6, 1.0D);
 		this.s = this.n.a(this.s, (double)(X * 16), 109.0134D, (double)(Z * 16), 16, 1, 16, var6, 1.0D, var6);
@@ -266,7 +213,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		for(int x = 0; x < 16; ++x) {
 			for(int z = 0; z < 16; ++z) {
 
-				double columnDistSquared=MathUtils.getDist2DSquared(0,0,x+(X*16),z+(Z*16));
+				//double columnDistSquared=MathUtils.getDist2DSquared(0,0,x+(X*16),z+(Z*16));
 				BiomeBase biome = BiomeUtils.biome2BiomeBase(biomes[x + z * 16]);
 				boolean var11 = this.r[x + z * 16] + this.j.nextDouble() * 0.2D > 0.0D;
 				boolean var12 = this.s[x + z * 16] + this.j.nextDouble() * 0.2D > 3.0D;
@@ -277,14 +224,14 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 
 				for(int y = 127; y >= 0; --y) {
 					int idx = (z * 16 + x) * 128 + y;
-
+/*
 					if(columnDistSquared==maxColumnDistSquared) {
 						blocks[idx]=7; // Bedrock
 						continue;
 					} else if(columnDistSquared>maxColumnDistSquared) {
 						blocks[idx]=0; // Air
 						continue;
-					}
+					}*/
 					if(y <= 0 + this.j.nextInt(5)) {
 						blocks[idx] = (byte)Material.BEDROCK.getId();
 					} else {
@@ -343,10 +290,10 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	}
 
 	public void populateChunk(Object ch,int X, int Z) {
-		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
+		/*if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING populate Chunk (%d,%d)",X,Z));
 			return;
-		}
+		}*/
 		BlockSand.a = true;
 		int var4 = X * 16;
 		int var5 = Z * 16;
