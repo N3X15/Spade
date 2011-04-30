@@ -95,11 +95,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		}
 	}
 
-	private static double lerp(double a, double b, double f)
-	{
-		return (a + (b - a) * f);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 *
@@ -219,6 +214,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 
 		//density=Interpolator.LinearExpandDensitymap(density, 16, 128, 16);
 		*/
+		double minDensity=Double.MAX_VALUE;
+		double maxDensity=Double.MIN_VALUE;
 		for (int x = 0; x < 16; ++x)
 		{
 			for (int y = 0; y < 128; ++y)
@@ -226,7 +223,10 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				for (int z = 0; z < 16; ++z)
 				{
 					byte block = 0;
-					if ((int)density.getDensity(x, y, z) > 5)
+					double d = density.getDensity(x, y, z);
+					maxDensity=Math.max(maxDensity,d);
+					minDensity=Math.min(minDensity,d);
+					if ((int)d > 5)
 					{
 						block = 1;
 					}
@@ -244,7 +244,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 				}
 			}
 		}
-		Logger.getLogger("Minecraft").info(String.format("[Islands %d] Chunk (%d,%d)",seed,X,Z));
+		Logger.getLogger("Minecraft").info(String.format("[Islands] Chunk (%d,%d) (densityRange= [%.2f,%.2f])",X,Z,minDensity,maxDensity));
 	}
 
 	/**
