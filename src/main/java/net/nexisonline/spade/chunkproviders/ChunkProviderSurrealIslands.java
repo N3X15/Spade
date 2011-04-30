@@ -55,9 +55,11 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	private SimplexNoise m_simplexGenerator2;
 	private SimplexNoise m_simplexGenerator3;
 	private SimplexNoise m_simplexGenerator4;
+	private InterpolatedDensityMap density;
 	
 	public ChunkProviderSurrealIslands(SpadePlugin plugin) {
 		this.plugin=plugin;
+		density = new InterpolatedDensityMap();
 	}
 
 	/*
@@ -109,8 +111,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 			Logger.getLogger("Minecraft").info(String.format("[Islands] SKIPPING Chunk (%d,%d)",X,Z));
 			return;
 		}*/
-
-		InterpolatedDensityMap density = new InterpolatedDensityMap();
 
 		double frequency = 0;
 		double amplitude = 0;
