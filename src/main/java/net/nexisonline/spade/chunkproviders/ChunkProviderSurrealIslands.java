@@ -39,6 +39,7 @@ import toxi.math.noise.SimplexNoise;
  */
 public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	private static final int WATER_HEIGHT = 32;
+	private static final int OCEAN_FLOOR=16; 
 	private double[] r = new double[256];
 	private double[] s = new double[256];
 	private double[] t = new double[256];
@@ -160,76 +161,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					amplitude = 25;
 					d -= m_simplex2.sample(warpX, warpY, warpZ, frequency,
 							amplitude);
-					/*
-					 * 
-					 * frequency = 0.05;
-					 * 
-					 * amplitude = 5;
-					 * 
-					 * double warp = m_simplexGenerator1.sample(posX, posY,
-					 * posZ, frequency, amplitude);
-					 * 
-					 * 
-					 * 
-					 * frequency = 0.005;
-					 * 
-					 * amplitude = 10;
-					 * 
-					 * warp += m_simplexGenerator2.sample(posX, posY, posZ,
-					 * frequency, amplitude);
-					 * 
-					 * 
-					 * 
-					 * frequency = 0.0005;
-					 * 
-					 * amplitude = 15;
-					 * 
-					 * warp += m_simplexGenerator3.sample(posX, posY, posZ,
-					 * frequency, amplitude);
-					 * 
-					 * 
-					 * 
-					 * frequency = 0.00005;
-					 * 
-					 * amplitude = 20;
-					 * 
-					 * warp += m_simplexGenerator4.sample(posX, posY, posZ,
-					 * frequency, amplitude);
-					 * 
-					 * 
-					 * 
-					 * double warpX = posX - warp;
-					 * 
-					 * double warpY = posY - warp;
-					 * 
-					 * double warpZ = posZ - warp;
-					 * 
-					 * 
-					 * 
-					 * // This is the starting density. If it is lower, then
-					 * there will be more open space.
-					 * 
-					 * double d = -12;
-					 * 
-					 * 
-					 * 
-					 * frequency = 0.005;
-					 * 
-					 * amplitude = 50;
-					 * 
-					 * d -= m_simplexGenerator1.sample(warpX, warpY, warpZ,
-					 * frequency, amplitude);
-					 * 
-					 * 
-					 * 
-					 * frequency = 0.0005;
-					 * 
-					 * amplitude = 25;
-					 * 
-					 * d -= m_simplexGenerator2.sample(warpX, warpY, warpZ,
-					 * frequency, amplitude);
-					 */
-					// density[x][y][z]=d;
 					density.setDensity(x, y, z, d);
 				}
 			}
@@ -246,13 +177,10 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					if ((int) d > 5) {
 						block = 1;
 					} else {
-						block = (byte) ((y < WATER_HEIGHT) ? Material.STATIONARY_WATER
-								.getId() : 0);
+						block = (byte) ((y < WATER_HEIGHT) ? Material.STATIONARY_WATER.getId() : 0);
 					}
-					// Origin point + sand to prevent 5000 years of loading.
-					if ((x == 0) && (z == 0) && (X == x) && (Z == z)
-							&& (y <= 63)) {
-						block = (byte) ((y == 125) ? 12 : 7);
+					if(y<=OCEAN_FLOOR && (block==Material.STATIONARY_WATER.getId() || block==Material.WATER.getId())) {
+						block=1;
 					}
 					if (y == 1)
 						block = 7;

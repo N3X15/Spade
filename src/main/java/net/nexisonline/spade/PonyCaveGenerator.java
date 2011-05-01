@@ -62,9 +62,9 @@ public class PonyCaveGenerator
 		
 		for (int x = 0; x < 16; x++)
 		{
-			for (int y = 0; y < 128; y += 16)
+			for (int z = 0; z < 16; z++)
 			{
-				for (int z = 0; z < 16; z++)
+				for (int y = 0; y < 128; y += 16)
 				{
 					double posX = x + (X * 16);
 					double posY = y - 64;
@@ -93,13 +93,17 @@ public class PonyCaveGenerator
 			}
 		}
 		
-		for (int x = 0; x < 16; x++)
+		boolean hitWater=false;
+		for (int x = 0; !hitWater && x < 16; x++)
 		{
-			for (int y = 0; y < 128; y++)
+			for (int z = 0; !hitWater && z < 16; z++)
 			{
-				for (int z = 0; z < 16; z++)
+				for (int y = 127; !hitWater && y > 1; y--)
 				{
 					byte id = data[x << 11 | z << 7 | y];
+					if(id==Block.WATER.id || id==Block.STATIONARY_WATER.id) {
+						hitWater=true;
+					}
 					if (m_interpolator.getDensity(x, y, z) > 5 &&
 							id!=Block.WATER.id &&
 							id!=Block.STATIONARY_WATER.id &&
