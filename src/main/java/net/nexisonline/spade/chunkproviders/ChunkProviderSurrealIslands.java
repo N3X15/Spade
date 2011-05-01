@@ -548,4 +548,9 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		}
 		return node;
 	}
+	
+	@Override
+	public boolean canSpawnAt(org.bukkit.World w,int x, int z) {
+		return p.getMaterial(x,p.getHighestBlockYAt(x, z),z).isSolid();
+	}
 }
