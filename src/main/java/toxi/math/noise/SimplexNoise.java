@@ -251,6 +251,16 @@ public class SimplexNoise {
 		return noise(x * this.frequency, y * this.frequency, z * this.frequency) * this.amplitude;
 	}
 
+        public double sample(double x, double y)
+        {
+                return noise(x * this.frequency, y * this.frequency) * this.amplitude;
+        }
+
+        public double sample(double x, double y, double frequency, double amplitude)
+        {
+                return noise(x * frequency, y * frequency) * amplitude;
+        }
+
 	/**
 	 * Computes 3D Simplex Noise.
 	 * 
