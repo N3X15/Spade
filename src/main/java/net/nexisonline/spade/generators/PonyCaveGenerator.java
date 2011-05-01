@@ -1,7 +1,8 @@
-package net.nexisonline.spade;
+package net.nexisonline.spade.generators;
 
 import libnoiseforjava.module.RidgedSimplex;
 import net.minecraft.server.Block;
+import net.nexisonline.spade.InterpolatedDensityMap;
 import toxi.math.noise.SimplexNoise;
 
 public class PonyCaveGenerator
@@ -93,29 +94,40 @@ public class PonyCaveGenerator
 			}
 		}
 		
-		boolean hitWater=false;
-		for (int x = 0; !hitWater && x < 16; x++)
+		for (int x = 0; x < 16; x++)
 		{
-			for (int z = 0; !hitWater && z < 16; z++)
+			for (int z = 0; z < 16; z++)
 			{
-				for (int y = 127; !hitWater && y > 1; y--)
+				for (int y = 127; y > 1; y--)
 				{
 					byte id = data[x << 11 | z << 7 | y];
-					if(id==Block.WATER.id || id==Block.STATIONARY_WATER.id) {
-						hitWater=true;
-					}
+					
 					if (m_interpolator.getDensity(x, y, z) > 5 &&
-							id!=Block.WATER.id &&
-							id!=Block.STATIONARY_WATER.id &&
-							id!=Block.LAVA.id &&
-							id!=Block.STATIONARY_LAVA.id &&
-							id!=Block.BEDROCK.id)
+							!blockIsWater(data,x,y,z) &&
+							!(
+									id==Block.LAVA.id ||
+									id==Block.STATIONARY_LAVA.id ||
+									id==Block.BEDROCK.id
+							) && 
+							!blockIsWater(data,x+1,y,z) && 
+							!blockIsWater(data,x-1,y,z) && 
+							!blockIsWater(data,x,y+1,z) && 
+							!blockIsWater(data,x,y-1,z) &&
+							!blockIsWater(data,x,y,z+1) && 
+							!blockIsWater(data,x,y,z-1)
+						)
 					{
 						data[x << 11 | z << 7 | y]=(byte) ((y<10)?Block.STATIONARY_LAVA.id:0);
 					}
 				}
 			}
 		}
+	}
+
+	private boolean blockIsWater(byte[] data,int x, int y, int z) {
+		byte id = data[x << 11 | z << 7 | y];
+		return	id==Block.WATER.id ||
+				id==Block.STATIONARY_WATER.id;
 	}
 }
 	

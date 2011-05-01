@@ -21,9 +21,11 @@ import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
 import net.nexisonline.spade.InterpolatedDensityMap;
-import net.nexisonline.spade.PonyCaveGenerator;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
+import net.nexisonline.spade.generators.PonyCaveGenerator;
+import net.nexisonline.spade.generators.StalactiteGenerator;
+
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.util.BiomeUtils;
@@ -61,6 +63,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	private SimplexNoise m_simplexGenerator4;
 	private PonyCaveGenerator m_Pony;
 	private InterpolatedDensityMap density;
+	private StalactiteGenerator ceilingSpikes;
 
 	public ChunkProviderSurrealIslands(SpadePlugin plugin) {
 		this.plugin = plugin;
@@ -95,6 +98,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 			m_simplexGenerator2 = new SimplexNoise(((int) seed * 1024) + 1);
 			m_simplexGenerator3 = new SimplexNoise(((int) seed * 1024) + 2);
 			m_simplexGenerator4 = new SimplexNoise(((int) seed * 1024) + 3);
+			ceilingSpikes = new StalactiteGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			this.j = new Random(seed + 77);
 			this.n = new NoiseGeneratorOctaves(this.j, 4);
 			this.o = new NoiseGeneratorOctaves(this.j, 4);
