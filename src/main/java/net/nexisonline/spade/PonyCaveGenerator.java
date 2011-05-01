@@ -1,6 +1,7 @@
 package net.nexisonline.spade;
 
 import net.minecraft.server.Block;
+import net.minecraft.server.Material;
 import libnoiseforjava.module.RidgedSimplex;
 import toxi.math.noise.SimplexNoise;
 
@@ -99,8 +100,11 @@ public class PonyCaveGenerator
 			{
 				for (int z = 0; z < 16; z++)
 				{
+					byte id = data[x << 11 | z << 7 | y];
+					Material mat = Block.byId[id].material;
+					if(mat==null) continue;
 					if (m_interpolator.getDensity(x, y, z) > 5 && 
-							Block.byId[data[x << 11 | z << 7 | y]].material.isSolid())
+							mat.isSolid() && id!=Block.BEDROCK.id)
 					{
 						data[x << 11 | z << 7 | y]=0;
 					}
