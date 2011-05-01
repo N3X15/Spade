@@ -146,7 +146,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					double posY = (y - 64);
 					double posZ = (z + (Z * 16));
 					frequency = 0.05;
-					amplitude = 10;
+					amplitude = 5;
 					double warpX = posX
 							+ m_xTurbulence.sample(posX, posY, posZ, frequency,
 									amplitude);
