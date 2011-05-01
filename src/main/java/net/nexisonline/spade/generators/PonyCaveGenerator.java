@@ -125,7 +125,7 @@ public class PonyCaveGenerator
 	}
 
 	private boolean blockIsWater(byte[] data,int x, int y, int z) {
-		if(x<0||x>15||z<0||z>15||y<0||y>127) return true;
+		if(x<0||x>15||z<0||z>15||y<0||y>127) return false;
 		byte id = data[x << 11 | z << 7 | y];
 		return	id==Block.WATER.id ||
 				id==Block.STATIONARY_WATER.id;
