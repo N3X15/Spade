@@ -200,8 +200,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 
 	@Override
 	public void generateCaves(Object world, int X, int Z, byte[] data) {
-		stalactites.addToChunk(data, X, Z);
 		m_Pony.generateCaves(world, X, Z, data);
+		stalactites.addToChunk(data, X, Z);
 	}
 
 	/**

@@ -32,7 +32,7 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 
 	private void addStalactite(int x, int z) {
 		for(int y = 1;y<128;y++) {
-			if(get(x,y,z)==1 && (get(x,y-1,z)==0 && get(x,y-1,z)==Block.STATIONARY_WATER.id)) {
+			if(get(x,y,z)==1 && (get(x,y-1,z)==0 || get(x,y-1,z)==Block.STATIONARY_WATER.id)) {
 				int ch=0;
 				for(;!(get(x,y-ch,z)==1)&&y-ch>1;ch++) {}
 				if(ch<5) return;
