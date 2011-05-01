@@ -26,7 +26,7 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		this.Z=z;
 
 		for(int i = 0;i<10;i++) {
-			addStalactite(rnd.nextInt(15)+(X*16),rnd.nextInt(15)+(Z*16)); 
+			addStalactite(rnd.nextInt(15),rnd.nextInt(15)); 
 		}
 	}
 
