@@ -20,4 +20,9 @@ public class MathUtils {
 			double b_x, double b_y, double b_z) {
 		return Math.pow(a_x - b_x, 2) + Math.pow(a_y - b_y, 2) + Math.pow(a_z - b_z, 2);
 	}
+
+	public static double lerp(double a, double b, double f)
+	{
+		return (a + (b - a) * f);
+	}
 }

@@ -22,7 +22,7 @@ import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
 import net.nexisonline.spade.InterpolatedDensityMap;
-import net.nexisonline.spade.MathUtils;
+import net.nexisonline.spade.PonyCaveGenerator;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
 
@@ -49,12 +49,15 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 	private Random j;
 	private NoiseGeneratorOctaves c;
 	net.minecraft.server.World p=null;
+	
+	@SuppressWarnings("unused")
 	private SpadePlugin plugin;
 
 	private SimplexNoise m_simplexGenerator1;
 	private SimplexNoise m_simplexGenerator2;
 	private SimplexNoise m_simplexGenerator3;
 	private SimplexNoise m_simplexGenerator4;
+	private PonyCaveGenerator m_Pony;
 	private InterpolatedDensityMap density;
 	
 	public ChunkProviderSurrealIslands(SpadePlugin plugin) {
@@ -73,6 +76,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		this.setHasCustomTerrain(true);
 		this.setHasCustomSedimenter(true);
 		this.setHasCustomPopulator(true);
+		this.setHasCustomCaves(true);
 
 		try {
 			this.p = (net.minecraft.server.World)world;
@@ -89,6 +93,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 			this.n = new NoiseGeneratorOctaves(this.j, 4);
 			this.o = new NoiseGeneratorOctaves(this.j, 4);
 			this.c = new NoiseGeneratorOctaves(this.j, 8);
+			m_Pony = new PonyCaveGenerator(seed);
 		}
 		catch (Exception e)
 		{
@@ -193,6 +198,11 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		}
 		Logger.getLogger("Minecraft").info(String.format("[Islands] Chunk (%d,%d) (densityRange= [%.2f,%.2f])",X,Z,minDensity,maxDensity));
 	}
+	
+	@Override
+	public void generateCaves(Object world, int X, int Z, byte[] data) {
+		m_Pony.generateCaves(world, X, Z, data);
+	}
 
 	/**
 	 * Stolen standard terrain populator, screwed with to generate water at the desired height.
@@ -207,8 +217,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider
 		this.r = this.n.a(this.r, (double)(X * 16), (double)(Z * 16), 0.0D, 16, 16, 1, var6, var6, 1.0D);
 		this.s = this.n.a(this.s, (double)(X * 16), 109.0134D, (double)(Z * 16), 16, 1, 16, var6, 1.0D, var6);
 		this.t = this.o.a(this.t, (double)(X * 16), (double)(Z * 16), 0.0D, 16, 16, 1, var6 * 2.0D, var6 * 2.0D, var6 * 2.0D);
-
-		int maxColumnDistSquared = (int) Math.round(Math.pow((this.plugin.getChunkRadius(worldName)*16)-8,2));
 
 		for(int x = 0; x < 16; ++x) {
 			for(int z = 0; z < 16; ++z) {

@@ -10,7 +10,6 @@ import net.nexisonline.spade.chunkproviders.ChunkProviderStock;
 import net.nexisonline.spade.chunkproviders.ChunkProviderSurrealIslands;
 import net.nexisonline.spade.chunkproviders.ChunkProviderWat;
 import net.nexisonline.spade.commands.RegenCommand;
-import net.nexisonline.spade.commands.SetWorldGenCommand;
 import net.nexisonline.spade.commands.TP2WorldCommand;
 
 import org.bukkit.World.Environment;
@@ -40,6 +39,7 @@ public class SpadePlugin extends JavaPlugin {
         //getCommand("setworldgen").setExecutor(new SetWorldGenCommand(this));
         getCommand("regen").setExecutor(new RegenCommand(this));
         getCommand("tpw").setExecutor(new TP2WorldCommand(this));
+        getCommand("world").setExecutor(new TP2WorldCommand(this));
         
         registerChunkProviders();
 
