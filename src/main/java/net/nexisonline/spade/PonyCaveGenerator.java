@@ -1,8 +1,7 @@
 package net.nexisonline.spade;
 
-import net.minecraft.server.Block;
-import net.minecraft.server.Material;
 import libnoiseforjava.module.RidgedSimplex;
+import net.minecraft.server.Block;
 import toxi.math.noise.SimplexNoise;
 
 public class PonyCaveGenerator
@@ -108,7 +107,7 @@ public class PonyCaveGenerator
 							id!=Block.STATIONARY_LAVA.id &&
 							id!=Block.BEDROCK.id)
 					{
-						data[x << 11 | z << 7 | y]=0;
+						data[x << 11 | z << 7 | y]=(byte) ((y<10)?Block.STATIONARY_LAVA.id:0);
 					}
 				}
 			}
