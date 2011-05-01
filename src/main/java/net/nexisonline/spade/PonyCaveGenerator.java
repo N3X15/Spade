@@ -101,10 +101,12 @@ public class PonyCaveGenerator
 				for (int z = 0; z < 16; z++)
 				{
 					byte id = data[x << 11 | z << 7 | y];
-					Material mat = Block.byId[id].material;
-					if(mat==null) continue;
-					if (m_interpolator.getDensity(x, y, z) > 5 && 
-							mat.isSolid() && id!=Block.BEDROCK.id)
+					if (m_interpolator.getDensity(x, y, z) > 5 &&
+							id!=Block.WATER.id &&
+							id!=Block.STATIONARY_WATER.id &&
+							id!=Block.LAVA.id &&
+							id!=Block.STATIONARY_LAVA.id &&
+							id!=Block.BEDROCK.id)
 					{
 						data[x << 11 | z << 7 | y]=0;
 					}
