@@ -23,6 +23,7 @@ import net.minecraft.server.WorldGenerator;
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
+import net.nexisonline.spade.generators.DungeonPopulator;
 import net.nexisonline.spade.generators.PonyCaveGenerator;
 import net.nexisonline.spade.generators.StalactiteGenerator;
 
@@ -61,7 +62,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	private SimplexNoise m_simplexGenerator2;
 	private SimplexNoise m_simplexGenerator3;
 	private SimplexNoise m_simplexGenerator4;
-	private PonyCaveGenerator m_Pony;
+	private PonyCaveGenerator mCaves;
+	private DungeonPopulator m_Dungeons;
 	private InterpolatedDensityMap density;
 	private StalactiteGenerator stalactites;
 
@@ -99,11 +101,12 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 			m_simplexGenerator3 = new SimplexNoise(((int) seed * 1024) + 2);
 			m_simplexGenerator4 = new SimplexNoise(((int) seed * 1024) + 3);
 			stalactites = new StalactiteGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
+			m_Dungeons = new DungeonPopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			this.j = new Random(seed + 77);
 			this.n = new NoiseGeneratorOctaves(this.j, 4);
 			this.o = new NoiseGeneratorOctaves(this.j, 4);
 			this.c = new NoiseGeneratorOctaves(this.j, 8);
-			m_Pony = new PonyCaveGenerator(seed);
+			mCaves = new PonyCaveGenerator(seed);
 		} catch (Exception e) {
 		}
 	}
@@ -200,7 +203,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 
 	@Override
 	public void generateCaves(Object world, int X, int Z, byte[] data) {
-		m_Pony.generateCaves(world, X, Z, data);
+		m_Dungeons.addToChunk(data,X,Z);
+		mCaves.generateCaves(world, X, Z, data);
 		stalactites.addToChunk(data, X, Z);
 	}
 
