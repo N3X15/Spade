@@ -2,7 +2,6 @@ package net.nexisonline.spade.generators;
 
 import java.util.Random;
 
-import net.minecraft.server.Block;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.World;
@@ -20,26 +19,26 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	private int Z;
 	private Random rnd;
 
-	public void addToChunk(byte[] chunk, int x, int z) {
+	public void addToChunk(World w,byte[] chunk, int x, int z) {
 		this.chunk=chunk;
 		this.X=x;
 		this.Z=z;
 
 		for(int i = 0;i<10;i++) {
-			addStalactite(rnd.nextInt(15),rnd.nextInt(15)); 
+			addStalactite(w,rnd.nextInt(15),rnd.nextInt(15)); 
 		}
 	}
 
-	private void addStalactite(int x, int z) {
+	private void addStalactite(World w,int x, int z) {
 		for(int y = 1;y<127;y++) {
 			if(get(x,y,z)==1 && (get(x,y-1,z)==0 || get(x,y-1,z)==8)) {
 				for(;!(get(x,y,z)==1)&&y>1;y--) {}
-				addStalactite(x+(X*16), y, x+(Z*16));
+				addStalactite(w,x+(X*16), y, x+(Z*16));
 			}
 		}
 	}
 
-	private void addStalactite(int x, int y, int z) {
+	private void addStalactite(World w,int x, int y, int z) {
 		if(world.isChunkLoaded(x>>4, z>>4)) {
 			world.loadChunk(x>>4, z>>4);
 		}
@@ -51,13 +50,13 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		for(;y<128&&world.getBlockAt(x,y,z).getTypeId()==0;y++) {
 			world.getBlockAt(x,y,z).setTypeId(1);
 			if(rnd.nextDouble()<0.25 && !N)
-				addStalactite(x+1,y,z);
+				addStalactite(w,x+1,y,z);
 			if(rnd.nextDouble()<0.25 && !E)
-				addStalactite(x,y+1,z);
+				addStalactite(w,x,y+1,z);
 			if(rnd.nextDouble()<0.25 && !W)
-				addStalactite(x-1,y,z);
+				addStalactite(w,x-1,y,z);
 			if(rnd.nextDouble()<0.25 && !S)
-				addStalactite(x,y-1,z);
+				addStalactite(w,x,y-1,z);
 		}
 	}
 

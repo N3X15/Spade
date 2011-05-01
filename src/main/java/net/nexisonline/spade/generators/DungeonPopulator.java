@@ -2,6 +2,7 @@ package net.nexisonline.spade.generators;
 
 import java.util.Random;
 
+import net.minecraft.server.WorldServer;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
@@ -307,8 +308,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	Random m_random;
 	SimplexNoise m_density;
 	@Override
-	public void addToChunk(byte[] chunk, int x, int z) {
-		// TODO Auto-generated method stub
-		populate(world.getChunkAt(x,z));
+	public void addToChunk(World w, byte[] chunk, int x, int z) {
+		populate(w.getChunkAt(x,z));
 	}
 }

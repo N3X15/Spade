@@ -20,6 +20,7 @@ import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
+import net.minecraft.server.WorldServer;
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
@@ -51,7 +52,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	private Random j;
 	private NoiseGeneratorOctaves c;
 	net.minecraft.server.World p = null;
-	@SuppressWarnings("unused")
 	private SpadePlugin plugin;
 	SimplexNoise m_simplex1;
 	SimplexNoise m_simplex2;
@@ -203,9 +203,10 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 
 	@Override
 	public void generateCaves(Object world, int X, int Z, byte[] data) {
-		m_Dungeons.addToChunk(data,X,Z);
+		org.bukkit.World w = ((WorldServer)p).getWorld();
+		m_Dungeons.addToChunk(w,data,X,Z);
 		mCaves.generateCaves(world, X, Z, data);
-		stalactites.addToChunk(data, X, Z);
+		stalactites.addToChunk(w,data, X, Z);
 	}
 
 	/**

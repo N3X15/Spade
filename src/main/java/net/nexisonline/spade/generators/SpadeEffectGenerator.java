@@ -18,5 +18,5 @@ public abstract class SpadeEffectGenerator {
 		this.seed=seed;
 	}
 
-	public abstract void addToChunk(byte[] chunk, int x, int z);
+	public abstract void addToChunk(World w, byte[] chunk, int x, int z);
 }
