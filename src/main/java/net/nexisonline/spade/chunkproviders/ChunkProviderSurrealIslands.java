@@ -219,7 +219,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	@Override
 	public void generateCaves(Object world, int X, int Z, byte[] data) {
 		org.bukkit.World w = ((WorldServer)p).getWorld();
-		m_Dungeons.addToChunk(w,data,X,Z);
 		mCaves.generateCaves(world, X, Z, data);
 		stalactites.addToChunk(w,data, X, Z);
 	}
@@ -344,6 +343,9 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		 * 
 		 * }
 		 */
+                org.bukkit.World w = ((WorldServer)p).getWorld();
+                m_Dungeons.addToChunk(w,data,X,Z);
+
 		BlockSand.a = true;
 		int var4 = X * 16;
 		int var5 = Z * 16;
