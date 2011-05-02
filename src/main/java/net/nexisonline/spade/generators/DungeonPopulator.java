@@ -135,12 +135,12 @@ public class DungeonPopulator extends SpadeEffectGenerator
 							}								
 							else
 							{
-								//world.setBlock(x, y, z, 0);
+								world.getBlockAt(x, y, z).setTypeId(0);
 							}
 						}
 						else
 						{
-							//world.setBlock(x, y, z, 0);
+							world.getBlockAt(x, y, z).setTypeId(0);
 						}
 					}
 				}
