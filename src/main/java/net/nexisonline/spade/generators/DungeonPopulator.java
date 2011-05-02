@@ -36,7 +36,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	public void populate(Chunk chunk)
 	{
 		double density = m_density.noise(chunk.getX() * 16, chunk.getZ() * 16);
-		Logger.getLogger("Minecraft").info("Density: %.2f", density);
+		Logger.getLogger("Minecraft").info(String.format("Density: %.2f", density));
 
 		int chunkY = m_random.nextInt(64);
 

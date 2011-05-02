@@ -7,12 +7,12 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.Random;
 import java.util.logging.Logger;
+
 import net.minecraft.server.BiomeBase;
 import net.minecraft.server.BlockSand;
 import net.minecraft.server.NoiseGeneratorOctaves;
 import net.minecraft.server.WorldGenCactus;
 import net.minecraft.server.WorldGenClay;
-import net.minecraft.server.WorldGenDungeons;
 import net.minecraft.server.WorldGenFlowers;
 import net.minecraft.server.WorldGenLakes;
 import net.minecraft.server.WorldGenLiquids;
@@ -34,6 +34,7 @@ import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.util.BiomeUtils;
 import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
+
 import toxi.math.noise.SimplexNoise;
 
 /**
