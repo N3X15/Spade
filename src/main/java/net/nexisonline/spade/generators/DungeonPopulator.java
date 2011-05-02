@@ -188,6 +188,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 		}
 		catch (Exception e)
 		{
+                      e.printStackTrace();
 		}				
 	}
 
