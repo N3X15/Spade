@@ -2,13 +2,14 @@ package net.nexisonline.spade.generators;
 
 import java.util.Random;
 
-import net.minecraft.server.WorldServer;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.config.ConfigurationNode;
 
@@ -308,7 +309,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	Random m_random;
 	SimplexNoise m_density;
 	@Override
-	public void addToChunk(World w, byte[] chunk, int x, int z) {
-		populate(w.getChunkAt(x,z));
+	public void addToChunk(Chunk chunk, int x, int z) {
+		populate(chunk);
 	}
 }

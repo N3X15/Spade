@@ -30,6 +30,7 @@ import net.nexisonline.spade.generators.StalactiteGenerator;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.util.BiomeUtils;
 import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
@@ -58,9 +59,13 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	SimplexNoise m_xTurbulence;
 	SimplexNoise m_yTurbulence;
 	SimplexNoise m_zTurbulence;
+	@SuppressWarnings("unused")
 	private SimplexNoise m_simplexGenerator1;
+	@SuppressWarnings("unused")
 	private SimplexNoise m_simplexGenerator2;
+	@SuppressWarnings("unused")
 	private SimplexNoise m_simplexGenerator3;
+	@SuppressWarnings("unused")
 	private SimplexNoise m_simplexGenerator4;
 	private PonyCaveGenerator mCaves;
 	private DungeonPopulator m_Dungeons;
@@ -203,10 +208,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 
 	@Override
 	public void generateCaves(Object world, int X, int Z, byte[] data) {
-		org.bukkit.World w = ((WorldServer)p).getWorld();
-		m_Dungeons.addToChunk(w,data,X,Z);
 		mCaves.generateCaves(world, X, Z, data);
-		stalactites.addToChunk(w,data, X, Z);
 	}
 
 	/**
@@ -319,6 +321,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	}
 
 	public void populateChunk(Object ch, int X, int Z) {
+		m_Dungeons.addToChunk(getBukkitWorld().getChunkAt(X, Z), X,Z);
+		stalactites.addToChunk(getBukkitWorld().getChunkAt(X, Z), X, Z);
 		/*
 		 * if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 		 * 
@@ -560,6 +564,11 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 			}
 		}
 		BlockSand.a = false;
+	}
+
+	private CraftWorld getBukkitWorld() {
+		// TODO Auto-generated method stub
+		return ((WorldServer)p).getWorld();
 	}
 
 	@Override

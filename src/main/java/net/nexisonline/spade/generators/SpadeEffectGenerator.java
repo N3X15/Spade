@@ -2,6 +2,7 @@ package net.nexisonline.spade.generators;
 
 import net.nexisonline.spade.SpadePlugin;
 
+import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.util.config.ConfigurationNode;
 
@@ -18,5 +19,5 @@ public abstract class SpadeEffectGenerator {
 		this.seed=seed;
 	}
 
-	public abstract void addToChunk(World w, byte[] chunk, int x, int z);
+	public abstract void addToChunk(Chunk chunk, int x, int z);
 }

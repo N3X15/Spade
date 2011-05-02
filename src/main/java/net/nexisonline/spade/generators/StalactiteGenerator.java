@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.nexisonline.spade.SpadePlugin;
 
+import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.util.config.ConfigurationNode;
 
@@ -13,19 +14,18 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		super(plugin, w, node, seed);
 		rnd=new Random((seed*1024)+15);
 	}
-
-	private byte[] chunk;
 	private int X;
 	private int Z;
 	private Random rnd;
+	private Chunk chunk;
 
-	public void addToChunk(World w,byte[] chunk, int x, int z) {
+	public void addToChunk(Chunk chunk, int x, int z) {
 		this.chunk=chunk;
 		this.X=x;
 		this.Z=z;
 
 		for(int i = 0;i<10;i++) {
-			addStalactite(w,rnd.nextInt(15),rnd.nextInt(15)); 
+			addStalactite(chunk.getWorld(),rnd.nextInt(15),rnd.nextInt(15)); 
 		}
 	}
 
@@ -61,6 +61,6 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	}
 
 	private int get(int x, int y, int z) {
-		return chunk[x << 11 | z << 7 | y];
+		return this.chunk.getBlock(x, y, z).getTypeId();
 	}
 }
