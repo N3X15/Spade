@@ -52,11 +52,11 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 			if(rnd.nextDouble()<0.25 && !N)
 				addStalactite(w,x+1,y,z);
 			if(rnd.nextDouble()<0.25 && !E)
-				addStalactite(w,x,y+1,z);
+				addStalactite(w,x,y,z+1);
 			if(rnd.nextDouble()<0.25 && !W)
 				addStalactite(w,x-1,y,z);
 			if(rnd.nextDouble()<0.25 && !S)
-				addStalactite(w,x,y-1,z);
+				addStalactite(w,x,y,z-1);
 		}
 	}
 

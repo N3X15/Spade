@@ -328,7 +328,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	}
 
 	public void populateChunk(Object ch, int X, int Z) {
-		m_Dungeons.addToChunk(getBukkitWorld().getChunkAt(X, Z), X,Z);
+		m_Dungeons.addToChunk(getBukkitWorld().getChunkAt(X, Z), X, Z);
 		stalactites.addToChunk(getBukkitWorld().getChunkAt(X, Z), X, Z);
 		/*
 		 * if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
