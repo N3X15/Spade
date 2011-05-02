@@ -29,54 +29,54 @@ public class DungeonPopulator extends SpadeEffectGenerator
 		m_density = new SimplexNoise(seed + 343543);
 		m_density.setFrequency(0.01);
 		m_density.setAmplitude(maxRooms * 0.1);
-		
+
 		m_random = new Random(seed + 3531244);
 	}
-	
+
 	public void populate(Chunk chunk)
 	{
 		double density = m_density.noise(chunk.getX() * 16, chunk.getZ() * 16);
-                Logger.getLogger("Minecraft").info("Density: %.2f", density);
-		
+		//Logger.getLogger("Minecraft").info("Density: %.2f", density);
+
 		int chunkY = m_random.nextInt(64);
-		
+
 		if (density > 0.5)
 		{
 			int roomCount = (int)(density * 10);
-			
+
 			for (int i = 0; i < roomCount; i++)
 			{
 				int x = m_random.nextInt(16);
 				int y = chunkY + m_random.nextInt(2);
 				int z = m_random.nextInt(16);
-				
+
 				int width = m_random.nextInt(16) + 1;
 				int height = m_random.nextInt(8) + 2;
 				int depth = m_random.nextInt(16) + 1;
-				
+
 				x += chunk.getX() * 16;
 				z += chunk.getZ() * 16;
 
-                                Logger.getLogger("Minecraft").info("Width: %d Height: %d Depth: %d", width, height, depth);
-				
+				//Logger.getLogger("Minecraft").info("Width: %d Height: %d Depth: %d", width, height, depth);
+
 				generateRoom(x, y, z, width, height, depth, chunk);
 			}
 		}		
 	}
-	
+
 	private void generateRoom(int px, int py, int pz, int width, int height, int depth, Chunk chunk)
 	{
 		try
-			{
-		
+		{
+
 			int nx = px - 1;
 			int ny = py - 1;
 			int nz = pz - 1;
-		
+
 			int nw = width + 1;
 			int nh = height + 1;
 			int nd = depth + 1;
-		
+
 			for (int x = px; x < px + width; x++)
 			{
 				for (int y = py; y < py + height; y++)
@@ -87,9 +87,9 @@ public class DungeonPopulator extends SpadeEffectGenerator
 						{
 							int placeSpawner = m_random.nextInt((width * height));
 							int placeChest = m_random.nextInt((width * height) * 4);
-						
+
 							int currentBlock = world.getBlockAt(x, y, z).getTypeId();
-											
+
 							if (placeSpawner == 0 && currentBlock != 0)
 							{
 								Block spawner = world.getBlockAt(x, y, z);
@@ -101,37 +101,37 @@ public class DungeonPopulator extends SpadeEffectGenerator
 								Block block = world.getBlockAt(x, y, z);
 								block.setType(Material.CHEST);
 								Chest chest = (Chest)block.getState();
-							
-							
+
+
 								for (int i = 0; i < 4; i++)
 								{
 									ItemStack st = getArmor(i);
-									
+
 									if (st != null)
 									{
 										chest.getInventory().setItem(m_random.nextInt(chest.getInventory().getSize()), st);
 									}
 								}
-							
+
 								for (int i = 0; i < 5; i++)
 								{
 									ItemStack st = getTools(i);
-								
+
 									if (st != null)
 									{
 										chest.getInventory().setItem(m_random.nextInt(chest.getInventory().getSize()), st);
 									}
 								}
-							
+
 								ItemStack st = getOre();
-							
+
 								if (st != null)
 								{
 									chest.getInventory().setItem(m_random.nextInt(chest.getInventory().getSize()), st);
 								}
-							
+
 								ItemStack st2 = getItem();
-							
+
 								if (st2 != null)
 								{
 									//tileEntity.setInventorySlotContents(m_random.nextInt(tileEntity.getSizeInventory()), st2);
@@ -149,39 +149,45 @@ public class DungeonPopulator extends SpadeEffectGenerator
 					}
 				}
 			}
-		
+
 			for (int x = nx; x < nx + nw; x++)
 			{
 				for (int z = nz; z < nz + nd; z++)
 				{
-					if (world.getBlockAt(x, ny, z).getTypeId() != 0)
+					if (world.getBlockAt(x, ny, z).getTypeId() != 0 
+							&& world.getBlockAt(x, ny, z).getType() != Material.WATER)
 						world.getBlockAt(x, ny, z).setType(Material.MOSSY_COBBLESTONE);
-					
-					if (world.getBlockAt(x, ny + nh, z).getTypeId() != 0)
+
+					if (world.getBlockAt(x, ny + nh, z).getTypeId() != 0
+							&& world.getBlockAt(x, ny + nh, z).getType() != Material.WATER)
 						world.getBlockAt(x, ny + nh, z).setType(Material.MOSSY_COBBLESTONE);
 				}
 			}
-		
+
 			for (int y = ny; y < ny + nh; y++)
 			{
 				for (int z = nz; z < nz + nd; z++)
 				{
-					if (world.getBlockAt(nx, y, z).getTypeId() != 0)
+					if (world.getBlockAt(nx, y, z).getTypeId() != 0
+							&& world.getBlockAt(nx, y, z).getType() != Material.WATER)
 						world.getBlockAt(nx, y, z).setType(Material.MOSSY_COBBLESTONE);
-				
-					if (world.getBlockAt(nx + nw, y, z).getTypeId() != 0)
+
+					if (world.getBlockAt(nx + nw, y, z).getTypeId() != 0
+							&& world.getBlockAt(nx + nw, y, z).getType() != Material.WATER)
 						world.getBlockAt(nx + nw, y, z).setType(Material.MOSSY_COBBLESTONE);
 				}
 			}
-		
+
 			for (int x = nx; x < nx + nw; x++)
 			{
 				for (int y = ny; y < ny + nh; y++)
 				{
-					if (world.getBlockAt(x, y, nz).getTypeId() != 0)
+					if (world.getBlockAt(x, y, nz).getTypeId() != 0
+							&& world.getBlockAt(x, y, nz).getType() != Material.WATER)
 						world.getBlockAt(x, y, nz).setType(Material.MOSSY_COBBLESTONE);
-					
-					if (world.getBlockAt(x, y, nz + nd).getTypeId() != 0)
+
+					if (world.getBlockAt(x, y, nz + nd).getTypeId() != 0
+							&& world.getBlockAt(x, y, nz + nd).getType() != Material.WATER)
 						world.getBlockAt(x, y, nz + nd).setType(Material.MOSSY_COBBLESTONE);
 				}
 			}
@@ -190,11 +196,11 @@ public class DungeonPopulator extends SpadeEffectGenerator
 		{
 		}				
 	}
-	
+
 	private String getRandomMob()
 	{
 		int i = m_random.nextInt(4);
-		
+
 		if (i == 0)
 		{
 			return "Skeleton";
@@ -216,12 +222,12 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			return "";
 		}
 	}
-	
+
 	private ItemStack getOre()
 	{
 		int i = m_random.nextInt(255);
 		int count = m_random.nextInt(63) + 1;
-		
+
 		if (i > 253)
 		{
 			return new ItemStack(22, count);
@@ -243,11 +249,11 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			return new ItemStack(263, count);
 		}
 	}
-	
+
 	private ItemStack getTools(int index)
 	{
 		int i = m_random.nextInt(255);
-		
+
 		if (i > 245)
 		{
 			return new ItemStack(276 + index, 1);
@@ -276,11 +282,11 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			return new ItemStack(268 + index, 1);
 		}
 	}
-	
+
 	private ItemStack getArmor(int index)
 	{
 		int i = m_random.nextInt(255);
-		
+
 		if (i > 245)
 		{			
 			return new ItemStack(310 + index, 1);
@@ -302,14 +308,14 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			return new ItemStack(298 + index, 1);
 		}
 	}
-	
+
 	private ItemStack getItem()
 	{
 		int id = m_random.nextInt(255) + 255;		
 		int count = m_random.nextInt(63) + 1;		
 		return new ItemStack(id, count);
 	}
-	
+
 	Random m_random;
 	SimplexNoise m_density;
 	@Override

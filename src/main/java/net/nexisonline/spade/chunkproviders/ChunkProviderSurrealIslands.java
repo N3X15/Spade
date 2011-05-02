@@ -371,12 +371,13 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 			}
 		}
 		int z;
+		/*
 		for (var13 = 0; var13 < 16; ++var13) {
 			x = var4 + this.j.nextInt(16) + 8;
 			y = this.j.nextInt(128);
 			z = var5 + this.j.nextInt(16) + 8;
 			(new WorldGenDungeons()).a(this.p, this.j, x, y, z);
-		}
+		}*/
 		for (var13 = 0; var13 < 10; ++var13) {
 			x = var4 + this.j.nextInt(16);
 			y = this.j.nextInt(128);

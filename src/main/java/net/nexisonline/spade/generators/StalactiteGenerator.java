@@ -32,12 +32,15 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	private void addStalactite(World w,int x, int z) {
 		for(int y = 1;y<127;y++) {
 			if(get(x,y,z)==1 && (get(x,y-1,z)==0 || get(x,y-1,z)==8)) {
-				for(;!(get(x,y,z)==1)&&y>1;y--) {}
+				int h=rnd.nextInt(15);
+				//for(;!(get(x,y-h,z)==1)&&y-h>1;h++) {}
+				y-=h;
 				addStalactite(w,x+(X*16), y, x+(Z*16));
 			}
 		}
 	}
 
+	private final double MINISTALACTITE_CHANCE=0.01;
 	private void addStalactite(World w,int x, int y, int z) {
 		if(w.isChunkLoaded(x>>4, z>>4)) {
 			w.loadChunk(x>>4, z>>4);
@@ -49,13 +52,13 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		boolean S=false;
 		for(;y<128&&w.getBlockAt(x,y,z).getTypeId()==0;y++) {
 			w.getBlockAt(x,y,z).setTypeId(1);
-			if(rnd.nextDouble()<0.25 && !N)
+			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !N)
 				addStalactite(w,x+1,y,z);
-			if(rnd.nextDouble()<0.25 && !E)
+			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !E)
 				addStalactite(w,x,y,z+1);
-			if(rnd.nextDouble()<0.25 && !W)
+			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !W)
 				addStalactite(w,x-1,y,z);
-			if(rnd.nextDouble()<0.25 && !S)
+			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !S)
 				addStalactite(w,x,y,z-1);
 		}
 	}
