@@ -41,7 +41,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 
 		int chunkY = m_random.nextInt(64);
 
-		if (density > 0)
+		if (density > 0.8)
 		{
 			int roomCount = (int)(density * 10);
 
