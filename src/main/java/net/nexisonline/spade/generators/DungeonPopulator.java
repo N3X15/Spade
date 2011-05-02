@@ -57,7 +57,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 				x += chunk.getX() * 16;
 				z += chunk.getZ() * 16;
 
-				//Logger.getLogger("Minecraft").info("Width: %d Height: %d Depth: %d", width, height, depth);
+				Logger.getLogger("Minecraft").info(String.format("Width: %d Height: %d Depth: %d", width, height, depth));
 
 				generateRoom(x, y, z, width, height, depth, chunk);
 			}
