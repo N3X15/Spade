@@ -39,16 +39,16 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	}
 
 	private void addStalactite(World w,int x, int y, int z) {
-		if(world.isChunkLoaded(x>>4, z>>4)) {
-			world.loadChunk(x>>4, z>>4);
+		if(w.isChunkLoaded(x>>4, z>>4)) {
+			w.loadChunk(x>>4, z>>4);
 		}
-		if(y>=world.getHighestBlockYAt(x, z)) return;
+		if(y>=w.getHighestBlockYAt(x, z)) return;
 		boolean N=false;
 		boolean E=false;
 		boolean W=false;
 		boolean S=false;
-		for(;y<128&&world.getBlockAt(x,y,z).getTypeId()==0;y++) {
-			world.getBlockAt(x,y,z).setTypeId(1);
+		for(;y<128&&w.getBlockAt(x,y,z).getTypeId()==0;y++) {
+			w.getBlockAt(x,y,z).setTypeId(1);
 			if(rnd.nextDouble()<0.25 && !N)
 				addStalactite(w,x+1,y,z);
 			if(rnd.nextDouble()<0.25 && !E)
