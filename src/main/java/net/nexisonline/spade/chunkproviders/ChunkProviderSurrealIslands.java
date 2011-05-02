@@ -97,10 +97,25 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		}
 		try {
 			m_simplex1 = new SimplexNoise(((int) seed * 1024));
+			m_simplex1.setFrequency(0.005);
+			m_simplex1.setAmplitude(50);
+
 			m_simplex2 = new SimplexNoise(((int) seed * 1024) + 1);
+			m_simplex2.setFrequency(0.0005);
+			m_simplex2.setAmplitude(25);
+
 			m_xTurbulence = new SimplexNoise(((int) seed * 1024) + 2);
+			m_xTurbulence.setFrequency(0.05);
+			m_xTurbulence.setAmplitude(5);
+
 			m_yTurbulence = new SimplexNoise(((int) seed * 1024) + 3);
+			m_yTurbulence.setFrequency(0.05); 
+			m_yTurbulence.setAmplitude(5);
+
 			m_zTurbulence = new SimplexNoise(((int) seed * 1024) + 4);
+			m_zTurbulence.setFrequency(0.05);
+			m_zTurbulence.setAmplitude(5);
+
 			m_simplexGenerator1 = new SimplexNoise(((int) seed * 1024));
 			m_simplexGenerator2 = new SimplexNoise(((int) seed * 1024) + 1);
 			m_simplexGenerator3 = new SimplexNoise(((int) seed * 1024) + 2);
@@ -154,25 +169,17 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					double posY = (y - 64);
 					double posZ = (z + (Z * 16));
 					frequency = 0.05;
-					amplitude = 5;
-					double warpX = posX
-							+ m_xTurbulence.sample(posX, posY, posZ, frequency,
-									amplitude);
-					double warpY = posY
-							+ m_yTurbulence.sample(posX, posY, posZ, frequency,
-									amplitude);
-					double warpZ = posZ
-							+ m_zTurbulence.sample(posX, posY, posZ, frequency,
-									amplitude);
+					amplitude = 10;
+					double warpX = posX + m_xTurbulence.sample(posX, posY, posZ, frequency, amplitude);
+					double warpY = posY + m_yTurbulence.sample(posX, posY, posZ, frequency, amplitude);
+					double warpZ = posZ + m_zTurbulence.sample(posX, posY, posZ, frequency, amplitude);
 					double d = -12;
 					frequency = 0.005;
 					amplitude = 50;
-					d -= m_simplex1.sample(warpX, warpY, warpZ, frequency,
-							amplitude);
+					d -= m_simplex1.sample(warpX, warpY, warpZ, frequency, amplitude);
 					frequency = 0.0005;
 					amplitude = 25;
-					d -= m_simplex2.sample(warpX, warpY, warpZ, frequency,
-							amplitude);
+					d -= m_simplex2.sample(warpX, warpY, warpZ, frequency, amplitude);
 					density.setDensity(x, y, z, d);
 				}
 			}
@@ -241,7 +248,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 				// double
 				// columnDistSquared=MathUtils.getDist2DSquared(0,0,x+(X*16),z+(Z*16));
 				BiomeBase biome = BiomeUtils
-						.biome2BiomeBase(biomes[x + z * 16]);
+				.biome2BiomeBase(biomes[x + z * 16]);
 				boolean var11 = this.r[x + z * 16] + this.j.nextDouble() * 0.2D > 0.0D;
 				boolean var12 = this.s[x + z * 16] + this.j.nextDouble() * 0.2D > 3.0D;
 				int var13 = (int) (this.t[x + z * 16] / 3.0D + 3.0D + this.j
@@ -297,7 +304,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 								}
 								if (y < WATER_HEIGHT && grass == 0) {
 									grass = (byte) Material.STATIONARY_WATER
-											.getId();
+									.getId();
 								}
 								var14 = var13;
 								if (y >= WATER_HEIGHT - 1) {
@@ -333,6 +340,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		 * 
 		 * }
 		 */
+
 		BlockSand.a = true;
 		int var4 = X * 16;
 		int var5 = Z * 16;
@@ -552,7 +560,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 				var19 = var17 - (var5 + 8);
 				int var20 = this.p.e(z, var17);
 				double var21 = w[var23 * 16 + var19] - (double) (var20 - 64)
-						/ 64.0D * 0.3D;
+				/ 64.0D * 0.3D;
 				if (var21 < 0.5D
 						&& var20 > 0
 						&& var20 < 128
