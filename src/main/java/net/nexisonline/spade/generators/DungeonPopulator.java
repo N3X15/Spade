@@ -86,7 +86,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 						if (y == py)
 						{
 							int placeSpawner = m_random.nextInt((width * height));
-							int placeChest = m_random.nextInt((width * height) * 4);
+							int placeChest = m_random.nextInt((width * height) * 3);
 
 							int currentBlock = world.getBlockAt(x, y, z).getTypeId();
 
