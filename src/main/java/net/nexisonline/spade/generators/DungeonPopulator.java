@@ -33,8 +33,9 @@ public class DungeonPopulator extends SpadeEffectGenerator
 		m_random = new Random(seed + 3531244);
 	}
 
-	public void populate(Chunk chunk)
+	public void populate(World w, Chunk chunk)
 	{
+		world=w;
 		double density = m_density.noise(chunk.getX() * 16, chunk.getZ() * 16);
 		Logger.getLogger("Minecraft").info(String.format("Density: %.2f", density));
 
@@ -315,6 +316,6 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	SimplexNoise m_density;
 	@Override
 	public void addToChunk(Chunk chunk, int x, int z) {
-		populate(chunk);
+		populate(chunk.getWorld(),chunk);
 	}
 }
