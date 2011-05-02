@@ -40,7 +40,7 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		}
 	}
 
-	private final double MINISTALACTITE_CHANCE=0.01;
+	private final double MINISTALACTITE_CHANCE=0.10;
 	private void addStalactite(World w,int x, int y, int z) {
 		if(w.isChunkLoaded(x>>4, z>>4)) {
 			w.loadChunk(x>>4, z>>4);
