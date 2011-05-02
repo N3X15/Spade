@@ -21,7 +21,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	public DungeonPopulator(SpadePlugin plugin, World w,
 			ConfigurationNode node, long seed) {
 		super(plugin, w, node, seed);
-		init(seed,8);
+		init(seed,16);
 	}
 
 	public void init(long seed, int maxRooms)
