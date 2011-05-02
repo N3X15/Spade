@@ -86,7 +86,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 						if (y == py)
 						{
 							int placeSpawner = m_random.nextInt((width * height));
-							int placeChest = m_random.nextInt((width * height) * 4);
+							int placeChest = m_random.nextInt((width * height) * 3);
 
 							int currentBlock = world.getBlockAt(x, y, z).getTypeId();
 
@@ -150,44 +150,38 @@ public class DungeonPopulator extends SpadeEffectGenerator
 				}
 			}
 
-			for (int x = nx; x < nx + nw; x++)
+			for (int x = nx; x <= nx + nw; x++)
 			{
-				for (int z = nz; z < nz + nd; z++)
+				for (int z = nz; z <= nz + nd; z++)
 				{
-					if (world.getBlockAt(x, ny, z).getTypeId() != 0 
-							&& world.getBlockAt(x, ny, z).getType() != Material.WATER)
+					if (world.getBlockAt(x, ny, z).getTypeId() != 0)
 						world.getBlockAt(x, ny, z).setType(Material.MOSSY_COBBLESTONE);
 
-					if (world.getBlockAt(x, ny + nh, z).getTypeId() != 0
-							&& world.getBlockAt(x, ny + nh, z).getType() != Material.WATER)
+					if (world.getBlockAt(x, ny + nh, z).getTypeId() != 0)
 						world.getBlockAt(x, ny + nh, z).setType(Material.MOSSY_COBBLESTONE);
 				}
 			}
 
-			for (int y = ny; y < ny + nh; y++)
+			for (int y = ny; y <= ny + nh; y++)
 			{
-				for (int z = nz; z < nz + nd; z++)
+				for (int z = nz; z <= nz + nd; z++)
 				{
-					if (world.getBlockAt(nx, y, z).getTypeId() != 0
-							&& world.getBlockAt(nx, y, z).getType() != Material.WATER)
+					if (world.getBlockAt(nx, y, z).getTypeId() != 0)
 						world.getBlockAt(nx, y, z).setType(Material.MOSSY_COBBLESTONE);
 
-					if (world.getBlockAt(nx + nw, y, z).getTypeId() != 0
-							&& world.getBlockAt(nx + nw, y, z).getType() != Material.WATER)
+					if (world.getBlockAt(nx + nw, y, z).getTypeId() != 0)
 						world.getBlockAt(nx + nw, y, z).setType(Material.MOSSY_COBBLESTONE);
 				}
 			}
 
-			for (int x = nx; x < nx + nw; x++)
+			for (int x = nx; x <= nx + nw; x++)
 			{
-				for (int y = ny; y < ny + nh; y++)
+				for (int y = ny; y <= ny + nh; y++)
 				{
-					if (world.getBlockAt(x, y, nz).getTypeId() != 0
-							&& world.getBlockAt(x, y, nz).getType() != Material.WATER)
+					if (world.getBlockAt(x, y, nz).getTypeId() != 0)
 						world.getBlockAt(x, y, nz).setType(Material.MOSSY_COBBLESTONE);
 
-					if (world.getBlockAt(x, y, nz + nd).getTypeId() != 0
-							&& world.getBlockAt(x, y, nz + nd).getType() != Material.WATER)
+					if (world.getBlockAt(x, y, nz + nd).getTypeId() != 0)
 						world.getBlockAt(x, y, nz + nd).setType(Material.MOSSY_COBBLESTONE);
 				}
 			}
