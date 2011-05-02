@@ -12,6 +12,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.config.ConfigurationNode;
+import java.util.logging.Logger;
 
 import toxi.math.noise.SimplexNoise;
 
@@ -35,6 +36,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	public void populate(Chunk chunk)
 	{
 		double density = m_density.noise(chunk.getX() * 16, chunk.getZ() * 16);
+                Logger.getLogger("Minecraft").info("Density: %d", density);
 		
 		int chunkY = m_random.nextInt(64);
 		
@@ -54,6 +56,8 @@ public class DungeonPopulator extends SpadeEffectGenerator
 				
 				x += chunk.getX() * 16;
 				z += chunk.getZ() * 16;
+
+                                Logger.getLogger("Minecraft").info("Width: %d Height: %d Depth: %d", width, height, depth);
 				
 				generateRoom(x, y, z, width, height, depth, chunk);
 			}
