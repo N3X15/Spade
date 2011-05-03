@@ -155,11 +155,8 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			{
 				for (int z = nz; z <= nz + nd; z++)
 				{
-					if (world.getBlockAt(x, ny, z).getTypeId() != 0)
-						world.getBlockAt(x, ny, z).setType(Material.MOSSY_COBBLESTONE);
-
-					if (world.getBlockAt(x, ny + nh, z).getTypeId() != 0)
-						world.getBlockAt(x, ny + nh, z).setType(Material.MOSSY_COBBLESTONE);
+                                        placeBlock(x, ny, z);
+                                        placeBlock(x, ny + nh, z);
 				}
 			}
 
@@ -167,11 +164,8 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			{
 				for (int z = nz; z <= nz + nd; z++)
 				{
-					if (world.getBlockAt(nx, y, z).getTypeId() != 0)
-						world.getBlockAt(nx, y, z).setType(Material.MOSSY_COBBLESTONE);
-
-					if (world.getBlockAt(nx + nw, y, z).getTypeId() != 0)
-						world.getBlockAt(nx + nw, y, z).setType(Material.MOSSY_COBBLESTONE);
+                                        placeBlock(nx, y, z);
+                                        placeBlock(nx + nw, y, z);
 				}
 			}
 
@@ -179,11 +173,8 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			{
 				for (int y = ny; y <= ny + nh; y++)
 				{
-					if (world.getBlockAt(x, y, nz).getTypeId() != 0)
-						world.getBlockAt(x, y, nz).setType(Material.MOSSY_COBBLESTONE);
-
-					if (world.getBlockAt(x, y, nz + nd).getTypeId() != 0)
-						world.getBlockAt(x, y, nz + nd).setType(Material.MOSSY_COBBLESTONE);
+                                        placeBlock(x, y, nz);
+                                        placeBlock(x, y, nz + nd);
 				}
 			}
 		}
@@ -311,6 +302,31 @@ public class DungeonPopulator extends SpadeEffectGenerator
 		int count = m_random.nextInt(63) + 1;		
 		return new ItemStack(id, count);
 	}
+
+        private void placeBlock(int x, int y, int z)
+        {
+             boolean place = true;
+
+             if (world.getBlockAt(x, y, z).getTypeId() == 0)
+             {
+                    place = false;
+             }
+
+             if (world.getBlockAt(x, y, z).getType() == Material.MOB_SPAWNER)
+             {
+                    place = false;
+             }
+
+             if (world.getBlockAt(x, y, z).getType() == Material.CHEST)
+             {
+                    place = false;
+             }
+
+             if (place)
+             {
+                    world.getBlockAt(x, y, z).setType(Material.MOSSY_COBBLESTONE);
+             }
+        }
 
 	Random m_random;
 	SimplexNoise m_density;
