@@ -185,6 +185,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 				}
 			}
 		}
+		density.interpolate();
 		double minDensity = Double.MAX_VALUE;
 		double maxDensity = Double.MIN_VALUE;
 		for (int x = 0; x < 16; ++x) {

@@ -141,7 +141,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 				}
 			}
 		}
-		//density=Interpolator.LinearExpandDensitymap(density, 16, 128, 16);
+		density.interpolate();
 		for (int x = 0; x < 16; x++)
 		{
 			for (int y = 0; y < 128; y++)
