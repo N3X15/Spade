@@ -61,9 +61,9 @@ public class PonyCaveGenerator
 	{
 		double density = 0;
 		
-		for (int x = 0; x < 16; x++)
+		for (int x = 0; x < 16; x+=5)
 		{
-			for (int z = 0; z < 16; z++)
+			for (int z = 0; z < 16; z+=5)
 			{
 				for (int y = 0; y < 128; y += 16)
 				{
@@ -93,6 +93,8 @@ public class PonyCaveGenerator
 				}
 			}
 		}
+		
+		m_interpolator.interpolate();
 		
 		for (int x = 0; x < 16; x++)
 		{
