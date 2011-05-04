@@ -12,6 +12,10 @@ public class PonyCaveGenerator
 	
 	RidgedSimplex m_ridged1;
 	RidgedSimplex m_ridged2;
+
+        Simplex m_xTurbulence;
+        Simplex m_yTurbulence;
+        Simplex m_zTurbulence;
 	
 	SimplexNoise m_simplex1;
 	SimplexNoise m_simplex2;
@@ -24,6 +28,7 @@ public class PonyCaveGenerator
 	public PonyCaveGenerator(long seed) {
 		m_interpolator = new InterpolatedDensityMap();
 		
+                /*
 		m_simplex1 = new SimplexNoise(seed + 1);
 		m_simplex1.setFrequency(0.05);
 		m_simplex1.setAmplitude(5);
@@ -47,6 +52,19 @@ public class PonyCaveGenerator
 		m_simplex6 = new SimplexNoise(seed + 6);
 		m_simplex6.setFrequency(0.1);
 		m_simplex6.setAmplitude(25);
+                */
+
+                m_xTurbulence = new SimplexNoise(seed + 1);
+                m_xTurbulence.setFrequency(0.05);
+                m_xTurbulence.setAmplitude(10);
+
+                m_yTurbulence = new SimplexNoise(seed + 2);
+                m_yTurbulence.setFrequency(0.05);
+                m_yTurbulence.setAmplitude(10);
+      
+                m_zTurbulence = new SimplexNoise(seed + 3);
+                m_zTurbulence.setFrequency(0.05);
+                m_zTurbulence.setAmplitude(10);
 		
 		m_ridged1 = new RidgedSimplex(seed + 7);
 		m_ridged1.setFrequency(0.01);
@@ -73,14 +91,9 @@ public class PonyCaveGenerator
 					
 					double warp = 0;
 					
-					warp += m_simplex1.sample(posX, posY, posZ);
-					warp += m_simplex2.sample(posX, posY, posZ);
-					warp += m_simplex3.sample(posX, posY, posZ);
-					warp += m_simplex4.sample(posX, posY, posZ);
-					
-					double warpX = posX - warp;
-					double warpY = posY - warp;
-					double warpZ = posZ - warp;
+					double warpX = posX + m_xTurbulence.sample(posX, posY, posZ);
+					double warpY = posY + m_yTurbulence.sample(posX, posY, posZ);
+					double warpZ = posZ + m_zTurbulence.sample(posX, posY, posZ);
 					
 					density = -12;
 					
