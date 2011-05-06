@@ -209,10 +209,12 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 				}
 			}
 		}
+/*
 		Logger.getLogger("Minecraft").info(
 				String.format(
 						"[Islands] Chunk (%d,%d) (densityRange= [%.2f,%.2f])",
 						X, Z, minDensity, maxDensity));
+*/
 	}
 
 	@Override
