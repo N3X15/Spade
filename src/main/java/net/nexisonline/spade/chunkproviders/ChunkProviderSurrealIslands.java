@@ -68,6 +68,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	private SimplexNoise m_simplexGenerator3;
 	@SuppressWarnings("unused")
 	private SimplexNoise m_simplexGenerator4;
+	private SimplexNoise m_SeaFloorNoise;
 	private PonyCaveGenerator mCaves;
 	private DungeonPopulator m_Dungeons;
 	private InterpolatedDensityMap density;
@@ -121,6 +122,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 			m_simplexGenerator2 = new SimplexNoise(((int) seed * 1024) + 1);
 			m_simplexGenerator3 = new SimplexNoise(((int) seed * 1024) + 2);
 			m_simplexGenerator4 = new SimplexNoise(((int) seed * 1024) + 3);
+			m_SeaFloorNoise = new SimplexNoise(((int)seed*1024)+4);
+			
 			stalactites = new StalactiteGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			m_Dungeons = new DungeonPopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			this.j = new Random(seed + 77);
@@ -200,7 +203,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					} else {
 						block = (byte) ((y < WATER_HEIGHT) ? Material.STATIONARY_WATER.getId() : 0);
 					}
-					if(y<=OCEAN_FLOOR && (block==Material.STATIONARY_WATER.getId() || block==Material.WATER.getId())) {
+					if(y<=OCEAN_FLOOR+m_SeaFloorNoise.sample(x, z,0.05,5) && (block==Material.STATIONARY_WATER.getId() || block==Material.WATER.getId())) {
 						block=1;
 					}
 					if (y == 1)
