@@ -203,7 +203,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					} else {
 						block = (byte) ((y < WATER_HEIGHT) ? Material.STATIONARY_WATER.getId() : 0);
 					}
-					if(y<=OCEAN_FLOOR+m_SeaFloorNoise.sample(x, z,0.05,5) && (block==Material.STATIONARY_WATER.getId() || block==Material.WATER.getId())) {
+					if(y<=OCEAN_FLOOR+m_SeaFloorNoise.sample((x + (X * 16)), (z + (Z * 16)),0.05,5) && (block==Material.STATIONARY_WATER.getId() || block==Material.WATER.getId())) {
 						block=1;
 					}
 					if (y == 1)
