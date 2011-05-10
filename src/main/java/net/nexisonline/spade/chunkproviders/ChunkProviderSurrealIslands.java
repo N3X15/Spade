@@ -8,6 +8,8 @@ package net.nexisonline.spade.chunkproviders;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import libnoiseforjava.module.Perlin;
+
 import net.minecraft.server.BiomeBase;
 import net.minecraft.server.BlockSand;
 import net.minecraft.server.NoiseGeneratorOctaves;
@@ -21,7 +23,9 @@ import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
 import net.minecraft.server.WorldGenerator;
 import net.minecraft.server.WorldServer;
+import net.nexisonline.spade.Heightmap;
 import net.nexisonline.spade.InterpolatedDensityMap;
+import net.nexisonline.spade.Interpolator;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
 import net.nexisonline.spade.generators.DungeonPopulator;
@@ -60,6 +64,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	SimplexNoise m_xTurbulence;
 	SimplexNoise m_yTurbulence;
 	SimplexNoise m_zTurbulence;
+	private Perlin continentNoise;
 	@SuppressWarnings("unused")
 	private SimplexNoise m_simplexGenerator1;
 	@SuppressWarnings("unused")
@@ -145,6 +150,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	 * 
 	 * org.bukkit.block.Biome[], double[])
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public void generateChunk(Object world, int X, int Z, byte[] blocks,
 			Biome[] biomes, double[] temperature) {
@@ -166,6 +172,17 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		 */
 		double frequency = 0;
 		double amplitude = 0;
+		Heightmap hm = new Heightmap(4,4);
+		for (int x = 0; x < 4; x ++) {
+			for (int z = 0; z < 4; z ++) {
+				// Generate our sea floor noise.
+				hm.set(x,z,m_SeaFloorNoise.sample(
+						((x*4) + (X * 16)) * 0.01,
+						((z*4) + (Z * 16)) * 0.01));// *5d; // 2.0
+				
+			}
+		}
+		hm=Interpolator.LinearExpandHeightmap(hm, 16, 16);
 		for (int x = 0; x < 16; x+=5) {
 			for (int y = 0; y < 128; y += 16) {
 				for (int z = 0; z < 16; z+=5) {
@@ -203,7 +220,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					} else {
 						block = (byte) ((y < WATER_HEIGHT) ? Material.STATIONARY_WATER.getId() : 0);
 					}
-					if(y<=OCEAN_FLOOR+m_SeaFloorNoise.sample((x + (X * 16)), (z + (Z * 16)),0.01,5) && (block==Material.STATIONARY_WATER.getId() || block==Material.WATER.getId())) {
+					if(y<=OCEAN_FLOOR+(hm.get(x, z)*5d) && (block==Material.STATIONARY_WATER.getId() || block==Material.WATER.getId())) {
 						block=1;
 					}
 					if (y == 1)

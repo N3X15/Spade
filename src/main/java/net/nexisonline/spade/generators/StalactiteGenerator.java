@@ -33,7 +33,6 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		for(int y = 1;y<127;y++) {
 			if(get(x,y,z)==1 && (get(x,y-1,z)==0 || get(x,y-1,z)==8)) {
 				int h=rnd.nextInt(15);
-				//for(;!(get(x,y-h,z)==1)&&y-h>1;h++) {}
 				y-=h;
 				addStalactite(w,x+(X*16), y, x+(Z*16));
 			}
@@ -50,16 +49,40 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		boolean E=false;
 		boolean W=false;
 		boolean S=false;
-		for(;y<128&&w.getBlockAt(x,y,z).getTypeId()==0;y++) {
+		for(;y<128&&!blockIsCeiling(w.getBlockAt(x,y,z).getTypeId());y++) {
 			w.getBlockAt(x,y,z).setTypeId(1);
-			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !N)
+			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !N) {
 				addStalactite(w,x+1,y,z);
-			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !E)
+				N=true;
+			}
+			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !E) {
 				addStalactite(w,x,y,z+1);
-			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !W)
+				E=true;
+			}
+			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !W) {
 				addStalactite(w,x-1,y,z);
-			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !S)
+				W=true;
+			}
+			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !S) {
 				addStalactite(w,x,y,z-1);
+				S=true;
+			}
+		}
+	}
+
+	private boolean blockIsCeiling(int typeId) {
+		switch(typeId) {
+		case 0:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 17:
+		case 18:
+		case 48:
+			return false;
+		default:
+			return true;
 		}
 	}
 
