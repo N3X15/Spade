@@ -31,7 +31,7 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 
 	private void addStalactite(World w,int x, int z) {
 		for(int y = 1;y<127;y++) {
-			if(get(x,y,z)==1 && (get(x,y-1,z)==0 || get(x,y-1,z)==8)) {
+			if(get(x,y,z)==1 && (!blockIsCeiling(get(x,y-1,z)))) {
 				int h=rnd.nextInt(15);
 				y-=h;
 				addStalactite(w,x+(X*16), y, x+(Z*16));
@@ -45,10 +45,19 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 			w.loadChunk(x>>4, z>>4);
 		}
 		if(y>=w.getHighestBlockYAt(x, z)) return;
+		if(!blockIsCeiling(w.getBlockAt(x,w.getHighestBlockYAt(x, z),z).getTypeId()))
+			return;
 		boolean N=false;
 		boolean E=false;
 		boolean W=false;
 		boolean S=false;
+		
+		// Dry run to make sure we won't be making columns.
+		for(int y2=y;y2<128&&!blockIsCeiling(w.getBlockAt(x,y2,z).getTypeId());y2++) {
+			if(y2>111)
+				return;
+		}
+		
 		for(;y<128&&!blockIsCeiling(w.getBlockAt(x,y,z).getTypeId());y++) {
 			w.getBlockAt(x,y,z).setTypeId(1);
 			if(rnd.nextDouble()<MINISTALACTITE_CHANCE && !N) {
