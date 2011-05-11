@@ -12,7 +12,6 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.config.ConfigurationNode;
-import java.util.logging.Logger;
 
 import toxi.math.noise.SimplexNoise;
 
@@ -58,7 +57,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 				x += chunk.getX() * 16;
 				z += chunk.getZ() * 16;
 
-				Logger.getLogger("Minecraft").info(String.format("Width: %d Height: %d Depth: %d", width, height, depth));
+				//Logger.getLogger("Minecraft").info(String.format("Width: %d Height: %d Depth: %d", width, height, depth));
 
 				generateRoom(x, y, z, width, height, depth, chunk);
 			}
@@ -91,13 +90,13 @@ public class DungeonPopulator extends SpadeEffectGenerator
 
 							int currentBlock = world.getBlockAt(x, y, z).getTypeId();
 
-							if (placeSpawner == 0 && currentBlock != 0)
+							if (placeSpawner == 0 && currentBlock != 0 && canPlaceBlock(x, y, z))
 							{
 								Block spawner = world.getBlockAt(x, y, z);
 								spawner.setType(Material.MOB_SPAWNER);
 								((CreatureSpawner)spawner.getState()).setCreatureTypeId(getRandomMob());
 							}
-							else if (placeChest == 0 && currentBlock != 0)
+							else if (placeChest == 0 && currentBlock != 0 && canPlaceBlock(x,y,z))
 							{
 								Block block = world.getBlockAt(x, y, z);
 								block.setType(Material.CHEST);
@@ -140,12 +139,12 @@ public class DungeonPopulator extends SpadeEffectGenerator
 							}								
 							else
 							{
-								world.getBlockAt(x, y, z).setTypeId(0);
+								placeBlock(x,y,z,Material.AIR);
 							}
 						}
 						else
 						{
-							world.getBlockAt(x, y, z).setTypeId(0);
+							placeBlock(x,y,z,Material.AIR);
 						}
 					}
 				}
@@ -155,8 +154,8 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			{
 				for (int z = nz; z <= nz + nd; z++)
 				{
-					placeBlock(x, ny, z);
-					placeBlock(x, ny + nh, z);
+					placeBlock(x, ny, z,Material.MOSSY_COBBLESTONE);
+					placeBlock(x, ny + nh, z,Material.MOSSY_COBBLESTONE);
 				}
 			}
 
@@ -164,8 +163,8 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			{
 				for (int z = nz; z <= nz + nd; z++)
 				{
-					placeBlock(nx, y, z);
-					placeBlock(nx + nw, y, z);
+					placeBlock(nx, y, z,Material.MOSSY_COBBLESTONE);
+					placeBlock(nx + nw, y, z,Material.MOSSY_COBBLESTONE);
 				}
 			}
 
@@ -173,8 +172,8 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			{
 				for (int y = ny; y <= ny + nh; y++)
 				{
-					placeBlock(x, y, nz);
-					placeBlock(x, y, nz + nd);
+					placeBlock(x, y, nz,Material.MOSSY_COBBLESTONE);
+					placeBlock(x, y, nz + nd,Material.MOSSY_COBBLESTONE);
 				}
 			}
 		}
@@ -303,7 +302,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 		return new ItemStack(id, count);
 	}
 
-	private void placeBlock(int x, int y, int z)
+	private boolean canPlaceBlock(int x, int y, int z)
 	{
 		boolean place = true;
 		Material m = world.getBlockAt(x, y, z).getType();
@@ -318,10 +317,12 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			place=false;
 			break;
 		}
-
-		if (place)
+		return place;
+	}
+	private void placeBlock(int x, int y, int z, Material mat) {
+		if (canPlaceBlock(x,y,z))
 		{
-			world.getBlockAt(x, y, z).setType(Material.MOSSY_COBBLESTONE);
+			world.getBlockAt(x, y, z).setType(mat);
 		}
 	}
 
