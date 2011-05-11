@@ -31,7 +31,7 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 
 	private void addStalactite(World w,int x, int z) {
 		for(int y = 1;y<127;y++) {
-			if(get(x,y,z)==1 && (!blockIsCeiling(get(x,y-1,z)))) {
+			if(blockIsCeiling(get(x,y,z)) && (!blockIsCeiling(get(x,y-1,z)))) {
 				int h=rnd.nextInt(15);
 				y-=h;
 				addStalactite(w,x+(X*16), y, x+(Z*16));
@@ -45,8 +45,6 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 			w.loadChunk(x>>4, z>>4);
 		}
 		if(y>=w.getHighestBlockYAt(x, z)) return;
-		if(!blockIsCeiling(w.getBlockAt(x,w.getHighestBlockYAt(x, z),z).getTypeId()))
-			return;
 		boolean N=false;
 		boolean E=false;
 		boolean W=false;
@@ -54,8 +52,9 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		
 		// Dry run to make sure we won't be making columns.
 		for(int y2=y;y2<128&&!blockIsCeiling(w.getBlockAt(x,y2,z).getTypeId());y2++) {
-			if(y2>111)
+			if(y2>111) {
 				return;
+			}
 		}
 		
 		for(;y<128&&!blockIsCeiling(w.getBlockAt(x,y,z).getTypeId());y++) {
@@ -81,14 +80,14 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 
 	private boolean blockIsCeiling(int typeId) {
 		switch(typeId) {
-		case 0:
-		case 8:
-		case 9:
-		case 10:
-		case 11:
-		case 17:
-		case 18:
-		case 48:
+		case 0: // Air
+		case 8: // Water
+		case 9: // Water
+		case 10:// Lava
+		case 11:// Lava
+		case 17:// Wood
+		case 18:// Leaves
+		case 48:// 
 			return false;
 		default:
 			return true;
