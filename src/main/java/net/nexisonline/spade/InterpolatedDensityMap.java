@@ -46,7 +46,7 @@ public class InterpolatedDensityMap
 	{
 		for (int x = 0; x < 16; x += 5)
 		{
-			for (int y = 0; y < 128; y++)
+			for (int y = 0; y <= 128; y++)
 			{
 				for (int z = 0; z < 16; z += 5)
 				{
@@ -74,7 +74,7 @@ public class InterpolatedDensityMap
 	{
 		for (int x = 0; x < 15; x += 5)
 		{
-			for (int y = 0; y < 128; y++)
+			for (int y = 0; y <= 128; y++)
 			{
 				for (int z = 0; z < 15; z += 5)
 				{
