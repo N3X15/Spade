@@ -4,7 +4,7 @@ public class InterpolatedDensityMap
 {
 	public InterpolatedDensityMap()
 	{
-		m_density = new double[16][128][16];
+		m_density = new double[16][129][16];
 	}
 
 	public void setDensity(int x, int y, int z, double value)
