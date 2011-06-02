@@ -84,7 +84,7 @@ public class SedimentGenerator {
 
 	private int topBlockY(byte[][][] blocks, int x, int z) {
 		int y = 127;
-		for(;y>1&&!blockIsSolid(blocks[x][y][z]);y--) {}
+		for(; y>0 && !blockIsSolid(blocks[x][y][z]); --y) {System.out.println(y);}
 		return y;
 	}
 
