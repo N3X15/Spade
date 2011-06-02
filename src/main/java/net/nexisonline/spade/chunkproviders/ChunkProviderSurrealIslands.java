@@ -51,8 +51,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	public ChunkProviderSurrealIslands(SpadePlugin plugin) {
 		this.plugin = plugin;
 		density = new InterpolatedDensityMap();
-		World w = plugin.getServer().getWorld(p.worldData.name);
-		m_sedimentGenerator = new SedimentGenerator(plugin, w,null,w.getSeed());
+		m_sedimentGenerator = new SedimentGenerator();
 	}
 
 	/*

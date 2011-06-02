@@ -39,6 +39,7 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 	private SedimentGenerator m_sediment;
 	public ChunkProviderMountains2(SpadePlugin plugin) {
 		this.plugin=plugin;
+		m_sediment = new SedimentGenerator();
 	}
 
 	/*
@@ -75,7 +76,6 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 			m_fractalGenerator.setFrequency(2f);
 			*/
 			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
-			m_sediment = new SedimentGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 		}
 		catch (Exception e)
 		{

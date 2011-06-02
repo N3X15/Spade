@@ -1,43 +1,34 @@
 package net.nexisonline.spade.generators;
 
-import net.nexisonline.spade.SpadePlugin;
-
-import org.bukkit.Chunk;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.util.config.ConfigurationNode;
 
 /**
  * Converted from MineEdit
  * @author Rob
  *
  */
-public class SedimentGenerator extends SpadeEffectGenerator {
+public class SedimentGenerator {
 
 	private int waterHeight;
 
-	public SedimentGenerator(SpadePlugin plugin, World w,
-			ConfigurationNode node, long seed) {
-		super(plugin, w, node, seed);
-		waterHeight = node.getInt("waterheight", 63);
+	public SedimentGenerator() {
+		waterHeight = 63;
 	}
 
-	@Override
 	public void addToProtochunk(byte[][][] blocks, int X, int Z,Biome[][] biomes) {
         int YH = 128;
-        int xo = X * 16;
-        int zo = Z * 16;
         for (int x = 0; x < 16; x++)
         {
             for (int z = 0; z < 16; z++)
             {
-                int H=Math.max(Math.min(world.getHighestBlockYAt(x+xo, z+zo),128),16);
+            	
+                int H=Math.max(Math.min(topBlockY(blocks, x, z),127),16);
                 int nextH=0;
                 if(x==127)
-                	nextH=Math.max(Math.min(world.getHighestBlockYAt(x+1+xo, z+zo),128),16);
+                	nextH=Math.max(Math.min(topBlockY(blocks, x+1, z),127),16);
                 else 
-                	nextH=Math.max(Math.min(world.getHighestBlockYAt(x-1+xo, z+zo),128),16);
+                	nextH=Math.max(Math.min(topBlockY(blocks, x-1, z),127),16);
                 
                 boolean HavePloppedGrass = false;
                 for (int y = 127; y > 0; y--)
@@ -91,10 +82,15 @@ public class SedimentGenerator extends SpadeEffectGenerator {
         }
 	}
 
-	@Override
-	public void addToChunk(Chunk chunk, int x, int z) {
-		// TODO Auto-generated method stub
-		
+	private int topBlockY(byte[][][] blocks, int x, int z) {
+		int y = 127;
+		for(;y>1&&!blockIsSolid(blocks[x][y][z]);y--) {}
+		return y;
+	}
+
+	private boolean blockIsSolid(byte b) {
+		Material mat = Material.getMaterial(b);
+		return mat!=Material.AIR && mat!=Material.WATER && mat!=Material.STATIONARY_WATER && mat!=Material.LAVA && mat!=Material.STATIONARY_LAVA;
 	}
 
 }

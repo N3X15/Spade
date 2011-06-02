@@ -39,6 +39,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	private SedimentGenerator m_sediment;
 	public ChunkProviderDoublePerlin(SpadePlugin plugin) {
 		this.plugin=plugin;
+		m_sediment = new SedimentGenerator();
 	}
 
 	/*
@@ -76,7 +77,6 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 			*/
 
 			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
-			m_sediment = new SedimentGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 		}
 		catch (Exception e)
 		{

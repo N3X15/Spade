@@ -39,6 +39,7 @@ public class ChunkProviderWat extends SpadeChunkProvider
 
 	public ChunkProviderWat(SpadePlugin plugin) {
 		this.plugin=plugin;
+		m_sediment = new SedimentGenerator();
 	}
 
 	/*
@@ -71,7 +72,6 @@ public class ChunkProviderWat extends SpadeChunkProvider
 			m_fractalGenerator.setFrequency(0.25f);
 			
 			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
-			m_sediment = new SedimentGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 		}
 		catch (Exception e)
 		{
