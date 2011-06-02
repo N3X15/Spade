@@ -16,6 +16,7 @@ import net.nexisonline.spade.Interpolator;
 import net.nexisonline.spade.SpadeChunkProvider;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.util.config.ConfigurationNode;
 
@@ -70,8 +71,8 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(Object world, int X, int Z, byte[] abyte,
-			Biome[] biomes, double[] temperature) {
+	public void generateChunk(World world, int X, int Z, byte[][][] blocks,
+			Biome[][] biomes, double[][] temperature) {
 		int minHeight = Integer.MAX_VALUE;
 		Heightmap hm = new Heightmap(4,4);
 		for (int x = 0; x < 4; x ++) {
@@ -117,7 +118,7 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 					// }
 					// else
 					// block = (d3) ? b[x, y, z] : (byte)1;
-					abyte[getBlockIndex(x, y, z)] = (byte) ((y < 2) ? Material.BEDROCK
+					blocks[x][y][z] = (byte) ((y < 2) ? Material.BEDROCK
 							.getId() : block);
 				}
 			}

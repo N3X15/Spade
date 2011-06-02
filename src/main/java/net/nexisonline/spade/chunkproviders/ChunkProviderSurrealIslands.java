@@ -16,6 +16,7 @@ import net.nexisonline.spade.generators.SedimentGenerator;
 import net.nexisonline.spade.generators.StalactiteGenerator;
 
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.util.config.Configuration;
@@ -113,8 +114,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(Object world, int X, int Z, byte[] blocks,
-			Biome[] biomes, double[] temperature) {
+	public void generateChunk(World world, int X, int Z, byte[][][] blocks,
+			Biome[][] biomes, double[][] temperature) {
 		/*
 		 * if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		 * 
@@ -175,7 +176,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					}
 					if (y == 1)
 						block = 7;
-					blocks[getBlockIndex(x, y, z)] = block;
+					blocks[x][y][z] = block;
 				}
 			}
 		}
@@ -188,8 +189,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	}
 
 	@Override
-	public void generateCaves(Object world, int X, int Z, byte[] data) {
-		mCaves.generateCaves(world, X, Z, data);
+	public void generateCaves(World world, int X, int Z, byte[][][] blocks) {
+		mCaves.generateCaves(world, X, Z, blocks);
 	}
 
 	/**
@@ -198,8 +199,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	 * desired height.
 	 */
 	@Override
-	public void generateSediment(Object world, int X, int Z, byte[] blocks,
-			Biome[] biomes) {
+	public void generateSediment(World world, int X, int Z, byte[][][] blocks,
+			Biome[][] biomes) {
 		/*
 		 * if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 		 * 
@@ -210,7 +211,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		 * 
 		 * }
 		 */
-		m_sedimentGenerator.addToChunk(((WorldServer)world).getWorld().getChunkAt(X,Z), X, Z);
+		m_sedimentGenerator.addToProtochunk(blocks, X, Z,biomes);
 	}
 
 	public void populateChunk(Object ch, int X, int Z) {

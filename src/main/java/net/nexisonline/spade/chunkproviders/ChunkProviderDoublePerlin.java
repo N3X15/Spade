@@ -15,8 +15,8 @@ import net.nexisonline.spade.SpadePlugin;
 import net.nexisonline.spade.generators.OrePopulator;
 import net.nexisonline.spade.generators.SedimentGenerator;
 
-import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
@@ -90,11 +90,10 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(Object world, int X, int Z, byte[] blocks, Biome[] biomes, double[] temperature)
+	public void generateChunk(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes, double[][] temperature)
 	{
 		if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		{
-				blocks=new byte[blocks.length];
 				Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)",X,Z));
 				return;
 		}
@@ -145,7 +144,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 					}
 					if(y==1)
 						block=7;
-					blocks[getBlockIndex(x,y,z)]=block;
+					blocks[x][y][z]=block;
 				}
 			}
 		}
@@ -154,23 +153,23 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	
 
 	@Override
-	public void generateSediment(Object world, int X, int Z, byte[] blocks, Biome[] biomes) {
+	public void generateSediment(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes) {
 		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			return;
 		}		
 		BlockSand.a=true;
-		m_sediment.addToChunk(((net.minecraft.server.WorldServer)world).getWorld().getChunkAt(X,Z),X,Z);
+		m_sediment.addToProtochunk(blocks,X,Z,biomes);
 		BlockSand.a=false;
 	}
 	
 	@Override
-	public void populateChunk(Object ch,int X, int Z) {
+	public void populateChunk(World world,int X, int Z) {
 		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
 			return;
 		}
 		
 		BlockSand.a = true;
-		m_populator.addToChunk((Chunk)((net.minecraft.server.Chunk)ch),X,Z);
+		m_populator.addToChunk(world.getChunkAt(X,Z),X,Z);
 		BlockSand.a = false;
 	}
 

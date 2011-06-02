@@ -75,7 +75,7 @@ public class PonyCaveGenerator
 		m_ridged2.setAmplitude(11);
 	}
 
-	public void generateCaves(Object world, int X, int Z, byte[] data)
+	public void generateCaves(Object world, int X, int Z, byte[][][] blocks)
 	{
 		double density = 0;
 
@@ -113,33 +113,33 @@ public class PonyCaveGenerator
 			{
 				for (int y = 126; y > 2; y--)
 				{
-					byte id = data[x << 11 | z << 7 | y];
+					byte id = blocks[x][y][z];
 
 					if (m_interpolator.getDensity(x, y, z) > 5 &&
-							!blockIsWater(data,x,y,z) &&
+							!blockIsWater(blocks,x,y,z) &&
 							!(
 									id==Block.LAVA.id ||
 									id==Block.STATIONARY_LAVA.id ||
 									id==Block.BEDROCK.id
 							) && 
-							!blockIsWater(data,x+1,y,z) && 
-							!blockIsWater(data,x-1,y,z) && 
-							!blockIsWater(data,x,y+1,z) && 
-							!blockIsWater(data,x,y-1,z) &&
-							!blockIsWater(data,x,y,z+1) && 
-							!blockIsWater(data,x,y,z-1)
+							!blockIsWater(blocks,x+1,y,z) && 
+							!blockIsWater(blocks,x-1,y,z) && 
+							!blockIsWater(blocks,x,y+1,z) && 
+							!blockIsWater(blocks,x,y-1,z) &&
+							!blockIsWater(blocks,x,y,z+1) && 
+							!blockIsWater(blocks,x,y,z-1)
 					)
 					{
-						data[x << 11 | z << 7 | y]=(byte) ((y<10)?Block.STATIONARY_LAVA.id:0);
+						blocks[x][y][z]=(byte) ((y<10)?Block.STATIONARY_LAVA.id:0);
 					}
 				}
 			}
 		}
 	}
 
-	private boolean blockIsWater(byte[] data,int x, int y, int z) {
+	private boolean blockIsWater(byte[][][] blocks,int x, int y, int z) {
 		if(x<0||x>15||z<0||z>15||y<0||y>127) return false;
-		byte id = data[x << 11 | z << 7 | y];
+		byte id = blocks[x][y][z];
 		return	id==Block.WATER.id ||
 		id==Block.STATIONARY_WATER.id;
 	}

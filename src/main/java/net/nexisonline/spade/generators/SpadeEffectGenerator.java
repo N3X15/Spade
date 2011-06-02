@@ -4,6 +4,7 @@ import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.util.config.ConfigurationNode;
 
 public abstract class SpadeEffectGenerator {
@@ -20,4 +21,7 @@ public abstract class SpadeEffectGenerator {
 	}
 
 	public abstract void addToChunk(Chunk chunk, int x, int z);
+
+	public void addToProtochunk(byte[][][] blocks, int X, int Z,
+			Biome[][] biomes) {}
 }

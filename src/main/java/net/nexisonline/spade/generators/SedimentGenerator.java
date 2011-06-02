@@ -6,7 +6,6 @@ import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
 import org.bukkit.util.config.ConfigurationNode;
 
 /**
@@ -25,7 +24,7 @@ public class SedimentGenerator extends SpadeEffectGenerator {
 	}
 
 	@Override
-	public void addToChunk(Chunk chunk, int X, int Z) {
+	public void addToProtochunk(byte[][][] blocks, int X, int Z,Biome[][] biomes) {
         int YH = 128;
         int xo = X * 16;
         int zo = Z * 16;
@@ -43,17 +42,17 @@ public class SedimentGenerator extends SpadeEffectGenerator {
                 boolean HavePloppedGrass = false;
                 for (int y = 127; y > 0; y--)
                 {
-                    Block supportBlock = chunk.getBlock(x, y-1, z);
-                    Block thisblock = chunk.getBlock(x,y,z);
+                	byte supportBlock = blocks[x][y-1][z];
+                    byte thisblock = blocks[x][y][z];
                     // Ensure there's going to be stuff holding us up.
-                    if (thisblock.getType() == Material.STONE 
-                    	&& supportBlock.getType()==Material.STONE)
+                    if (thisblock == Material.STONE.getId() 
+                    	&& supportBlock==Material.STONE.getId())
                     {
                     	int depth= H/nextH;
                         if (y + depth >= YH)
                             continue;
-                        int ddt = chunk.getBlock(x, y+depth, z).getTypeId();
-                        Biome bt = thisblock.getBiome();
+                        int ddt = blocks[x][y+depth][z];
+                        Biome bt = biomes[x][z];
                         switch (ddt)
                         {
                             case 0: // Air
@@ -61,7 +60,7 @@ public class SedimentGenerator extends SpadeEffectGenerator {
                             case 9: // Water
                                 if (bt == Biome.TUNDRA)
                                 {
-                                    thisblock.setType(Material.SAND);
+                                	blocks[x][y][z]=(byte) Material.SAND.getId();
                                 }
                                 else
                                 {
@@ -69,15 +68,15 @@ public class SedimentGenerator extends SpadeEffectGenerator {
                                     {
                                         if ((bt == Biome.TAIGA || bt == Biome.SEASONAL_FOREST || bt == Biome.TUNDRA) && y > waterHeight)
                                         {
-                                            thisblock.setType((HavePloppedGrass) ? Material.DIRT : Material.GRASS);
+                                        	blocks[x][y][z]=(byte) ((HavePloppedGrass) ? Material.DIRT.getId() : Material.GRASS.getId());
                                         }
                                         else
                                         {
-                                            thisblock.setType(Material.SAND);
+                                        	blocks[x][y][z]=(byte) (Material.SAND.getId());
                                         }
                                     }
                                     else
-                                    	thisblock.setType((HavePloppedGrass) ? Material.DIRT : Material.GRASS);
+                                    	blocks[x][y][z]= (byte) ((HavePloppedGrass) ? Material.DIRT.getId() : Material.GRASS.getId());
                                 }
                                 if (!HavePloppedGrass)
                                     HavePloppedGrass = true;
@@ -90,6 +89,12 @@ public class SedimentGenerator extends SpadeEffectGenerator {
                 }
             }
         }
+	}
+
+	@Override
+	public void addToChunk(Chunk chunk, int x, int z) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
