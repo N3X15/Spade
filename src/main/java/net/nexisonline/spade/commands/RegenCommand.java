@@ -43,7 +43,7 @@ public class RegenCommand implements CommandExecutor {
 			WorldServer W = ((CraftWorld)w).getHandle();
 			int cx = p.getLocation().getBlockX()>>4;
 			int cz = p.getLocation().getBlockZ()>>4;
-			net.minecraft.server.Chunk oc = W.worldProvider.c().getOrCreateChunk(cx,cz);
+			net.minecraft.server.Chunk oc = W.worldProvider.b().getOrCreateChunk(cx,cz);
 			for(int x=0;x<16;++x) {
 				for(int z=0;z<16;++z) {
 					for(int y=0;y<128;++y) {
