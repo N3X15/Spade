@@ -25,7 +25,7 @@ public class SedimentGenerator {
             	
                 int H=Math.max(Math.min(topBlockY(blocks, x, z),127),16);
                 int nextH=0;
-                if(x==127)
+                if(x!=127)
                 	nextH=Math.max(Math.min(topBlockY(blocks, x+1, z),127),16);
                 else 
                 	nextH=Math.max(Math.min(topBlockY(blocks, x-1, z),127),16);
@@ -84,7 +84,7 @@ public class SedimentGenerator {
 
 	private int topBlockY(byte[][][] blocks, int x, int z) {
 		int y = 127;
-		for(; y>0 && !blockIsSolid(blocks[x][y][z]); --y) {System.out.println(y);}
+		for(; y>0 && !blockIsSolid(blocks[x][y][z]); --y) {}
 		return y;
 	}
 
@@ -92,5 +92,4 @@ public class SedimentGenerator {
 		Material mat = Material.getMaterial(b);
 		return mat!=Material.AIR && mat!=Material.WATER && mat!=Material.STATIONARY_WATER && mat!=Material.LAVA && mat!=Material.STATIONARY_LAVA;
 	}
-
 }
