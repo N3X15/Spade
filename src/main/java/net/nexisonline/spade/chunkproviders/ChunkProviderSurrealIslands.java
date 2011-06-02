@@ -51,6 +51,8 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	public ChunkProviderSurrealIslands(SpadePlugin plugin) {
 		this.plugin = plugin;
 		density = new InterpolatedDensityMap();
+		World w = plugin.getServer().getWorld(p.worldData.name);
+		m_sedimentGenerator = new SedimentGenerator(plugin, w,null,w.getSeed());
 	}
 
 	/*
@@ -98,7 +100,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 			m_Dungeons = new DungeonPopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			mCaves = new PonyCaveGenerator(seed);
 			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
-			m_sedimentGenerator = new SedimentGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			
 		} catch (Exception e) {
 		}
@@ -212,7 +213,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		 * 
 		 * }
 		 */
-		m_sedimentGenerator.addToProtochunk(blocks, X, Z,biomes);
+		m_sedimentGenerator.addToProtochunk(blocks, X, Z, biomes);
 	}
 
 	public void populateChunk(Object ch, int X, int Z) {
