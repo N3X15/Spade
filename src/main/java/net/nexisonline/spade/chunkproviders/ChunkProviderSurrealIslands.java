@@ -215,11 +215,12 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 		m_sedimentGenerator.addToProtochunk(blocks, X, Z, biomes);
 	}
 
-	public void populateChunk(Object ch, int X, int Z) {
-		if(getBukkitWorld().isChunkLoaded(X, Z)) {
-			stalactites.addToChunk(getBukkitWorld().getChunkAt(X, Z), X, Z);
-			m_populator.addToChunk(getBukkitWorld().getChunkAt(X, Z),X,Z);
-			m_Dungeons.addToChunk(getBukkitWorld().getChunkAt(X, Z), X, Z);
+	@Override
+	public void populateChunk(World world, int X, int Z) {
+		if(world.isChunkLoaded(X, Z)) {
+			stalactites.addToChunk(world.getChunkAt(X, Z), X, Z);
+			m_populator.addToChunk(world.getChunkAt(X, Z),X,Z);
+			m_Dungeons.addToChunk(world.getChunkAt(X, Z), X, Z);
 		}
 	}
 
