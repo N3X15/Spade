@@ -25,7 +25,7 @@ public class SedimentGenerator {
             	
                 int H=Math.max(Math.min(topBlockY(blocks, x, z),127),16);
                 int nextH=0;
-                if(x!=127)
+                if(x!=15)
                 	nextH=Math.max(Math.min(topBlockY(blocks, x+1, z),127),16);
                 else 
                 	nextH=Math.max(Math.min(topBlockY(blocks, x-1, z),127),16);
