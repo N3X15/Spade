@@ -98,6 +98,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 			m_Dungeons = new DungeonPopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			mCaves = new PonyCaveGenerator(seed);
 			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
+			m_sedimentGenerator = new SedimentGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			
 		} catch (Exception e) {
 		}
