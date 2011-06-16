@@ -1,13 +1,10 @@
 package net.nexisonline.spade.chunkproviders;
 
 import java.util.Random;
-import java.util.logging.Logger;
 
 import net.nexisonline.spade.SpadeChunkProvider;
 
 import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.util.config.ConfigurationNode;
 
 public class ChunkProviderFlatGrass extends SpadeChunkProvider {
 	private byte[] template;

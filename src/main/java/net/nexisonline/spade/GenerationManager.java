@@ -6,6 +6,7 @@ import java.util.List;
 import net.nexisonline.spade.populators.SpadeEffectGenerator;
 
 import org.bukkit.generator.BlockPopulator;
+import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 public class GenerationManager {
@@ -13,8 +14,8 @@ public class GenerationManager {
 	List<BlockPopulator> populators = new ArrayList<BlockPopulator>();
 	@SuppressWarnings("unchecked")
 	public GenerationManager(String world, ConfigurationNode cfg) {
-		// World population
-		populate=cfg.getBoolean("populate", true);
+		if(cfg.getProperty("populators")==null)
+			cfg.setProperty("populators", getDefaultPopulators());
 		for(Object o : cfg.getList("populators")) {
 			if(o instanceof ConfigurationNode) {
 				String populatorName = ((ConfigurationNode) o).getString("name");
@@ -29,6 +30,13 @@ public class GenerationManager {
 				}
 			}
 		}
+	}
+
+	private List<ConfigurationNode> getDefaultPopulators() {
+		List<ConfigurationNode> nodes = new ArrayList<ConfigurationNode>();
+		ConfigurationNode currentNode = Configuration.getEmptyNode();
+		nodes.add(currentNode);
+		return nodes;
 	}
 
 	public List<BlockPopulator> getPopulators() {

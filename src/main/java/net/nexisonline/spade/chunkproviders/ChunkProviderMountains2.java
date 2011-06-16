@@ -8,17 +8,11 @@ package net.nexisonline.spade.chunkproviders;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import libnoiseforjava.module.Perlin;
-import net.minecraft.server.BlockSand;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
-import net.nexisonline.spade.populators.OrePopulator;
-import net.nexisonline.spade.populators.SedimentGenerator;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 import toxi.math.noise.SimplexOctaves;
@@ -32,15 +26,11 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 	private static final int WATER_HEIGHT = 32;
 	net.minecraft.server.World p=null;
 	
-	private Perlin m_perlinGenerator;
 	private SpadePlugin plugin;
 	private SimplexOctaves m_simplexGenerator;
 	private SimplexOctaves m_simplexGenerator2;
-	private OrePopulator m_populator;
-	private SedimentGenerator m_sediment;
 	public ChunkProviderMountains2(SpadePlugin plugin) {
 		this.plugin=plugin;
-		m_sediment = new SedimentGenerator();
 	}
 
 	/*
@@ -55,9 +45,6 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 		
 		try
 		{
-			m_perlinGenerator = new Perlin(); //new Perlin();
-			new Perlin();
-
 			m_simplexGenerator=new SimplexOctaves(1234,4);
 			m_simplexGenerator2=new SimplexOctaves(1234+51,4);
 		}

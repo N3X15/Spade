@@ -10,7 +10,6 @@ import java.util.Random;
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
-import net.nexisonline.spade.populators.SedimentGenerator;
 
 import org.bukkit.Material;
 import org.bukkit.World;

@@ -1,5 +1,6 @@
 package net.nexisonline.spade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
@@ -11,7 +12,7 @@ import org.bukkit.util.config.ConfigurationNode;
 public abstract class SpadeChunkProvider extends ChunkGenerator {
 
 	protected String worldName="";
-	private GenerationManager popmanager;
+	private GenerationManager popmanager=null;
 
 	/**
 	 * Load world settings and configure chunk generator
@@ -19,11 +20,13 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 	 * @param node Configuration node for this plugin.
 	 */
 	public void onLoad(String worldName, long worldSeed, ConfigurationNode node) {
-		this.popmanager = new GenerationManager(worldName,node.getNode("populators"));
+		this.popmanager = new GenerationManager(worldName,node);
 	}
-	
+
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World w) {
+		if(popmanager==null) 
+			return new ArrayList<BlockPopulator>();
 		return popmanager.getPopulators();
 	}
 

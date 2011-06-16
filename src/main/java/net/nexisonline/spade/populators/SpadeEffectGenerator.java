@@ -1,8 +1,5 @@
 package net.nexisonline.spade.populators;
 
-import java.util.List;
-
-import net.nexisonline.spade.GenerationManager;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.World;

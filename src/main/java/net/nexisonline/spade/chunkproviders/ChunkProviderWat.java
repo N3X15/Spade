@@ -6,20 +6,14 @@
 package net.nexisonline.spade.chunkproviders;
 
 import java.util.Random;
-import java.util.logging.Logger;
 
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
-import net.minecraft.server.BlockSand;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
-import net.nexisonline.spade.populators.OrePopulator;
-import net.nexisonline.spade.populators.SedimentGenerator;
 
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 import org.bukkit.util.config.ConfigurationNode;
 
 /**
@@ -35,11 +29,9 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	private Perlin m_perlinGenerator;
 	private RidgedMulti m_fractalGenerator;
 	private SpadePlugin plugin;
-	private SedimentGenerator m_sediment;
 
 	public ChunkProviderWat(SpadePlugin plugin) {
 		this.plugin=plugin;
-		m_sediment = new SedimentGenerator();
 	}
 
 	/*

@@ -12,6 +12,7 @@ import net.nexisonline.spade.commands.TP2WorldCommand;
 
 import org.bukkit.World.Environment;
 import org.bukkit.event.Event;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -73,7 +74,7 @@ public class SpadePlugin extends JavaPlugin {
 			cp.onLoad(worldName,seed,node);
 		}
 		assignedProviders.put(worldName, cp);
-		getServer().createWorld(worldName, Environment.NORMAL, seed, cp);
+		getServer().createWorld(worldName, Environment.NORMAL, seed, (ChunkGenerator)cp);
 		return node;
 	}
 	public int getChunkRadius(String worldName) {
