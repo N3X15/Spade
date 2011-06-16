@@ -1,4 +1,4 @@
-package net.nexisonline.spade.generators;
+package net.nexisonline.spade.populators;
 
 import java.util.Random;
 
@@ -19,13 +19,13 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	private Random rnd;
 	private Chunk chunk;
 
-	public void addToChunk(Chunk chunk, int x, int z) {
+	public void populate(World world, Random rand, Chunk chunk) {
 		this.chunk=chunk;
-		this.X=x;
-		this.Z=z;
+		this.X=chunk.getX();
+		this.Z=chunk.getZ();
 
 		for(int i = 0;i<rnd.nextInt(9)+1;i++) {
-			addStalactite(chunk.getWorld(),rnd.nextInt(15),rnd.nextInt(15)); 
+			addStalactite(world,rnd.nextInt(15),rnd.nextInt(15)); 
 		}
 	}
 

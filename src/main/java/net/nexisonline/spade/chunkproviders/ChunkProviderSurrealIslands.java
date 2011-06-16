@@ -5,21 +5,15 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
-import net.minecraft.server.WorldServer;
+import java.util.Random;
+
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
-import net.nexisonline.spade.generators.DungeonPopulator;
-import net.nexisonline.spade.generators.OrePopulator;
-import net.nexisonline.spade.generators.PonyCaveGenerator;
-import net.nexisonline.spade.generators.SedimentGenerator;
-import net.nexisonline.spade.generators.StalactiteGenerator;
+import net.nexisonline.spade.populators.SedimentGenerator;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 import toxi.math.noise.SimplexNoise;
@@ -31,47 +25,27 @@ import toxi.math.noise.SimplexNoise;
  * 
  */
 public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
-	private static final int WATER_HEIGHT = 32;
-	private static final int OCEAN_FLOOR=16;
-	net.minecraft.server.World p = null;
-	private SpadePlugin plugin;
+	private static int WATER_HEIGHT = 32;
+	private static int OCEAN_FLOOR=16;
 	SimplexNoise m_simplex1;
 	SimplexNoise m_simplex2;
 	SimplexNoise m_xTurbulence;
 	SimplexNoise m_yTurbulence;
 	SimplexNoise m_zTurbulence;
 	private SimplexNoise m_SeaFloorNoise;
-	private PonyCaveGenerator mCaves;
-	private DungeonPopulator m_Dungeons;
 	private InterpolatedDensityMap density;
-	private StalactiteGenerator stalactites;
-	private SedimentGenerator m_sedimentGenerator;
-	private OrePopulator m_populator;
-
 	public ChunkProviderSurrealIslands(SpadePlugin plugin) {
-		this.plugin = plugin;
 		density = new InterpolatedDensityMap();
-		m_sedimentGenerator = new SedimentGenerator();
 	}
-
-	/*
-	 * 
-	 * (non-Javadoc)
-	 * 
-	 * 
-	 * 
-	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
-	 */
+	
 	@Override
-	public void onLoad(Object world, long seed) {
-		this.setHasCustomTerrain(true);
-		this.setHasCustomSedimenter(true);
-		this.setHasCustomPopulator(true);
-		this.setHasCustomCaves(true);
-		try {
-			this.p = (net.minecraft.server.World) world;
-		} catch (Throwable e) {
-		}
+	public void onLoad(String worldName,long seed, ConfigurationNode node) {
+		super.onLoad(worldName, seed, node);
+		
+		/** Configure **/
+		WATER_HEIGHT=node.getInt("water-level", 32);
+		OCEAN_FLOOR=node.getInt("min-ocean-floor-height", 16);
+		
 		try {
 			m_simplex1 = new SimplexNoise(((int) seed * 1024));
 			m_simplex1.setFrequency(0.005);
@@ -95,44 +69,14 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 			
 			m_SeaFloorNoise = new SimplexNoise(((int)seed*1024)+4);
 			
-			stalactites = new StalactiteGenerator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
-			m_Dungeons = new DungeonPopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
-			mCaves = new PonyCaveGenerator(seed);
-			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 			
 		} catch (Exception e) {
 		}
 	}
 
-	/*
-	 * 
-	 * (non-Javadoc)
-	 * 
-	 * 
-	 * 
-	 * @see org.bukkit.ChunkProvider#generateChunk(int, int, byte[],
-	 * 
-	 * org.bukkit.block.Biome[], double[])
-	 */
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[][][] blocks,
-			Biome[][] biomes, double[][] temperature) {
-		/*
-		 * if(!plugin.shouldGenerateChunk(worldName,X,Z))
-		 * 
-		 * {
-		 * 
-		 * // Never do this, var gets passed by-val instead of by-ref.
-		 * 
-		 * //blocks=new byte[blocks.length];
-		 * 
-		 * Logger.getLogger("Minecraft").info(String.format(
-		 * "[Islands] SKIPPING Chunk (%d,%d)",X,Z));
-		 * 
-		 * return;
-		 * 
-		 * }
-		 */
+	public byte[] generate(World world, Random rand, int X, int Z) {
+		byte[] blocks = new byte[16*128*16];
 		double frequency = 0;
 		double amplitude = 0;
 		for (int x = 0; x < 16; x+=5) {
@@ -177,7 +121,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 					}
 					if (y == 1)
 						block = 7;
-					blocks[x][y][z] = block;
+					setBlockByte(blocks,x,y,z,block);
 				}
 			}
 		}
@@ -187,60 +131,6 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 						"[Islands] Chunk (%d,%d) (densityRange= [%.2f,%.2f])",
 						X, Z, minDensity, maxDensity));
 */
-	}
-
-	@Override
-	public void generateCaves(World world, int X, int Z, byte[][][] blocks) {
-		mCaves.generateCaves(world, X, Z, blocks);
-	}
-
-	/**
-	 * 
-	 * Stolen standard terrain populator, screwed with to generate water at the
-	 * desired height.
-	 */
-	@Override
-	public void generateSediment(World world, int X, int Z, byte[][][] blocks,
-			Biome[][] biomes) {
-		/*
-		 * if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-		 * 
-		 * Logger.getLogger("Minecraft").info(String.format(
-		 * "[Islands] SKIPPING generateSediment on Chunk (%d,%d)",X,Z));
-		 * 
-		 * return;
-		 * 
-		 * }
-		 */
-		m_sedimentGenerator.addToProtochunk(blocks, X, Z, biomes);
-	}
-
-	@Override
-	public void populateChunk(World world, int X, int Z) {
-		if(world!=null && m_populator!=null && m_Dungeons!=null) {
-			if(world.isChunkLoaded(X, Z)) {
-				stalactites.addToChunk(world.getChunkAt(X, Z), X, Z);
-				m_populator.addToChunk(world.getChunkAt(X, Z), X, Z);
-				m_Dungeons.addToChunk(world.getChunkAt(X, Z), X, Z);
-			}
-		}
-	}
-
-	private CraftWorld getBukkitWorld() {
-		// TODO Auto-generated method stub
-		return ((WorldServer)p).getWorld();
-	}
-
-	@Override
-	public ConfigurationNode configure(ConfigurationNode node) {
-		if (node == null) {
-			node = Configuration.getEmptyNode();
-		}
-		return node;
-	}
-
-	@Override
-	public boolean canSpawnAt(org.bukkit.World w, int x, int z) {
-		return p.getMaterial(x, p.getHighestBlockYAt(x, z), z).isSolid();
+		return blocks;
 	}
 }

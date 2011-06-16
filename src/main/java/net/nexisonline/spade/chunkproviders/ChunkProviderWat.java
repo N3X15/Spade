@@ -5,6 +5,7 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Random;
 import java.util.logging.Logger;
 
 import libnoiseforjava.module.Perlin;
@@ -12,8 +13,8 @@ import libnoiseforjava.module.RidgedMulti;
 import net.minecraft.server.BlockSand;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
-import net.nexisonline.spade.generators.OrePopulator;
-import net.nexisonline.spade.generators.SedimentGenerator;
+import net.nexisonline.spade.populators.OrePopulator;
+import net.nexisonline.spade.populators.SedimentGenerator;
 
 import org.bukkit.Chunk;
 import org.bukkit.Material;
@@ -34,7 +35,6 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	private Perlin m_perlinGenerator;
 	private RidgedMulti m_fractalGenerator;
 	private SpadePlugin plugin;
-	private OrePopulator m_populator;
 	private SedimentGenerator m_sediment;
 
 	public ChunkProviderWat(SpadePlugin plugin) {
@@ -48,16 +48,9 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(Object world, long seed)
+	public void onLoad(String worldName,long seed, ConfigurationNode node)
 	{
-		this.setHasCustomTerrain(true);
-		this.setHasCustomSedimenter(true);
-		this.setHasCustomPopulator(true);
-
-		try {
-			this.p = (net.minecraft.server.World)world;
-		} catch(Throwable e) {}
-
+		super.onLoad(worldName, seed, node);
 		try
 		{
 			m_perlinGenerator = new Perlin(); //new Perlin();
@@ -71,7 +64,6 @@ public class ChunkProviderWat extends SpadeChunkProvider
 			m_fractalGenerator.setOctaveCount(1);
 			m_fractalGenerator.setFrequency(0.25f);
 			
-			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 		}
 		catch (Exception e)
 		{
@@ -90,10 +82,10 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes, double[][] temperature)
-	{
+	public byte[] generate(World world, Random random, int X, int Z) {
+		byte[] blocks = new byte[16*16*128];
 		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-			return;
+			return blocks;
 		}
 
 		double density[][][] = new double[16][128][16];
@@ -195,44 +187,12 @@ public class ChunkProviderWat extends SpadeChunkProvider
 					}
 					if(y==1)
 						block=7;
-					blocks[x][y][z]=block;
+					setBlockByte(blocks,x,y,z,block);
 				}
 			}
 		}
 
-		Logger.getLogger("Minecraft").info(String.format("[wat] Chunk (%d,%d)",X,Z));
-	}
-
-	/**
-	 * Stolen standard terrain populator, screwed with to generate water at the desired height.
-	 */
-	@Override
-	public void generateSediment(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes) {
-		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-			return;
-		}
-		BlockSand.a=true;
-		m_sediment.addToProtochunk(blocks,X,Z,biomes);
-		BlockSand.a=false;
-	}
-
-	public void populateChunk(Object ch,int X, int Z) {
-
-		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-			return;
-		}
-		
-		BlockSand.a = true;
-		m_populator.addToChunk((Chunk)((net.minecraft.server.Chunk)ch),X,Z);
-		BlockSand.a = false;
-	}
-
-	@Override
-	public ConfigurationNode configure(ConfigurationNode node) {
-		distanceSquared=node.getInt("chunks-from-spawn",0);
-		if(distanceSquared>0)
-			distanceSquared=distanceSquared^2;
-		return node;
-
+		//Logger.getLogger("Minecraft").info(String.format("[wat] Chunk (%d,%d)",X,Z));
+		return blocks;
 	}
 }

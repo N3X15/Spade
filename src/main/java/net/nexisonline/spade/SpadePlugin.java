@@ -1,12 +1,10 @@
 package net.nexisonline.spade;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import net.nexisonline.spade.chunkproviders.ChunkProviderDoublePerlin;
 import net.nexisonline.spade.chunkproviders.ChunkProviderFlatGrass;
 import net.nexisonline.spade.chunkproviders.ChunkProviderMountains;
-import net.nexisonline.spade.chunkproviders.ChunkProviderStock;
 import net.nexisonline.spade.chunkproviders.ChunkProviderSurrealIslands;
 import net.nexisonline.spade.chunkproviders.ChunkProviderWat;
 import net.nexisonline.spade.commands.RegenCommand;
@@ -17,6 +15,7 @@ import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 /**
@@ -53,7 +52,7 @@ public class SpadePlugin extends JavaPlugin {
         
     }
     private void registerChunkProviders() {
-		chunkProviders.put("stock", new ChunkProviderStock());
+		chunkProviders.put("stock", null);
 		chunkProviders.put("flatgrass", new ChunkProviderFlatGrass());
 		chunkProviders.put("mountains", new ChunkProviderMountains());
 		chunkProviders.put("islands", new ChunkProviderSurrealIslands(this));
@@ -63,12 +62,18 @@ public class SpadePlugin extends JavaPlugin {
 	public void onDisable() {
     }
     
-	public ConfigurationNode loadWorld(String worldName, String cmName, String cpName, ConfigurationNode node) {
+	public ConfigurationNode loadWorld(String worldName, long seed, String cmName, String cpName, ConfigurationNode node) {
 		SpadeChunkProvider cp = chunkProviders.get(cpName);
-		cp.setWorldName(cpName);
-		node=cp.configure(node);
+		if(cp!=null) {
+			cp.worldName=worldName;
+	
+			if (node == null) {
+				node = Configuration.getEmptyNode();
+			}
+			cp.onLoad(worldName,seed,node);
+		}
 		assignedProviders.put(worldName, cp);
-		getServer().createWorld(worldName, Environment.NORMAL, (new Random()).nextLong(), null, cp);
+		getServer().createWorld(worldName, Environment.NORMAL, seed, cp);
 		return node;
 	}
 	public int getChunkRadius(String worldName) {

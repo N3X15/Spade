@@ -6,15 +6,12 @@
 	<artifactId>spade</artifactId>
 	<name>Spade</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<description>A plugin to demonstrate the power of TerraBukkit.</description>
+	<description>A plugin to demonstrate the power of Bukkit</description>
 	<url>http://github.com/N3X15/Spade</url>
 	<repositories>
 		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>nexisonline-repo</id>
-			<url>http://ci.nexisonline.net:8080/nexus/content/groups/public/</url>
+			<id>bukkit-snapshots</id>
+			<url>http://ci.nexisonline.net:8080/nexus/content/repositories/bukkit-snapshots/</url>
 		</repository>
 	</repositories>
 	<build>
@@ -55,16 +52,15 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
-			<artifactId>terrabukkit</artifactId>
+			<artifactId>bukkit</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
-			<artifactId>terracraftbukkit</artifactId>
+			<artifactId>craftbukkit</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>

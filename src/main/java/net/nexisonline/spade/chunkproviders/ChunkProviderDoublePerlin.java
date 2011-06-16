@@ -5,20 +5,16 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Random;
 import java.util.logging.Logger;
 
-import libnoiseforjava.module.Perlin;
-import net.minecraft.server.BlockSand;
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
-import net.nexisonline.spade.generators.OrePopulator;
-import net.nexisonline.spade.generators.SedimentGenerator;
+import net.nexisonline.spade.populators.SedimentGenerator;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 import toxi.math.noise.SimplexOctaves;
@@ -35,11 +31,9 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	private SpadePlugin plugin;
 	private SimplexOctaves m_simplexGenerator;
 	private SimplexOctaves m_simplexGenerator2;
-	private OrePopulator m_populator;
-	private SedimentGenerator m_sediment;
 	public ChunkProviderDoublePerlin(SpadePlugin plugin) {
 		this.plugin=plugin;
-		m_sediment = new SedimentGenerator();
+		new SedimentGenerator();
 	}
 
 	/*
@@ -48,54 +42,27 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(Object world, long seed)
+	public void onLoad(String worldName,long worldSeed, ConfigurationNode node)
 	{
-		this.setHasCustomTerrain(true);
-		this.setHasCustomSedimenter(true);
-		this.setHasCustomPopulator(true);
-
-		try {
-			this.p = (net.minecraft.server.World)world;
-		} catch(Throwable e) {}
-
+		super.onLoad(worldName,worldSeed,node);
+		
 		try
 		{
-			new Perlin();
-			new Perlin();
-
 			m_simplexGenerator=new SimplexOctaves(1234,4);
 			m_simplexGenerator2=new SimplexOctaves(1234+51,4);
-			
-			/*
-			m_perlinGenerator.setSeed(1234);
-			m_perlinGenerator.setOctaveCount(1);
-			m_perlinGenerator.setFrequency(1f);
-
-			m_fractalGenerator.setSeed(1235);
-			m_fractalGenerator.setOctaveCount(1);
-			m_fractalGenerator.setFrequency(2f);
-			*/
-
-			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 		}
 		catch (Exception e)
 		{
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.bukkit.ChunkProvider#generateChunk(int, int, byte[],
-	 * org.bukkit.block.Biome[], double[])
-	 */
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes, double[][] temperature)
+	public byte[] generate(World world, Random random, int X, int Z)
 	{
+		byte[] blocks = new byte[16*16*128];
 		if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		{
 				Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)",X,Z));
-				return;
+				return blocks;
 		}
 		
 		InterpolatedDensityMap density = new InterpolatedDensityMap();
@@ -144,40 +111,11 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 					}
 					if(y==1)
 						block=7;
-					blocks[x][y][z]=block;
+					setBlockByte(blocks,x,y,z,block);
 				}
 			}
 		}
 		//Logger.getLogger("Minecraft").info(String.format("[DoublePerlin %d] Chunk (%d,%d)",m_perlinGenerator.getSeed(),X,Z));
-	}
-	
-
-	@Override
-	public void generateSediment(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes) {
-		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-			return;
-		}		
-		BlockSand.a=true;
-		m_sediment.addToProtochunk(blocks,X,Z,biomes);
-		BlockSand.a=false;
-	}
-	
-	@Override
-	public void populateChunk(World world,int X, int Z) {
-		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-			return;
-		}
-		
-		BlockSand.a = true;
-		m_populator.addToChunk(world.getChunkAt(X,Z),X,Z);
-		BlockSand.a = false;
-	}
-
-	@Override
-	public ConfigurationNode configure(ConfigurationNode node) {
-		if(node==null) {
-			node = Configuration.getEmptyNode();
-		}
-		return node;
+		return blocks;
 	}
 }

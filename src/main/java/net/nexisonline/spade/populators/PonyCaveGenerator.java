@@ -1,4 +1,4 @@
-package net.nexisonline.spade.generators;
+package net.nexisonline.spade.populators;
 
 import libnoiseforjava.module.RidgedSimplex;
 import net.minecraft.server.Block;

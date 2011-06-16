@@ -1,4 +1,4 @@
-package net.nexisonline.spade.generators;
+package net.nexisonline.spade.populators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +98,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 			this.rarity = rarity;
 		}
 		
-		public void addToChunk(Chunk chunk, int X, int Z, Random random) {
+		public void populate(Chunk chunk, int X, int Z, Random random) {
 			this.chunk=chunk;
 			this.X=X;
 			this.Z=Z;
@@ -145,7 +145,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 				(new WorldGenDungeons()).a(getMCWorld(), random, x, y, z);
 				break;
 			case PONY_DUNGEON:
-				(new DungeonPopulator(plugin, world, config.getNode("dungeons"), seed)).addToChunk(chunk, X, Z);
+				(new DungeonPopulator(plugin, world, config.getNode("dungeons"), seed)).populate(world, random, chunk);
 				break;
 			case CLAY:
 				(new WorldGenClay(maxBlocks)).a(getMCWorld(), random, x, y, z);
@@ -196,37 +196,37 @@ public class OrePopulator extends SpadeEffectGenerator {
 	private List<DepositDef> oreDefs = new ArrayList<DepositDef>();
 	private Random random;
 	
-	public OrePopulator(SpadePlugin plugin, World w, ConfigurationNode node,
-			long seed) {
+	public OrePopulator(SpadePlugin plugin, World w, ConfigurationNode node,long seed) {
 		super(plugin, w, node, seed);
-		if(node.getProperty("ores")!=null)
-		for(ConfigurationNode odn : node.getNodeList("ores",getDefaults())) {
-			DepositDef od = new DepositDef();
-			od.depositType = DepositType.valueOf(odn.getString("depositType","blob"));
-			od.blockType = odn.getInt("blockType",16);
-			od.minHeight = odn.getInt("minHeight", 0);
-			od.maxHeight = odn.getInt("maxHeight", 127);
-			od.minBlocks = odn.getInt("minBlocks", 1);
-			od.maxBlocks = odn.getInt("maxBlocks", 50);
-			od.minDeposits = odn.getInt("minDeposits", 0);
-			od.maxDeposits = odn.getInt("maxDeposits", 0);
-			od.rarity = odn.getInt("rarity", 4);
-			oreDefs.add(od);
+		if(node.getProperty("ores")!=null) {
+			for(ConfigurationNode odn : node.getNodeList("ores",getDefaults())) {
+				DepositDef od = new DepositDef();
+				od.depositType = DepositType.valueOf(odn.getString("depositType","blob"));
+				od.blockType = odn.getInt("blockType",16);
+				od.minHeight = odn.getInt("minHeight", 0);
+				od.maxHeight = odn.getInt("maxHeight", 127);
+				od.minBlocks = odn.getInt("minBlocks", 1);
+				od.maxBlocks = odn.getInt("maxBlocks", 50);
+				od.minDeposits = odn.getInt("minDeposits", 0);
+				od.maxDeposits = odn.getInt("maxDeposits", 0);
+				od.rarity = odn.getInt("rarity", 4);
+				oreDefs.add(od);
+			}
 		}
 		random = new Random();
 	}
 	
 	@Override
-	public void addToChunk(Chunk chunk, int X, int Z) {
+	public void populate(World world, Random rand, Chunk chunk) {
 		// Shamelessly stolen from Notch's code to avoid fucking up the existing sediment.
         random.setSeed(world.getSeed());
         long xseed = random.nextLong() / 2L * 2L + 1L;
         long zseed = random.nextLong() / 2L * 2L + 1L;
-        random.setSeed((long) X * xseed + (long) Z * zseed ^ world.getSeed());
+        random.setSeed((long) chunk.getX() * xseed + (long) chunk.getZ() * zseed ^ world.getSeed());
         // END Notchcode
         
         for(DepositDef ore : oreDefs) {
-        	ore.addToChunk(chunk,X,Z,random);
+        	ore.populate(chunk,chunk.getX(),chunk.getZ(),random);
         }
 	}
 	

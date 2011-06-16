@@ -1,31 +1,18 @@
 package net.nexisonline.spade;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import net.nexisonline.spade.generators.SpadeEffectGenerator;
+import net.nexisonline.spade.populators.SpadeEffectGenerator;
 
-import org.bukkit.Chunk;
-import org.bukkit.World;
-import org.bukkit.block.Biome;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.config.ConfigurationNode;
 
 public class GenerationManager {
 	boolean populate=true;
-	ArrayList<SpadeEffectGenerator> populators = new ArrayList<SpadeEffectGenerator>();
-	private SpadeTerrainGenerator terraingen;
-	
+	List<BlockPopulator> populators = new ArrayList<BlockPopulator>();
 	@SuppressWarnings("unchecked")
 	public GenerationManager(String world, ConfigurationNode cfg) {
-		// Terrain generation
-		ConfigurationNode node = cfg.getNode("terrain");
-		try {
-			Class<? extends SpadeTerrainGenerator> tgc = (Class<? extends SpadeTerrainGenerator>) Class.forName(node.getString("name"));
-			terraingen = tgc.getConstructor(ConfigurationNode.class).newInstance(node);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		// World population
 		populate=cfg.getBoolean("populate", true);
 		for(Object o : cfg.getList("populators")) {
@@ -43,17 +30,8 @@ public class GenerationManager {
 			}
 		}
 	}
-	
-	public void generate(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes, double[][] temperature) {
-		terraingen.generateChunk(world, X, Z, blocks, biomes, temperature);
-	}
-	
-    public void populate(World w, int X, int Z)
-    {
-    	Chunk c = w.getChunkAt(X, Z);
-        for(SpadeEffectGenerator g:populators) {
-        	g.addToChunk(c, X, Z);
-        }
-    }
 
+	public List<BlockPopulator> getPopulators() {
+		return populators;
+	}
 }

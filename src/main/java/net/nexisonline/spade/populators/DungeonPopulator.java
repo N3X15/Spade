@@ -1,4 +1,4 @@
-package net.nexisonline.spade.generators;
+package net.nexisonline.spade.populators;
 
 import java.util.Random;
 
@@ -20,7 +20,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	public DungeonPopulator(SpadePlugin plugin, World w,
 			ConfigurationNode node, long seed) {
 		super(plugin, w, node, seed);
-		init(seed,16);
+		init(seed,node.getInt("num-rooms", 16));
 	}
 
 	public void init(long seed, int maxRooms)
@@ -32,7 +32,8 @@ public class DungeonPopulator extends SpadeEffectGenerator
 		m_random = new Random(seed + 3531244);
 	}
 
-	public void populate(World w, Chunk chunk)
+	@Override
+	public void populate(World w, Random rnd, Chunk chunk)
 	{
 		world=w;
 		double density = m_density.noise(chunk.getX() * 16, chunk.getZ() * 16);
@@ -328,8 +329,4 @@ public class DungeonPopulator extends SpadeEffectGenerator
 
 	Random m_random;
 	SimplexNoise m_density;
-	@Override
-	public void addToChunk(Chunk chunk, int x, int z) {
-		populate(chunk.getWorld(),chunk);
-	}
 }

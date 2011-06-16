@@ -1,13 +1,15 @@
-package net.nexisonline.spade.generators;
+package net.nexisonline.spade.populators;
 
+import java.util.List;
+
+import net.nexisonline.spade.GenerationManager;
 import net.nexisonline.spade.SpadePlugin;
 
-import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.config.ConfigurationNode;
 
-public abstract class SpadeEffectGenerator {
+public abstract class SpadeEffectGenerator extends BlockPopulator {
 	protected World world;
 	protected SpadePlugin plugin;
 	protected ConfigurationNode config;
@@ -19,9 +21,4 @@ public abstract class SpadeEffectGenerator {
 		this.config=node;
 		this.seed=seed;
 	}
-
-	public abstract void addToChunk(Chunk chunk, int x, int z);
-
-	public void addToProtochunk(byte[][][] blocks, int X, int Z,
-			Biome[][] biomes) {}
 }

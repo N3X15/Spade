@@ -6,6 +6,7 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Random;
 import java.util.logging.Logger;
 
 import libnoiseforjava.NoiseGen.NoiseQuality;
@@ -17,7 +18,6 @@ import net.nexisonline.spade.SpadeChunkProvider;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Biome;
 import org.bukkit.util.config.ConfigurationNode;
 
 /**
@@ -37,9 +37,9 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(Object world, long seed) {
-		setHasCustomTerrain(true);
-
+	public void onLoad(String worldName,long seed,ConfigurationNode node) {
+		super.onLoad(worldName, seed, node);
+		
 		final double Frequency = 0.1;
 		final double Lacunarity = 0.05;
 		final int OctaveCount = continentNoiseOctaves = 4;
@@ -71,8 +71,9 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[][][] blocks,
-			Biome[][] biomes, double[][] temperature) {
+	public byte[] generate(World world, Random random, int X, int Z) {
+
+		byte[] blocks = new byte[16*16*128];
 		int minHeight = Integer.MAX_VALUE;
 		Heightmap hm = new Heightmap(4,4);
 		for (int x = 0; x < 4; x ++) {
@@ -118,21 +119,14 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 					// }
 					// else
 					// block = (d3) ? b[x, y, z] : (byte)1;
-					blocks[x][y][z] = (byte) ((y < 2) ? Material.BEDROCK
-							.getId() : block);
+					setBlockByte(blocks,x,y,z, (byte) ((y < 2) ? Material.BEDROCK
+							.getId() : block));
 				}
 			}
 		}
 		Logger.getLogger("Minecraft").info(
 				String.format("[Mountains] Chunk (%d,%d) Min Height: %dm", X,
 						Z, minHeight));
-
-	}
-
-	@Override
-	public ConfigurationNode configure(ConfigurationNode node) {
-		return node;
-		// TODO Auto-generated method stub
-		
+		return blocks;
 	}
 }

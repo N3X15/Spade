@@ -2,6 +2,7 @@ package net.nexisonline.spade;
 
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.World;
 import org.bukkit.event.world.WorldListener;
@@ -25,7 +26,7 @@ public class SpadeWorldListener extends WorldListener {
 	public void onWorldSave(WorldSaveEvent e) {}
 
 	public void loadWorlds() {		
-		File f = new File("plugins/Spade/Spade.yml");
+		File f = new File(spade.getDataFolder(),"Spade.yml");
 		Configuration cfg = new Configuration(f);
 		if(f.exists())
 			cfg.load();
@@ -35,6 +36,7 @@ public class SpadeWorldListener extends WorldListener {
 			for(String worldName : worlds) {
 				spade.genLimits.put(worldName.toLowerCase(), new GenerationLimits(cfg.getNode("worlds."+worldName+".limits")));
 				spade.loadWorld(worldName,
+						cfg.getInt("worlds."+worldName+".seed", (int) (new Random()).nextLong()),
 						cfg.getString("worlds."+worldName+".chunk-manager.name"), 
 						cfg.getString("worlds."+worldName+".chunk-provider.name"), 
 						cfg.getNode("worlds."+worldName+".chunk-provider.config"));

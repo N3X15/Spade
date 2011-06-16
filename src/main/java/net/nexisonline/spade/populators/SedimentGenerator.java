@@ -1,4 +1,4 @@
-package net.nexisonline.spade.generators;
+package net.nexisonline.spade.populators;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;

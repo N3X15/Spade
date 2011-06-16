@@ -5,14 +5,15 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Random;
 import java.util.logging.Logger;
 
 import libnoiseforjava.module.Perlin;
 import net.minecraft.server.BlockSand;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
-import net.nexisonline.spade.generators.OrePopulator;
-import net.nexisonline.spade.generators.SedimentGenerator;
+import net.nexisonline.spade.populators.OrePopulator;
+import net.nexisonline.spade.populators.SedimentGenerator;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -48,16 +49,10 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(Object world, long seed)
+	public void onLoad(String worldName,long worldSeed,ConfigurationNode node)
 	{
-		this.setHasCustomTerrain(true);
-		this.setHasCustomSedimenter(true);
-		this.setHasCustomPopulator(true);
-
-		try {
-			this.p = (net.minecraft.server.World)world;
-		} catch(Throwable e) {}
-
+		super.onLoad(worldName, worldSeed, node);
+		
 		try
 		{
 			m_perlinGenerator = new Perlin(); //new Perlin();
@@ -65,17 +60,6 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 
 			m_simplexGenerator=new SimplexOctaves(1234,4);
 			m_simplexGenerator2=new SimplexOctaves(1234+51,4);
-			
-			/*
-			m_perlinGenerator.setSeed(1234);
-			m_perlinGenerator.setOctaveCount(1);
-			m_perlinGenerator.setFrequency(1f);
-
-			m_fractalGenerator.setSeed(1235);
-			m_fractalGenerator.setOctaveCount(1);
-			m_fractalGenerator.setFrequency(2f);
-			*/
-			m_populator = new OrePopulator(plugin, plugin.getServer().getWorld(p.worldData.name),null,seed);
 		}
 		catch (Exception e)
 		{
@@ -94,40 +78,14 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 	 * org.bukkit.block.Biome[], double[])
 	 */
 	@Override
-	public void generateChunk(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes, double[][] temperature)
-	{
+	public byte[] generate(World world, Random random, int X, int Z) {
+		byte[] blocks = new byte[16*16*128];
 		if(!plugin.shouldGenerateChunk(worldName,X,Z))
 		{
 				Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)",X,Z));
-				return;
+				return blocks;
 		}
 
-		/*
-		Densitymap density = new Densitymap(4,32,4);
-
-		for (int x = 0; x < 4; x += 3)
-		{
-			for (int y = 0; y < 32; y += 3)
-			{
-				for (int z = 0; z < 4; z += 3)
-				{
-					double posX = (x + (X*16));
-					double posY = (y - 96);
-					double posZ = (z + (Z*16));
-
-					final double warp = 0.004;
-					double warpMod = Math.abs(m_fractalGenerator.getValue(posX * warp, posY * warp, posZ * warp) * 8);
-					double warpPosX = posX * warpMod;
-					double warpPosY = posY * warpMod;
-					double warpPosZ = posZ * warpMod;
-
-					double mod = m_perlinGenerator.getValue(warpPosX * 0.0005, warpPosY * 0.0005, warpPosZ * 0.0005);
-
-					density.set(x, y, z, (mod*100)-(y - 64));
-				}
-			}
-		}
-		/*/
 		double density[][][] = new double[16][128][16];
 
 		for (int x = 0; x < 16; x += 3)
@@ -224,42 +182,12 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 					}
 					if(y==1)
 						block=7;
-					blocks[x][y][z]=block;
+					setBlockByte(blocks,x,y,z,block);
 				}
 			}
 		}
-		Logger.getLogger("Minecraft").info(String.format("[DoublePerlin %d] Chunk (%d,%d)",m_perlinGenerator.getSeed(),X,Z));
+		//Logger.getLogger("Minecraft").info(String.format("[DoublePerlin %d] Chunk (%d,%d)",m_perlinGenerator.getSeed(),X,Z));
+		return blocks;
 	}
 	
-	/**
-	 * Stolen standard terrain populator, screwed with to generate water at the desired height.
-	 */
-	@Override
-	public void generateSediment(World world, int X, int Z, byte[][][] blocks, Biome[][] biomes) {
-		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-			return;
-		}		
-		BlockSand.a=true;
-		m_sediment.addToProtochunk(blocks,X,Z,biomes);
-		BlockSand.a=false;
-	}
-	
-	@Override
-	public void populateChunk(World world,int X, int Z) {
-		if(!plugin.shouldGenerateChunk(worldName,X,Z)) {
-			return;
-		}
-		
-		BlockSand.a = true;
-		m_populator.addToChunk(world.getChunkAt(X,Z),X,Z);
-		BlockSand.a = false;
-	}
-
-	@Override
-	public ConfigurationNode configure(ConfigurationNode node) {
-		if(node==null) {
-			node = Configuration.getEmptyNode();
-		}
-		return node;
-	}
 }
