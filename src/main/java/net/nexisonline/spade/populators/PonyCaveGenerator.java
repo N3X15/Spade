@@ -1,11 +1,19 @@
 package net.nexisonline.spade.populators;
 
+import java.util.Random;
+
+import org.bukkit.Chunk;
+import org.bukkit.World;
+import org.bukkit.util.config.Configuration;
+import org.bukkit.util.config.ConfigurationNode;
+
 import libnoiseforjava.module.RidgedSimplex;
 import net.minecraft.server.Block;
 import net.nexisonline.spade.InterpolatedDensityMap;
+import net.nexisonline.spade.SpadePlugin;
 import toxi.math.noise.SimplexNoise;
 
-public class PonyCaveGenerator
+public class PonyCaveGenerator extends SpadeEffectGenerator
 {
 
 	InterpolatedDensityMap m_interpolator;
@@ -25,34 +33,14 @@ public class PonyCaveGenerator
 	SimplexNoise m_simplex5;
 	SimplexNoise m_simplex6;
 
-	public PonyCaveGenerator(long seed) {
+	public PonyCaveGenerator(SpadePlugin plugin,ConfigurationNode node,long seed) {
+		super(plugin,node,seed);
+		
+		// Configure
+		
+		
+		// Setup
 		m_interpolator = new InterpolatedDensityMap();
-
-		/*
-		m_simplex1 = new SimplexNoise(seed + 1);
-		m_simplex1.setFrequency(0.05);
-		m_simplex1.setAmplitude(5);
-
-		m_simplex2 = new SimplexNoise(seed + 2);
-		m_simplex2.setFrequency(0.005);
-		m_simplex2.setAmplitude(15);
-
-		m_simplex3 = new SimplexNoise(seed + 3);
-		m_simplex3.setFrequency(0.0005);
-		m_simplex3.setAmplitude(20);
-
-		m_simplex4 = new SimplexNoise(seed + 4);
-		m_simplex4.setFrequency(0.00005);
-		m_simplex4.setAmplitude(25);
-
-		m_simplex5 = new SimplexNoise(seed + 5);
-		m_simplex5.setFrequency(0.1);
-		m_simplex5.setAmplitude(50);
-
-		m_simplex6 = new SimplexNoise(seed + 6);
-		m_simplex6.setFrequency(0.1);
-		m_simplex6.setAmplitude(25);
-		 */
 
 		m_xTurbulence = new SimplexNoise(seed + 1);
 		m_xTurbulence.setFrequency(0.05);
@@ -75,8 +63,10 @@ public class PonyCaveGenerator
 		m_ridged2.setAmplitude(11);
 	}
 
-	public void generateCaves(Object world, int X, int Z, byte[][][] blocks)
-	{
+	public void populate(World world, Random random, Chunk chunk) {
+		int X=chunk.getX();
+		int Z=chunk.getZ();
+		
 		double density = 0;
 
 		for (int x = 0; x < 16; x+=5)
@@ -113,35 +103,41 @@ public class PonyCaveGenerator
 			{
 				for (int y = 126; y > 2; y--)
 				{
-					byte id = blocks[x][y][z];
+					byte id = (byte) chunk.getBlock(x, y, z).getTypeId();
 
 					if (m_interpolator.getDensity(x, y, z) > 5 &&
-							!blockIsWater(blocks,x,y,z) &&
+							!blockIsWater(chunk,x,y,z) &&
 							!(
 									id==Block.LAVA.id ||
 									id==Block.STATIONARY_LAVA.id ||
 									id==Block.BEDROCK.id
 							) && 
-							!blockIsWater(blocks,x+1,y,z) && 
-							!blockIsWater(blocks,x-1,y,z) && 
-							!blockIsWater(blocks,x,y+1,z) && 
-							!blockIsWater(blocks,x,y-1,z) &&
-							!blockIsWater(blocks,x,y,z+1) && 
-							!blockIsWater(blocks,x,y,z-1)
+							!blockIsWater(chunk,x+1,y,z) && 
+							!blockIsWater(chunk,x-1,y,z) && 
+							!blockIsWater(chunk,x,y+1,z) && 
+							!blockIsWater(chunk,x,y-1,z) &&
+							!blockIsWater(chunk,x,y,z+1) && 
+							!blockIsWater(chunk,x,y,z-1)
 					)
 					{
-						blocks[x][y][z]=(byte) ((y<10)?Block.STATIONARY_LAVA.id:0);
+						chunk.getBlock(x,y,z).setTypeId(((y<10)?Block.STATIONARY_LAVA.id:0));
 					}
 				}
 			}
 		}
 	}
 
-	private boolean blockIsWater(byte[][][] blocks,int x, int y, int z) {
+	private boolean blockIsWater(Chunk chunk,int x, int y, int z) {
 		if(x<0||x>15||z<0||z>15||y<0||y>127) return false;
-		byte id = blocks[x][y][z];
+		byte id = (byte) chunk.getBlock(x, y, z).getTypeId();
 		return	id==Block.WATER.id ||
 		id==Block.STATIONARY_WATER.id;
+	}
+
+	@Override
+	public ConfigurationNode getConfiguration() {
+		ConfigurationNode cfg = Configuration.getEmptyNode();
+		return cfg;
 	}
 }
 

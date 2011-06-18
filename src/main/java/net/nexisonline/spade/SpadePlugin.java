@@ -54,8 +54,8 @@ public class SpadePlugin extends JavaPlugin {
     }
     private void registerChunkProviders() {
 		chunkProviders.put("stock", null);
-		chunkProviders.put("flatgrass", new ChunkProviderFlatGrass());
-		chunkProviders.put("mountains", new ChunkProviderMountains());
+		chunkProviders.put("flatgrass", new ChunkProviderFlatGrass(this));
+		chunkProviders.put("mountains", new ChunkProviderMountains(this));
 		chunkProviders.put("islands", new ChunkProviderSurrealIslands(this));
 		chunkProviders.put("wat", new ChunkProviderWat(this));
 		chunkProviders.put("doubleperlin", new ChunkProviderDoublePerlin(this));
@@ -116,6 +116,14 @@ public class SpadePlugin extends JavaPlugin {
 		} else {
 			return (x < gl.distance || x < -gl.distance || z < gl.distance || z < -gl.distance);
 		}
+	}
+	public String getNameForClass(SpadeChunkProvider cp) {
+		for(String key:chunkProviders.keySet()) {
+			if(chunkProviders.get(key).getClass().equals(cp.getClass())) {
+				return key;
+			}
+		}
+		return "stock";
 	}
 
 }

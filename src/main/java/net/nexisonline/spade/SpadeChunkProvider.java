@@ -7,12 +7,18 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 public abstract class SpadeChunkProvider extends ChunkGenerator {
 
 	protected String worldName="";
 	private GenerationManager popmanager=null;
+	protected SpadePlugin plugin;
+
+	public SpadeChunkProvider(SpadePlugin plugin) {
+		this.plugin=plugin;
+	}
 
 	/**
 	 * Load world settings and configure chunk generator
@@ -20,7 +26,7 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 	 * @param node Configuration node for this plugin.
 	 */
 	public void onLoad(String worldName, long worldSeed, ConfigurationNode node) {
-		this.popmanager = new GenerationManager(worldName,node);
+		this.popmanager = new GenerationManager(this.plugin, worldName,node, worldSeed);
 	}
 
 	@Override
@@ -39,5 +45,10 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 	protected void setBlockByte(byte[] blocks, int x, int y, int z, byte block) {
 		blocks[y + (z * 128 + (x * 128 * 16))] = block;
 	}
-	
+
+	public ConfigurationNode getConfig() {
+		ConfigurationNode cfg = Configuration.getEmptyNode();
+		cfg.setProperty("populators",popmanager.getConfig());
+		return cfg;
+	}
 }

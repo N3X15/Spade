@@ -24,8 +24,8 @@ import toxi.math.noise.SimplexNoise;
  * 
  */
 public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
-	private static int WATER_HEIGHT = 32;
-	private static int OCEAN_FLOOR=16;
+	private int WATER_HEIGHT = 32;
+	private int OCEAN_FLOOR=16;
 	SimplexNoise m_simplex1;
 	SimplexNoise m_simplex2;
 	SimplexNoise m_xTurbulence;
@@ -34,6 +34,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	private SimplexNoise m_SeaFloorNoise;
 	private InterpolatedDensityMap density;
 	public ChunkProviderSurrealIslands(SpadePlugin plugin) {
+		super(plugin);
 		density = new InterpolatedDensityMap();
 	}
 	
@@ -131,5 +132,13 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 						X, Z, minDensity, maxDensity));
 */
 		return blocks;
+	}
+	
+	@Override
+	public ConfigurationNode getConfig() {
+		ConfigurationNode cfg = super.getConfig();
+		cfg.setProperty("water-level", WATER_HEIGHT);
+		cfg.setProperty("min-ocean-floor-height", OCEAN_FLOOR);
+		return cfg;
 	}
 }

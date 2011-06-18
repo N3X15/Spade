@@ -12,10 +12,11 @@ public abstract class SpadeEffectGenerator extends BlockPopulator {
 	protected ConfigurationNode config;
 	protected long seed;
 
-	public SpadeEffectGenerator(SpadePlugin plugin,World w,ConfigurationNode node, long seed) {
+	public SpadeEffectGenerator(SpadePlugin plugin,ConfigurationNode node, long seed) {
 		this.plugin=plugin;
-		this.world=w;
 		this.config=node;
 		this.seed=seed;
 	}
+
+	public abstract ConfigurationNode getConfiguration();
 }

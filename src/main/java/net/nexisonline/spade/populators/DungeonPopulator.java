@@ -11,20 +11,22 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 import toxi.math.noise.SimplexNoise;
 
 public class DungeonPopulator extends SpadeEffectGenerator
 {
-	public DungeonPopulator(SpadePlugin plugin, World w,
-			ConfigurationNode node, long seed) {
-		super(plugin, w, node, seed);
-		init(seed,node.getInt("num-rooms", 16));
-	}
-
-	public void init(long seed, int maxRooms)
-	{
+	private Random m_random;
+	private SimplexNoise m_density;
+	private int maxRooms;
+	
+	public DungeonPopulator(SpadePlugin plugin, ConfigurationNode node, long seed) {
+		super(plugin, node, seed);
+		
+		this.maxRooms = node.getInt("num-rooms", 16);
+		
 		m_density = new SimplexNoise(seed + 343543);
 		m_density.setFrequency(0.01);
 		m_density.setAmplitude(maxRooms * 0.1);
@@ -326,7 +328,11 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			world.getBlockAt(x, y, z).setType(mat);
 		}
 	}
-
-	Random m_random;
-	SimplexNoise m_density;
+	
+	@Override
+	public ConfigurationNode getConfiguration() {
+		ConfigurationNode n = Configuration.getEmptyNode();
+		n.setProperty("max-rooms",maxRooms);
+		return n;
+	}
 }

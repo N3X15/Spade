@@ -15,6 +15,7 @@ import libnoiseforjava.module.RidgedMulti;
 import net.nexisonline.spade.Heightmap;
 import net.nexisonline.spade.Interpolator;
 import net.nexisonline.spade.SpadeChunkProvider;
+import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -30,6 +31,10 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 	private Perlin continentNoise;
 	private int continentNoiseOctaves = 16;
 	private final NoiseQuality noiseQuality = NoiseQuality.QUALITY_STD;
+	
+	public ChunkProviderMountains(SpadePlugin plugin) {
+		super(plugin);
+	}
 
 	/*
 	 * (non-Javadoc)

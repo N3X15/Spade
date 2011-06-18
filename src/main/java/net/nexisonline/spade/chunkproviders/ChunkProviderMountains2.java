@@ -29,8 +29,9 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 	private SpadePlugin plugin;
 	private SimplexOctaves m_simplexGenerator;
 	private SimplexOctaves m_simplexGenerator2;
+	
 	public ChunkProviderMountains2(SpadePlugin plugin) {
-		this.plugin=plugin;
+		super(plugin);
 	}
 
 	/*
@@ -38,10 +39,10 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 	 *
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
+
 	@Override
-	public void onLoad(String worldName,long worldSeed,ConfigurationNode node)
-	{
-		super.onLoad(worldName, worldSeed, node);
+	public void onLoad(String worldName,long worldSeed, ConfigurationNode node) {
+		super.onLoad(worldName,worldSeed,node);
 		
 		try
 		{

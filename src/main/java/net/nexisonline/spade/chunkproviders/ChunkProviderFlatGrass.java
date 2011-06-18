@@ -3,13 +3,21 @@ package net.nexisonline.spade.chunkproviders;
 import java.util.Random;
 
 import net.nexisonline.spade.SpadeChunkProvider;
+import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.World;
+import org.bukkit.util.config.ConfigurationNode;
 
 public class ChunkProviderFlatGrass extends SpadeChunkProvider {
+	public ChunkProviderFlatGrass(SpadePlugin plugin) {
+		super(plugin);
+	}
+	
 	private byte[] template;
 	
-	public void onLoad(Object world, long seed) {
+	@Override
+	public void onLoad(String worldName,long worldSeed, ConfigurationNode node) {
+		super.onLoad(worldName,worldSeed,node);
 		template=new byte[16*128*16];
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {

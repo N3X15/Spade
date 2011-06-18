@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
-import net.nexisonline.spade.populators.SedimentGenerator;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -31,9 +30,9 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	private SpadePlugin plugin;
 	private SimplexOctaves m_simplexGenerator;
 	private SimplexOctaves m_simplexGenerator2;
+	
 	public ChunkProviderDoublePerlin(SpadePlugin plugin) {
-		this.plugin=plugin;
-		new SedimentGenerator();
+		super(plugin);
 	}
 
 	/*
@@ -42,8 +41,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(String worldName,long worldSeed, ConfigurationNode node)
-	{
+	public void onLoad(String worldName,long worldSeed, ConfigurationNode node) {
 		super.onLoad(worldName,worldSeed,node);
 		
 		try

@@ -6,25 +6,33 @@ import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
+import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 public class StalactiteGenerator extends SpadeEffectGenerator {
-	public StalactiteGenerator(SpadePlugin plugin, World w,
-			ConfigurationNode node, long seed) {
-		super(plugin, w, node, seed);
-		rnd=new Random((seed*1024)+15);
-	}
 	private int X;
 	private int Z;
 	private Random rnd;
 	private Chunk chunk;
+	private int maxStalactitesPerChunk;
+	private int maxStalactiteLength;
+	
+	public StalactiteGenerator(SpadePlugin plugin, ConfigurationNode node, long seed) {
+		super(plugin, node, seed);
+		
+		// Configure
+		maxStalactitesPerChunk = node.getInt("max-stalactites-per-chunk", 10);
+		maxStalactiteLength = node.getInt("max-stalactite-length", 15);
+		
+		rnd=new Random((seed*1024)+15);
+	}
 
 	public void populate(World world, Random rand, Chunk chunk) {
 		this.chunk=chunk;
 		this.X=chunk.getX();
 		this.Z=chunk.getZ();
 
-		for(int i = 0;i<rnd.nextInt(9)+1;i++) {
+		for(int i = 0;i<rnd.nextInt(maxStalactitesPerChunk-1)+1;i++) {
 			addStalactite(world,rnd.nextInt(15),rnd.nextInt(15)); 
 		}
 	}
@@ -32,7 +40,7 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	private void addStalactite(World w,int x, int z) {
 		for(int y = 1;y<127;y++) {
 			if(get(x,y,z)==1 && (get(x,y-1,z)==0 || get(x,y-1,z)==8)) {
-				int h=rnd.nextInt(15);
+				int h=rnd.nextInt(maxStalactiteLength);
 				//for(;!(get(x,y-h,z)==1)&&y-h>1;h++) {}
 				y-=h;
 				addStalactite(w,x+(X*16), y, x+(Z*16));
@@ -65,5 +73,13 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 
 	private int get(int x, int y, int z) {
 		return this.chunk.getBlock(x, y, z).getTypeId();
+	}
+
+	@Override
+	public ConfigurationNode getConfiguration() {
+		ConfigurationNode node = Configuration.getEmptyNode();
+		node.setProperty("max-stalactites-per-chunk", maxStalactitesPerChunk);
+		node.setProperty("max-stalactite-length", maxStalactiteLength);
+		return node;
 	}
 }

@@ -24,14 +24,13 @@ public class ChunkProviderWat extends SpadeChunkProvider
 {
 	public int distanceSquared=-1;
 	private static final int WATER_HEIGHT = 32;
-	net.minecraft.server.World p=null;
 
 	private Perlin m_perlinGenerator;
 	private RidgedMulti m_fractalGenerator;
 	private SpadePlugin plugin;
 
 	public ChunkProviderWat(SpadePlugin plugin) {
-		this.plugin=plugin;
+		super(plugin);
 	}
 
 	/*

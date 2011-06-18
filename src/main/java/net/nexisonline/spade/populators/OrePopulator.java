@@ -145,7 +145,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 				(new WorldGenDungeons()).a(getMCWorld(), random, x, y, z);
 				break;
 			case PONY_DUNGEON:
-				(new DungeonPopulator(plugin, world, config.getNode("dungeons"), seed)).populate(world, random, chunk);
+				(new DungeonPopulator(plugin, config.getNode("dungeons"), seed)).populate(world, random, chunk);
 				break;
 			case CLAY:
 				(new WorldGenClay(maxBlocks)).a(getMCWorld(), random, x, y, z);
@@ -196,10 +196,10 @@ public class OrePopulator extends SpadeEffectGenerator {
 	private List<DepositDef> oreDefs = new ArrayList<DepositDef>();
 	private Random random;
 	
-	public OrePopulator(SpadePlugin plugin, World w, ConfigurationNode node,long seed) {
-		super(plugin, w, node, seed);
-		if(node.getProperty("ores")!=null) {
-			for(ConfigurationNode odn : node.getNodeList("ores",getDefaults())) {
+	public OrePopulator(SpadePlugin plugin, ConfigurationNode node,long seed) {
+		super(plugin, node, seed);
+		if(node.getProperty("deposits")!=null) {
+			for(ConfigurationNode odn : node.getNodeList("deposits",getDefaults())) {
 				DepositDef od = new DepositDef();
 				od.depositType = DepositType.valueOf(odn.getString("depositType","blob"));
 				od.blockType = odn.getInt("blockType",16);
@@ -277,5 +277,16 @@ public class OrePopulator extends SpadeEffectGenerator {
         defs.add(new DepositDef(DepositType.LIQUID,Material.LAVA.getId(),8,120,0,0,20,20).toConfigNode());
 
 		return defs;
+	}
+
+	@Override
+	public ConfigurationNode getConfiguration() {
+		ConfigurationNode node = Configuration.getEmptyNode();
+		List<ConfigurationNode> deposits = new ArrayList<ConfigurationNode>();
+		for(DepositDef def : oreDefs) {
+			deposits.add(def.toConfigNode());
+		}
+		node.setProperty("deposits", deposits);
+		return node;
 	}
 }
