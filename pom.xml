@@ -10,8 +10,8 @@
 	<url>http://github.com/N3X15/Spade</url>
 	<repositories>
 		<repository>
-			<id>bukkit-snapshots</id>
-			<url>http://repo.nexisonline.net:8080/nexus/content/repositories/bukkit-snapshots/</url>
+			<id>bukkit-repo</id>
+			<url>http://repo.bukkit.org/artifactory/repo</url>
 		</repository>
 	</repositories>
 	<build>
