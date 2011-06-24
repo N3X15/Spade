@@ -22,7 +22,7 @@ public class GenerationManager {
 			cfg.setProperty("populators", getDefaultPopulators());
 		for(Object o : cfg.getList("populators")) {
 			SpadeLogging.info("[GM] Current populator: "+o.toString());
-			try {
+			//try {
 				if(o instanceof ConfigurationNode) {
 					ConfigurationNode segNode = (ConfigurationNode)o;
 					String populatorName = segNode.getString("name","");
@@ -37,7 +37,7 @@ public class GenerationManager {
 						}
 					}
 				}
-			} catch(Exception e) {}
+			//} catch(Exception e) {}
 		}
 	}
 
