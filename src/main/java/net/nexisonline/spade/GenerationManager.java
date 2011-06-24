@@ -21,11 +21,11 @@ public class GenerationManager {
 		if(cfg.getProperty("populators")==null)
 			cfg.setProperty("populators", getDefaultPopulators());
 		for(Object o : cfg.getList("populators")) {
-			SpadeLogging.info("[GM] Current populator: "+o.toString());
 			//try {
 				if(o instanceof ConfigurationNode) {
 					ConfigurationNode segNode = (ConfigurationNode)o;
 					String populatorName = segNode.getString("name","");
+					SpadeLogging.info("[GM] Current populator: "+populatorName);
 					if(!populatorName.isEmpty()) {
 						Class<? extends SpadeEffectGenerator> c;
 						try {
