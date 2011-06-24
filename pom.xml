@@ -11,7 +11,7 @@
 	<repositories>
 		<repository>
 			<id>bukkit-snapshots</id>
-			<url>http://ci.nexisonline.net:8080/nexus/content/repositories/bukkit-snapshots/</url>
+			<url>http://repo.nexisonline.net:8080/nexus/content/repositories/bukkit-snapshots/</url>
 		</repository>
 	</repositories>
 	<build>

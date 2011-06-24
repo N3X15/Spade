@@ -21,20 +21,23 @@ public class GenerationManager {
 		if(cfg.getProperty("populators")==null)
 			cfg.setProperty("populators", getDefaultPopulators());
 		for(Object o : cfg.getList("populators")) {
-			if(o instanceof ConfigurationNode) {
-				ConfigurationNode segNode = (ConfigurationNode)o;
-				String populatorName = segNode.getString("name","");
-				if(!populatorName.isEmpty()) {
-					Class<? extends SpadeEffectGenerator> c;
-					try {
-						c = (Class<? extends SpadeEffectGenerator>) Class.forName(populatorName);
-						SpadeEffectGenerator seg = c.getConstructor(SpadePlugin.class, ConfigurationNode.class, long.class).newInstance(plugin,segNode,seed);
-						populators.add(seg);
-					} catch (Exception e) {
-						SpadeLogging.severe("Unable to load populator "+populatorName,e);
+			SpadeLogging.info("[GM] Current populator: "+o.toString());
+			try {
+				if(o instanceof ConfigurationNode) {
+					ConfigurationNode segNode = (ConfigurationNode)o;
+					String populatorName = segNode.getString("name","");
+					if(!populatorName.isEmpty()) {
+						Class<? extends SpadeEffectGenerator> c;
+						try {
+							c = (Class<? extends SpadeEffectGenerator>) Class.forName(populatorName);
+							SpadeEffectGenerator seg = c.getConstructor(SpadePlugin.class, ConfigurationNode.class, long.class).newInstance(plugin,segNode,seed);
+							populators.add(seg);
+						} catch (Exception e) {
+							SpadeLogging.severe("Unable to load populator "+populatorName,e);
+						}
 					}
 				}
-			}
+			} catch(Exception e) {}
 		}
 	}
 
