@@ -1,19 +1,28 @@
 package net.nexisonline.spade.populators;
 
+import java.util.Random;
+
+import net.nexisonline.spade.SpadePlugin;
+
+import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.util.config.Configuration;
+import org.bukkit.util.config.ConfigurationNode;
 
 /**
  * Converted from MineEdit
  * @author Rob
  *
  */
-public class SedimentGenerator {
+public class SedimentGenerator extends SpadeEffectGenerator {
 
 	private int waterHeight;
 
-	public SedimentGenerator() {
-		waterHeight = 63;
+	public SedimentGenerator(SpadePlugin plugin, ConfigurationNode node, long seed) {
+		super(plugin, node, seed);
+		waterHeight = node.getInt("water-height", 63);
 	}
 
 	public void addToProtochunk(byte[][][] blocks, int X, int Z,Biome[][] biomes) {
@@ -91,5 +100,18 @@ public class SedimentGenerator {
 	private boolean blockIsSolid(byte b) {
 		Material mat = Material.getMaterial(b);
 		return mat!=Material.AIR && mat!=Material.WATER && mat!=Material.STATIONARY_WATER && mat!=Material.LAVA && mat!=Material.STATIONARY_LAVA;
+	}
+
+	@Override
+	public ConfigurationNode getConfiguration() {
+		ConfigurationNode cfg = Configuration.getEmptyNode();
+		cfg.setProperty("water-height",waterHeight);
+		return cfg;
+	}
+
+	@Override
+	public void populate(World arg0, Random arg1, Chunk arg2) {
+		// TODO Auto-generated method stub
+		
 	}
 }
