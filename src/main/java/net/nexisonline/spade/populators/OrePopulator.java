@@ -14,6 +14,7 @@ import net.minecraft.server.WorldGenLiquids;
 import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
+import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
@@ -192,6 +193,11 @@ public class OrePopulator extends SpadeEffectGenerator {
 			cfg.setProperty("rarity",rarity);
 			return cfg;
 		}
+		
+		@Override
+		public String toString() {
+			return String.format("ORE {0}->{1}", depositType.name(), Material.getMaterial(blockType).name());
+		}
 	}
 	private List<DepositDef> oreDefs = new ArrayList<DepositDef>();
 	private Random random;
@@ -226,6 +232,7 @@ public class OrePopulator extends SpadeEffectGenerator {
         // END Notchcode
         
         for(DepositDef ore : oreDefs) {
+    		SpadeLogging.info("OrePopulator: Populating ("+chunk.getX()+","+chunk.getZ()+") with "+ore.toString());
         	ore.populate(chunk,chunk.getX(),chunk.getZ(),random);
         }
 	}
