@@ -24,7 +24,9 @@ public class SpadeWorldListener extends WorldListener {
 	public void onWorldLoad(WorldLoadEvent e) {}
 	
 	@Override
-	public void onWorldSave(WorldSaveEvent e) {}
+	public void onWorldSave(WorldSaveEvent e) {
+		saveWorlds();
+	}
 
 	public void loadWorlds() {		
 		File f = new File(spade.getDataFolder(),"Spade.yml");
