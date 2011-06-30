@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.nexisonline.spade.populators.DungeonPopulator;
+import net.nexisonline.spade.populators.OrePopulator;
 import net.nexisonline.spade.populators.PonyCaveGenerator;
 import net.nexisonline.spade.populators.SedimentGenerator;
 import net.nexisonline.spade.populators.SpadeEffectGenerator;
@@ -15,9 +16,17 @@ import org.bukkit.util.config.ConfigurationNode;
 
 public class GenerationManager {
 	boolean populate=true;
+	List<Class<? extends SpadeEffectGenerator>> knownBlockPopulators = new ArrayList<Class<? extends SpadeEffectGenerator>>();
 	List<BlockPopulator> populators = new ArrayList<BlockPopulator>();
 	@SuppressWarnings("unchecked")
 	public GenerationManager(SpadePlugin plugin, String world, ConfigurationNode cfg, long seed) {
+		
+		knownBlockPopulators.add(DungeonPopulator.class);
+		knownBlockPopulators.add(OrePopulator.class);
+		knownBlockPopulators.add(PonyCaveGenerator.class);
+		knownBlockPopulators.add(SedimentGenerator.class);
+		knownBlockPopulators.add(StalactiteGenerator.class);
+		
 		if(cfg.getProperty("populators")==null)
 			cfg.setProperty("populators", getDefaultPopulators());
 		for(Object o : cfg.getList("populators")) {
@@ -29,7 +38,12 @@ public class GenerationManager {
 					if(!populatorName.isEmpty()) {
 						Class<? extends SpadeEffectGenerator> c;
 						try {
-							c = (Class<? extends SpadeEffectGenerator>) Class.forName(populatorName);
+							c = findClass(populatorName);
+							if(c==null)
+							{
+								SpadeLogging.severe("Unable to find populator: "+populatorName, null);
+								continue;
+							}
 							SpadeEffectGenerator seg = c.getConstructor(SpadePlugin.class, ConfigurationNode.class, long.class).newInstance(plugin,segNode,seed);
 							populators.add(seg);
 						} catch (Exception e) {
@@ -39,6 +53,15 @@ public class GenerationManager {
 				}
 			//} catch(Exception e) {}
 		}
+	}
+
+	private Class<? extends SpadeEffectGenerator> findClass(String classname) {
+		for(Class<? extends SpadeEffectGenerator> c : knownBlockPopulators) {
+			if(c.getName().equalsIgnoreCase(classname)) {
+				return c;
+			}
+		}
+		return null;
 	}
 
 	private List<ConfigurationNode> getDefaultPopulators() {
