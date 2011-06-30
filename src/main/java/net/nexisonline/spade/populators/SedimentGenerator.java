@@ -53,12 +53,12 @@ public class SedimentGenerator extends SpadeEffectGenerator {
             for (int z = 0; z < 16; z++)
             {
                 int H=Math.max(Math.min(topBlockY(chunk, x, z),127),16);
-                int nextH=0;
+                /*int nextH=0;
                 if(x!=15)
                 	nextH=Math.max(Math.min(topBlockY(chunk, x+1, z),127),16);
                 else 
                 	nextH=Math.max(Math.min(topBlockY(chunk, x-1, z),127),16);
-                
+                */
                 boolean HavePloppedGrass = false;
                 for (int y = 127; y > 0; y--)
                 {
@@ -68,7 +68,7 @@ public class SedimentGenerator extends SpadeEffectGenerator {
                     if (thisblock == Material.STONE.getId() 
                     	&& supportBlock==Material.STONE.getId())
                     {
-                    	int depth= H/nextH;
+                    	int depth= 10*(y/128);/*/nextH*/;
                         if (y + depth >= YH)
                             continue;
                         int ddt = chunk.getBlock(x, y+depth, z).getTypeId();
