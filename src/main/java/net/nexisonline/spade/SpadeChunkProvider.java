@@ -38,6 +38,8 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 
 	@Override
 	public boolean canSpawn(World w, int x, int z) {
+		return true;
+		/*
 		int y = w.getHighestBlockYAt(x, z);
 		return (w.getBlockAt(x, y, z).getType() == Material.SAND 
 				|| w.getBlockAt(x, y, z).getType() == Material.GRAVEL 
@@ -45,6 +47,7 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 				|| w.getBlockAt(x, y, z).getType() == Material.STONE) 
 				&& w.getBlockAt(x,y+1,z).getType() == Material.AIR 
 				&& w.getBlockAt(x,y+2,z).getType() == Material.AIR;
+		*/
 	}
 
 	protected void setBlockByte(byte[] blocks, int x, int y, int z, byte block) {
