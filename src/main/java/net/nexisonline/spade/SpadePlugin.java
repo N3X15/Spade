@@ -45,6 +45,7 @@ public class SpadePlugin extends JavaPlugin {
 
         // Load World Settings
         worldListener.loadWorlds();
+        worldListener.saveWorlds();
         
         // EXAMPLE: Custom code, here we just output some info so we can check all is well
         PluginDescriptionFile pdfFile = this.getDescription();
