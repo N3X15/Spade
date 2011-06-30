@@ -2,6 +2,7 @@ package net.nexisonline.spade.populators;
 
 import java.util.Random;
 
+import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
@@ -28,6 +29,7 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	}
 
 	public void populate(World world, Random rand, Chunk chunk) {
+		SpadeLogging.info(String.format("Generating stalactites in chunk (%d,%d)",chunk.getX(),chunk.getZ()));
 		this.chunk=chunk;
 		this.X=chunk.getX();
 		this.Z=chunk.getZ();

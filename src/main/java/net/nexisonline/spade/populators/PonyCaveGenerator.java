@@ -10,6 +10,7 @@ import org.bukkit.util.config.ConfigurationNode;
 import libnoiseforjava.module.RidgedSimplex;
 import net.minecraft.server.Block;
 import net.nexisonline.spade.InterpolatedDensityMap;
+import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 import toxi.math.noise.SimplexNoise;
 
@@ -66,7 +67,7 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 	public void populate(World world, Random random, Chunk chunk) {
 		int X=chunk.getX();
 		int Z=chunk.getZ();
-		
+		SpadeLogging.info(String.format("Generating caves in chunk (%d,%d)",chunk.getX(),chunk.getZ()));
 		double density = 0;
 
 		for (int x = 0; x < 16; x+=5)

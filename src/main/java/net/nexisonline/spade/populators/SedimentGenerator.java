@@ -2,6 +2,7 @@ package net.nexisonline.spade.populators;
 
 import java.util.Random;
 
+import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
@@ -45,6 +46,7 @@ public class SedimentGenerator extends SpadeEffectGenerator {
 
 	@Override
 	public void populate(World world, Random rand, Chunk chunk) {
+		SpadeLogging.info(String.format("Generating sediment in chunk (%d,%d)",chunk.getX(),chunk.getZ()));
 		int YH = 128;
         for (int x = 0; x < 16; x++)
         {

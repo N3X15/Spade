@@ -224,6 +224,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 	
 	@Override
 	public void populate(World world, Random rand, Chunk chunk) {
+		SpadeLogging.info(String.format("Generating %d ores in chunk (%d,%d)",oreDefs.size(),chunk.getX(),chunk.getZ()));
 		// Shamelessly stolen from Notch's code to avoid fucking up the existing sediment.
         random.setSeed(world.getSeed());
         long xseed = random.nextLong() / 2L * 2L + 1L;
