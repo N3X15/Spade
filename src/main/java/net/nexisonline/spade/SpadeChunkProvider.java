@@ -43,7 +43,8 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 				|| w.getBlockAt(x, y, z).getType() == Material.GRAVEL 
 				|| w.getBlockAt(x, y, z).getType() == Material.GRASS 
 				|| w.getBlockAt(x, y, z).getType() == Material.STONE) 
-				&& w.getBlockAt(x,y+1,z).equals(Material.AIR) && w.getBlockAt(x,y+2,z).equals(Material.AIR);
+				&& w.getBlockAt(x,y+1,z).getType() == Material.AIR 
+				&& w.getBlockAt(x,y+2,z).getType() == Material.AIR;
 	}
 
 	protected void setBlockByte(byte[] blocks, int x, int y, int z, byte block) {
