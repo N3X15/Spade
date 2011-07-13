@@ -34,6 +34,11 @@ public class DungeonPopulator extends SpadeEffectGenerator
 
 		m_random = new Random(seed + 3531244);
 	}
+	
+
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+		return new DungeonPopulator(plugin,node,seed);
+	}
 
 	@Override
 	public void populate(World w, Random rnd, Chunk chunk)

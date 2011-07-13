@@ -222,6 +222,11 @@ public class OrePopulator extends SpadeEffectGenerator {
 		random = new Random();
 	}
 	
+
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+		return new OrePopulator(plugin,node,seed);
+	}
+	
 	@Override
 	public void populate(World world, Random rand, Chunk chunk) {
 		SpadeLogging.info(String.format("Generating %d ores in chunk (%d,%d)",oreDefs.size(),chunk.getX(),chunk.getZ()));

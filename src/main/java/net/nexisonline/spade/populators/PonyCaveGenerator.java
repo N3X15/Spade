@@ -63,6 +63,11 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 		m_ridged2.setFrequency(0.01);
 		m_ridged2.setAmplitude(11);
 	}
+	
+
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+		return new PonyCaveGenerator(plugin,node,seed);
+	}
 
 	public void populate(World world, Random random, Chunk chunk) {
 		int X=chunk.getX();

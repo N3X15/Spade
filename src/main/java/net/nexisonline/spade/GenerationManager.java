@@ -21,12 +21,6 @@ public class GenerationManager {
 	@SuppressWarnings("unchecked")
 	public GenerationManager(SpadePlugin plugin, String world, ConfigurationNode cfg, long seed) {
 		
-		knownBlockPopulators.add(DungeonPopulator.class);
-		knownBlockPopulators.add(OrePopulator.class);
-		knownBlockPopulators.add(PonyCaveGenerator.class);
-		knownBlockPopulators.add(SedimentGenerator.class);
-		knownBlockPopulators.add(StalactiteGenerator.class);
-		
 		if(cfg.getProperty("populators")==null)
 			cfg.setProperty("populators", getDefaultPopulators());
 		for(Object o : cfg.getList("populators")) {
@@ -38,13 +32,13 @@ public class GenerationManager {
 					if(!populatorName.isEmpty()) {
 						Class<? extends SpadeEffectGenerator> c;
 						try {
-							c = findClass(populatorName);
+							c = (Class<? extends SpadeEffectGenerator>) Class.forName(populatorName);
 							if(c==null)
 							{
 								SpadeLogging.severe("Unable to find populator: "+populatorName, null);
 								continue;
 							}
-							SpadeEffectGenerator seg = c.getConstructor(SpadePlugin.class, ConfigurationNode.class, long.class).newInstance(plugin,segNode,seed);
+							SpadeEffectGenerator seg = (SpadeEffectGenerator) c.getMethod("getInstance",SpadePlugin.class, ConfigurationNode.class, long.class).invoke(plugin,segNode,seed);
 							populators.add(seg);
 						} catch (Exception e) {
 							SpadeLogging.severe("Unable to load populator "+populatorName,e);
@@ -55,22 +49,8 @@ public class GenerationManager {
 		}
 	}
 
-	private Class<? extends SpadeEffectGenerator> findClass(String classname) {
-		for(Class<? extends SpadeEffectGenerator> c : knownBlockPopulators) {
-			if(c.getName().equalsIgnoreCase(classname)) {
-				return c;
-			}
-		}
-		return null;
-	}
-
 	private List<ConfigurationNode> getDefaultPopulators() {
 		List<ConfigurationNode> nodes = new ArrayList<ConfigurationNode>();
-		
-		// Sediment
-		// Caves
-		// Stalactites
-		// Dungeons
 
 		// Sediment
 		ConfigurationNode currentNode = Configuration.getEmptyNode();

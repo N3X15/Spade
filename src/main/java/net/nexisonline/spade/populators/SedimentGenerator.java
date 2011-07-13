@@ -25,6 +25,11 @@ public class SedimentGenerator extends SpadeEffectGenerator {
 		super(plugin, node, seed);
 		waterHeight = node.getInt("water-height", 63);
 	}
+	
+
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+		return new SedimentGenerator(plugin,node,seed);
+	}
 
 	private int topBlockY(Chunk blocks, int x, int z) {
 		int y = 127;

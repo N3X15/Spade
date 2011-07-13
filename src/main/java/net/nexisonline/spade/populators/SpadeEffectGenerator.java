@@ -17,6 +17,8 @@ public abstract class SpadeEffectGenerator extends BlockPopulator {
 		this.config=node;
 		this.seed=seed;
 	}
+	
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) { return null; }
 
 	public abstract ConfigurationNode getConfiguration();
 }

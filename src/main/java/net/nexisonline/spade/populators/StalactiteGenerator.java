@@ -27,6 +27,11 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		
 		rnd=new Random((seed*1024)+15);
 	}
+	
+
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+		return new StalactiteGenerator(plugin,node,seed);
+	}
 
 	public void populate(World world, Random rand, Chunk chunk) {
 		SpadeLogging.info(String.format("Generating stalactites in chunk (%d,%d)",chunk.getX(),chunk.getZ()));
