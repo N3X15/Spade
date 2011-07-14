@@ -41,7 +41,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	@Override
 	public void populate(World w, Random rnd, Chunk chunk)
 	{
-		SpadeLogging.info(String.format("Generating dungeons in chunk (%d,%d) (maxrooms = %d)",chunk.getX(),chunk.getZ(),this.maxRooms));
+//		SpadeLogging.info(String.format("Generating dungeons in chunk (%d,%d) (maxrooms = %d)",chunk.getX(),chunk.getZ(),this.maxRooms));
 		world=w;
 		double density = m_density.noise(chunk.getX() * 16, chunk.getZ() * 16);
 		//Logger.getLogger("Minecraft").info(String.format("Density: %.2f", density));

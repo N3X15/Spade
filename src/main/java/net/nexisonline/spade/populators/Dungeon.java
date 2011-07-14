@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.server.ChunkCoordinates;
+import net.nexisonline.spade.SpadeLogging;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -48,6 +49,7 @@ public class Dungeon {
 				}
 			}
 		}
+		checkChunkStatus();
 	}
 
 	public void onChunkLoaded(int cx, int cz) {
@@ -68,8 +70,7 @@ public class Dungeon {
 				return;
 			}
 		}
-		
-
+		SpadeLogging.info("All "+neededChunks.size()+" chunks have been loaded, generating dungeon!");
 		try
 		{
 
