@@ -17,6 +17,11 @@ public abstract class SpadeEffectGenerator extends BlockPopulator {
 		this.config=node;
 		this.seed=seed;
 	}
+
+	protected void ensureChunkIsLoaded(int x, int z) {
+		if(!world.isChunkLoaded(x, z))
+			world.loadChunk(x, z);
+	}
 	
 	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) { return null; }
 

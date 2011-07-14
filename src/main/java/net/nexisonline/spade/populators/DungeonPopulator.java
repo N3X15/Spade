@@ -99,7 +99,9 @@ public class DungeonPopulator extends SpadeEffectGenerator
 							int placeChest = m_random.nextInt((width * height) * 4);
 
 							int currentBlock = world.getBlockAt(x, y, z).getTypeId();
-
+							
+							ensureChunkIsLoaded(x>>4,z>>4);
+							
 							if (placeSpawner == 0 && currentBlock != 0 && canPlaceBlock(x, y, z))
 							{
 								Block spawner = world.getBlockAt(x, y, z);
@@ -192,6 +194,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 			e.printStackTrace();
 		}				
 	}
+
 
 	private String getRandomMob()
 	{
@@ -332,6 +335,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	private void placeBlock(int x, int y, int z, Material mat) {
 		if (canPlaceBlock(x,y,z))
 		{
+			ensureChunkIsLoaded(x>>4,z>>4);
 			world.getBlockAt(x, y, z).setType(mat);
 		}
 	}
