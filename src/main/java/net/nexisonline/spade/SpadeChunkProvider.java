@@ -3,7 +3,6 @@ package net.nexisonline.spade;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -38,16 +37,10 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 
 	@Override
 	public boolean canSpawn(World w, int x, int z) {
-		return true;
-		/*
+		//return true;
 		int y = w.getHighestBlockYAt(x, z);
-		return (w.getBlockAt(x, y, z).getType() == Material.SAND 
-				|| w.getBlockAt(x, y, z).getType() == Material.GRAVEL 
-				|| w.getBlockAt(x, y, z).getType() == Material.GRASS 
-				|| w.getBlockAt(x, y, z).getType() == Material.STONE) 
-				&& w.getBlockAt(x,y+1,z).getType() == Material.AIR 
-				&& w.getBlockAt(x,y+2,z).getType() == Material.AIR;
-		*/
+		return !w.getBlockAt(x, y, z).isLiquid();
+		
 	}
 
 	protected void setBlockByte(byte[] blocks, int x, int y, int z, byte block) {

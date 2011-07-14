@@ -1,2 +1,1 @@
-mvn -U clean package
-pause
+mvn -U clean package&&pause

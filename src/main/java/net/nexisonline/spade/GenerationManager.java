@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.nexisonline.spade.populators.DungeonPopulator;
-import net.nexisonline.spade.populators.OrePopulator;
 import net.nexisonline.spade.populators.PonyCaveGenerator;
 import net.nexisonline.spade.populators.SedimentGenerator;
 import net.nexisonline.spade.populators.SpadeEffectGenerator;

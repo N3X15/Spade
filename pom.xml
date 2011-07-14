@@ -13,6 +13,10 @@
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/artifactory/repo</url>
 		</repository>
+		<repository>
+			<id>nexisonline-repo</id>
+			<url>http://repo.nexisonline.net:8080/nexus/content/groups/public/</url>
+		</repository>
 	</repositories>
 	<build>
 		<finalName>${project.name}</finalName>
@@ -22,6 +26,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
+					<verbose>true</verbose>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
 					<source>1.6</source>
@@ -61,6 +66,8 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
