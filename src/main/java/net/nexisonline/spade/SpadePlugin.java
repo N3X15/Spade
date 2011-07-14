@@ -120,7 +120,9 @@ public class SpadePlugin extends JavaPlugin {
 	}
 	public String getNameForClass(SpadeChunkProvider cp) {
 		for(String key:chunkProviders.keySet()) {
-			if(chunkProviders.get(key).getClass().equals(cp.getClass())) {
+			SpadeChunkProvider ccp = chunkProviders.get(key);
+			if(ccp==null) continue;
+			if(ccp.getClass().equals(cp.getClass())) {
 				return key;
 			}
 		}
