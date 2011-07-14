@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.World;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.WorldListener;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldSaveEvent;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
+import net.nexisonline.spade.populators.*;
 
 
 public class SpadeWorldListener extends WorldListener {
@@ -18,6 +21,15 @@ public class SpadeWorldListener extends WorldListener {
 
 	public SpadeWorldListener(SpadePlugin plugin) {
 		spade=plugin;
+	}
+	
+	@Override
+	public void onChunkLoad(ChunkLoadEvent e) {
+		for(BlockPopulator bp : e.getWorld().getPopulators()) {
+			if(bp instanceof DungeonPopulator) {
+				((DungeonPopulator) bp).onChunkLoad(e.getChunk().getX(),e.getChunk().getZ());
+			}
+		}
 	}
 	
 	@Override

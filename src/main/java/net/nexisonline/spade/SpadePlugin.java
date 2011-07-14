@@ -34,6 +34,7 @@ public class SpadePlugin extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvent(Event.Type.WORLD_LOAD, worldListener, Event.Priority.Monitor, this);
         pm.registerEvent(Event.Type.WORLD_SAVE, worldListener, Event.Priority.Monitor, this);
+        pm.registerEvent(Event.Type.CHUNK_LOAD, worldListener, Event.Priority.Monitor, this);
         
         // Register our commands
         //getCommand("setworldgen").setExecutor(new SetWorldGenCommand(this));
