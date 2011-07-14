@@ -1,5 +1,6 @@
 package net.nexisonline.spade;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,28 +24,27 @@ public class GenerationManager {
 		if(cfg.getProperty("populators")==null)
 			cfg.setProperty("populators", getDefaultPopulators());
 		for(Object o : cfg.getList("populators")) {
-			//try {
-				if(o instanceof ConfigurationNode) {
-					ConfigurationNode segNode = (ConfigurationNode)o;
-					String populatorName = segNode.getString("name","");
-					SpadeLogging.info("[GM] Current populator: "+populatorName);
-					if(!populatorName.isEmpty()) {
-						Class<? extends SpadeEffectGenerator> c;
-						try {
-							c = (Class<? extends SpadeEffectGenerator>) Class.forName(populatorName);
-							if(c==null)
-							{
-								SpadeLogging.severe("Unable to find populator: "+populatorName, null);
-								continue;
-							}
-							SpadeEffectGenerator seg = (SpadeEffectGenerator) c.getMethod("getInstance",SpadePlugin.class, ConfigurationNode.class, long.class).invoke(plugin,segNode,seed);
-							populators.add(seg);
-						} catch (Exception e) {
-							SpadeLogging.severe("Unable to load populator "+populatorName,e);
+			if(o instanceof ConfigurationNode) {
+				ConfigurationNode segNode = (ConfigurationNode)o;
+				String populatorName = segNode.getString("name","");
+				SpadeLogging.info("[GM] Current populator: "+populatorName);
+				if(!populatorName.isEmpty()) {
+					Class<? extends SpadeEffectGenerator> c;
+					try {
+						c = (Class<? extends SpadeEffectGenerator>) Class.forName(populatorName);
+						if(c==null)
+						{
+							SpadeLogging.severe("Unable to find populator: "+populatorName, null);
+							continue;
 						}
+						Method m =c.getMethod("getInstance",SpadePlugin.class, ConfigurationNode.class, long.class);
+						SpadeEffectGenerator seg = (SpadeEffectGenerator) m.invoke(null,plugin,segNode,seed);
+						populators.add(seg);
+					} catch (Exception e) {
+						SpadeLogging.severe("Unable to load populator "+populatorName,e);
 					}
 				}
-			//} catch(Exception e) {}
+			}
 		}
 	}
 
