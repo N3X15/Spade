@@ -36,10 +36,10 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 
 	public PonyCaveGenerator(SpadePlugin plugin,ConfigurationNode node,long seed) {
 		super(plugin,node,seed);
-		
+
 		// Configure
-		
-		
+
+
 		// Setup
 		m_interpolator = new InterpolatedDensityMap();
 
@@ -63,7 +63,7 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 		m_ridged2.setFrequency(0.01);
 		m_ridged2.setAmplitude(11);
 	}
-	
+
 
 	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
 		return new PonyCaveGenerator(plugin,node,seed);
@@ -126,7 +126,11 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 							!blockIsWater(chunk,x,y,z-1)
 					)
 					{
-						chunk.getBlock(x,y,z).setTypeId(((y<10)?Block.STATIONARY_LAVA.id:0));
+						try {
+							chunk.getBlock(x,y,z).setTypeId(((y<10)?Block.STATIONARY_LAVA.id:0));
+						} catch(Exception e) {
+
+						}
 					}
 				}
 			}
