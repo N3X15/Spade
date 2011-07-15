@@ -60,12 +60,12 @@ public class GenerationManager {
 		currentNode = Configuration.getEmptyNode();
 		currentNode.setProperty("name",PonyCaveGenerator.class.getName());
 		nodes.add(currentNode);
-		
+		/*
 		// Stalactites
 		currentNode = Configuration.getEmptyNode();
 		currentNode.setProperty("name",StalactiteGenerator.class.getName());
 		nodes.add(currentNode);
-		
+		*/
 		// Dungeons
 		currentNode = Configuration.getEmptyNode();
 		currentNode.setProperty("name",DungeonPopulator.class.getName());
