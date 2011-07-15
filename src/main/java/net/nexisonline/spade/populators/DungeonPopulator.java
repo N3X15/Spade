@@ -80,7 +80,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 
 
 	public void onChunkLoad(int x, int z) {
-		for(Dungeon d : queuedDungeons) {
+		for(Dungeon d : new ArrayList<Dungeon>(queuedDungeons)) {
 			d.onChunkLoaded(x, z);
 		}
 	}
