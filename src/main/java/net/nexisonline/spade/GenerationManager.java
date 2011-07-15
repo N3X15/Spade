@@ -50,22 +50,22 @@ public class GenerationManager {
 
 	private List<ConfigurationNode> getDefaultPopulators() {
 		List<ConfigurationNode> nodes = new ArrayList<ConfigurationNode>();
-
+/*
 		// Sediment
 		ConfigurationNode currentNode = Configuration.getEmptyNode();
 		currentNode.setProperty("name",SedimentGenerator.class.getName());
 		nodes.add(currentNode);
-		
+*/		
 		// Caves
 		currentNode = Configuration.getEmptyNode();
 		currentNode.setProperty("name",PonyCaveGenerator.class.getName());
 		nodes.add(currentNode);
-		/*
+		
 		// Stalactites
 		currentNode = Configuration.getEmptyNode();
 		currentNode.setProperty("name",StalactiteGenerator.class.getName());
 		nodes.add(currentNode);
-		*/
+		
 		// Dungeons
 		currentNode = Configuration.getEmptyNode();
 		currentNode.setProperty("name",DungeonPopulator.class.getName());
