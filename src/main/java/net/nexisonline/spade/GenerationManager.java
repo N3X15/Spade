@@ -50,9 +50,10 @@ public class GenerationManager {
 
 	private List<ConfigurationNode> getDefaultPopulators() {
 		List<ConfigurationNode> nodes = new ArrayList<ConfigurationNode>();
+		ConfigurationNode currentNode;
 /*
 		// Sediment
-		ConfigurationNode currentNode = Configuration.getEmptyNode();
+		currentNode = Configuration.getEmptyNode();
 		currentNode.setProperty("name",SedimentGenerator.class.getName());
 		nodes.add(currentNode);
 */		
