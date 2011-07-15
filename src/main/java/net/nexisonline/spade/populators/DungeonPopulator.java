@@ -66,7 +66,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 				z += chunk.getZ() * 16;
 
 				//Logger.getLogger("Minecraft").info(String.format("Width: %d Height: %d Depth: %d", width, height, depth));
-				queuedDungeons.add(new Dungeon(world, x, y, z, width, height, depth));
+				queuedDungeons.add(new Dungeon(this, world, x, y, z, width, height, depth));
 			}
 		}		
 	}

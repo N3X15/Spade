@@ -24,8 +24,10 @@ public class Dungeon {
 	private int depth;
 	private World world;
 	private Random m_random;
+	private DungeonPopulator dungeonPopulator;
 
-	public Dungeon(World world, int x_, int y_, int z_, int width, int height, int depth) {
+	public Dungeon(DungeonPopulator dungeonPopulator, World world, int x_, int y_, int z_, int width, int height, int depth) {
+		this.dungeonPopulator=dungeonPopulator;
 		this.dx=x_;
 		this.dy=y_;
 		this.dz=z_;
@@ -186,6 +188,7 @@ public class Dungeon {
 		{
 			e.printStackTrace();
 		}
+		dungeonPopulator.queuedDungeons.remove(this);
 	}
 	
 
