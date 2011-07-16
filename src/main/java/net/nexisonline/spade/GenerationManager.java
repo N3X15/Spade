@@ -92,10 +92,12 @@ public class GenerationManager {
         return populators;
     }
     
-    public List<ConfigurationNode> getConfig() {
-        List<ConfigurationNode> nodes = new ArrayList<ConfigurationNode>();
+    public ConfigurationNode getConfig() {
+        ConfigurationNode nodes = Configuration.getEmptyNode();
+        Integer i = 0;
         for (BlockPopulator pop : populators) {
-            nodes.add(getConfigNodeFor((SpadeEffectGenerator) pop));
+            nodes.setProperty(i.toString(),getConfigNodeFor((SpadeEffectGenerator) pop));
+            i++;
         }
         return nodes;
     }
