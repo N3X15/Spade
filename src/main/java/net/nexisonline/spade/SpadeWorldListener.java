@@ -87,5 +87,6 @@ public class SpadeWorldListener extends WorldListener {
 				cfg.setProperty("worlds."+w.getName()+".chunk-provider.name", "stock");
 			}
 		}
+		cfg.save();
 	}
 }
