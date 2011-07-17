@@ -96,7 +96,7 @@ public class GenerationManager {
         ConfigurationNode nodes = Configuration.getEmptyNode();
         Integer i = 0;
         for (BlockPopulator pop : populators) {
-            nodes.setProperty(i.toString(),getConfigNodeFor((SpadeEffectGenerator) pop));
+            nodes.setProperty(i.toString(),getConfigNodeFor((SpadeEffectGenerator) pop).getAll());
             i++;
         }
         return nodes;
