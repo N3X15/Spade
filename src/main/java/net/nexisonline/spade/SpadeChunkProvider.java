@@ -49,7 +49,7 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 
 	public ConfigurationNode getConfig() {
 		ConfigurationNode cfg = Configuration.getEmptyNode();
-		cfg.setProperty("populators",popmanager.getConfig());
+		cfg.setProperty("populators",popmanager.getConfig().getAll());
 		return cfg;
 	}
 }

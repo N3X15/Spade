@@ -72,7 +72,7 @@ public class SpadeWorldListener extends WorldListener {
         ConfigurationNode node = Configuration.getEmptyNode();
         cfg.setProperty("worlds", node);
         for (World w : spade.getServer().getWorlds()) {
-            cfg.setProperty("worlds." + w.getName() + ".chunk-provider", Configuration.getEmptyNode());
+            cfg.setProperty("worlds." + w.getName() + ".chunk-provider", Configuration.getEmptyNode().getAll());
             if (w.getGenerator() instanceof SpadeChunkProvider) {
                 SpadeChunkProvider cp = (SpadeChunkProvider) w.getGenerator();
                 cfg.setProperty("worlds." + w.getName() + ".chunk-provider.name", spade.getNameForClass(cp));
