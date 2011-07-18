@@ -1,5 +1,6 @@
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Map;
 import java.util.Random;
 
 import net.nexisonline.spade.SpadeChunkProvider;
@@ -16,8 +17,8 @@ public class ChunkProviderFlatGrass extends SpadeChunkProvider {
 	private byte[] template;
 	
 	@Override
-	public void onLoad(String worldName,long worldSeed, ConfigurationNode node) {
-		super.onLoad(worldName,worldSeed,node);
+    public void onLoad(String worldName, long worldSeed, Map<String, Object> map) {
+        super.onLoad(worldName,worldSeed,map);
 		template=new byte[16*128*16];
 		for (int x = 0; x < 16; x++) {
 			for (int z = 0; z < 16; z++) {

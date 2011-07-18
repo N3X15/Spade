@@ -1,6 +1,7 @@
 package net.nexisonline.spade;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import net.nexisonline.spade.chunkproviders.ChunkProviderDoublePerlin;
 import net.nexisonline.spade.chunkproviders.ChunkProviderFlatGrass;
@@ -65,19 +66,19 @@ public class SpadePlugin extends JavaPlugin {
 	public void onDisable() {
     }
     
-	public ConfigurationNode loadWorld(String worldName, long seed, String cmName, String cpName, ConfigurationNode node) {
+	public Map<String, Object> loadWorld(String worldName, long seed, String cmName, String cpName, Map<String, Object> map) {
 		SpadeChunkProvider cp = chunkProviders.get(cpName);
 		if(cp!=null) {
 			cp.worldName=worldName;
 	
-			if (node == null) {
-				node = Configuration.getEmptyNode();
+			if (map == null) {
+				map = new HashMap<String,Object>();
 			}
-			cp.onLoad(worldName,seed,node);
+			cp.onLoad(worldName,seed,map);
 		}
 		assignedProviders.put(worldName, cp);
 		getServer().createWorld(worldName, Environment.NORMAL, seed, (ChunkGenerator)cp);
-		return node;
+		return map;
 	}
 	public int getChunkRadius(String worldName) {
 		GenerationLimits gl = genLimits.get(worldName.toLowerCase());

@@ -5,6 +5,7 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Map;
 import java.util.Random;
 
 import libnoiseforjava.module.Perlin;
@@ -39,19 +40,18 @@ public class ChunkProviderWat extends SpadeChunkProvider
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(String worldName,long seed, ConfigurationNode node)
-	{
-		super.onLoad(worldName, seed, node);
+    public void onLoad(String worldName, long worldSeed, Map<String, Object> map) {
+        super.onLoad(worldName,worldSeed,map);
 		try
 		{
 			m_perlinGenerator = new Perlin(); //new Perlin();
 			m_fractalGenerator = new RidgedMulti(); //new Perlin();
 
-			m_perlinGenerator.setSeed((int)(seed*1024));
+			m_perlinGenerator.setSeed((int)(worldSeed*1024));
 			m_perlinGenerator.setOctaveCount(1);
 			m_perlinGenerator.setFrequency(1f);
 
-			m_fractalGenerator.setSeed((int)(seed*1024));
+			m_fractalGenerator.setSeed((int)(worldSeed*1024));
 			m_fractalGenerator.setOctaveCount(1);
 			m_fractalGenerator.setFrequency(0.25f);
 			

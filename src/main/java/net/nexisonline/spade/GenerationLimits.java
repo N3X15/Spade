@@ -14,13 +14,13 @@ public class GenerationLimits {
 	
 	public GenerationLimits() { }
 		
-	public GenerationLimits(ConfigurationNode node) {
-		if(node==null)
-			node=Configuration.getEmptyNode();
-		enabled=node.getBoolean("enabled",false);
-		round=node.getBoolean("round", true);
-		distance=node.getInt("chunks-from-spawn", 0);
-		distanceSquared=(int) Math.pow(distance, 2);
+	public GenerationLimits(Map<String,Object> map) {
+		if(map!=null) {
+    		enabled=(Boolean) map.get("enabled");
+    		round=(Boolean) map.get("round");
+    		distance=(Integer) map.get("chunks-from-spawn");
+    		distanceSquared=(int) Math.pow(distance, 2);
+		}
 	}
 
 	public Map<String,Object> getConfig() {

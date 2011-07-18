@@ -5,6 +5,7 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -40,35 +41,35 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	}
 	
 	@Override
-	public void onLoad(String worldName,long seed, ConfigurationNode node) {
-		super.onLoad(worldName, seed, node);
+    public void onLoad(String worldName, long worldSeed, Map<String, Object> map) {
+        super.onLoad(worldName,worldSeed,map);
 		
 		/** Configure **/
-		WATER_HEIGHT=node.getInt("water-level", 32);
-		OCEAN_FLOOR=node.getInt("min-ocean-floor-height", 16);
+		WATER_HEIGHT=(Integer)map.get("water-level");
+		OCEAN_FLOOR=(Integer)map.get("min-ocean-floor-height");
 		
 		try {
-			m_simplex1 = new SimplexNoise(((int) seed * 1024));
+			m_simplex1 = new SimplexNoise(((int) worldSeed * 1024));
 			m_simplex1.setFrequency(0.005);
 			m_simplex1.setAmplitude(50);
 
-			m_simplex2 = new SimplexNoise(((int) seed * 1024) + 1);
+			m_simplex2 = new SimplexNoise(((int) worldSeed * 1024) + 1);
 			m_simplex2.setFrequency(0.0005);
 			m_simplex2.setAmplitude(25);
 
-			m_xTurbulence = new SimplexNoise(((int) seed * 1024) + 2);
+			m_xTurbulence = new SimplexNoise(((int) worldSeed * 1024) + 2);
 			m_xTurbulence.setFrequency(0.05);
 			m_xTurbulence.setAmplitude(5);
 
-			m_yTurbulence = new SimplexNoise(((int) seed * 1024) + 3);
+			m_yTurbulence = new SimplexNoise(((int) worldSeed * 1024) + 3);
 			m_yTurbulence.setFrequency(0.05); 
 			m_yTurbulence.setAmplitude(5);
 
-			m_zTurbulence = new SimplexNoise(((int) seed * 1024) + 4);
+			m_zTurbulence = new SimplexNoise(((int) worldSeed * 1024) + 4);
 			m_zTurbulence.setFrequency(0.05);
 			m_zTurbulence.setAmplitude(5);
 			
-			m_SeaFloorNoise = new SimplexNoise(((int)seed*1024)+4);
+			m_SeaFloorNoise = new SimplexNoise(((int)worldSeed*1024)+4);
 			
 			
 		} catch (Exception e) {

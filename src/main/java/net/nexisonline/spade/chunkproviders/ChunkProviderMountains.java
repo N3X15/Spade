@@ -6,6 +6,7 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -42,8 +43,8 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 	 * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
 	 */
 	@Override
-	public void onLoad(String worldName,long seed,ConfigurationNode node) {
-		super.onLoad(worldName, seed, node);
+    public void onLoad(String worldName, long worldSeed, Map<String, Object> map) {
+        super.onLoad(worldName,worldSeed,map);
 		
 		final double Frequency = 0.1;
 		final double Lacunarity = 0.05;
@@ -52,8 +53,8 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
 		try {
 			terrainNoise = new RidgedMulti();
 			continentNoise = new Perlin();
-			terrainNoise.setSeed((int) seed);
-			continentNoise.setSeed((int) seed + 2);
+			terrainNoise.setSeed((int) worldSeed);
+			continentNoise.setSeed((int) worldSeed + 2);
 
 			terrainNoise.setFrequency(Frequency);
 			terrainNoise.setNoiseQuality(noiseQuality);

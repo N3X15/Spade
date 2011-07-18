@@ -5,6 +5,7 @@
  */
 package net.nexisonline.spade.chunkproviders;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -41,8 +42,8 @@ public class ChunkProviderMountains2 extends SpadeChunkProvider
 	 */
 
 	@Override
-	public void onLoad(String worldName,long worldSeed, ConfigurationNode node) {
-		super.onLoad(worldName,worldSeed,node);
+    public void onLoad(String worldName, long worldSeed, Map<String, Object> map) {
+        super.onLoad(worldName,worldSeed,map);
 		
 		try
 		{

@@ -2,7 +2,9 @@ package net.nexisonline.spade;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import net.nexisonline.spade.populators.DungeonPopulator;
 import net.nexisonline.spade.populators.OrePopulator;
@@ -22,14 +24,14 @@ public class GenerationManager {
     
     @SuppressWarnings("unchecked")
     public GenerationManager(SpadePlugin plugin, String world,
-            ConfigurationNode cfg, long seed) {
+            Map<String, Object> map, long seed) {
         
-        if (cfg.getProperty("populators") == null)
-            cfg.setProperty("populators", getDefaultPopulators());
-        for (Object o : cfg.getList("populators")) {
-            if (o instanceof ConfigurationNode) {
-                ConfigurationNode segNode = (ConfigurationNode) o;
-                String populatorName = segNode.getString("name", "");
+        if (map.get("populators") == null)
+            map.put("populators", getDefaultPopulators());
+        for (Object o : (Collection<Object>)map.get("populators")) {
+            if (o instanceof Map) {
+                Map<String,Object> segNode = (Map<String,Object>) o;
+                String populatorName = (String) segNode.get("name");
                 SpadeLogging.info("[GM] Current populator: " + populatorName);
                 if (!populatorName.isEmpty()) {
                     Class<? extends SpadeEffectGenerator> c;
@@ -92,11 +94,11 @@ public class GenerationManager {
         return populators;
     }
     
-    public ConfigurationNode getConfig() {
-        ConfigurationNode nodes = Configuration.getEmptyNode();
+    public Collection<ConfigurationNode> getConfig() {
+        List<ConfigurationNode> nodes = new ArrayList<ConfigurationNode>();
         Integer i = 0;
         for (BlockPopulator pop : populators) {
-            nodes.setProperty(i.toString(),getConfigNodeFor((SpadeEffectGenerator) pop).getAll());
+            nodes.add(getConfigNodeFor((SpadeEffectGenerator) pop));
             i++;
         }
         return nodes;
