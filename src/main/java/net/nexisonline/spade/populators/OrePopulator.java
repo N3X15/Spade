@@ -210,7 +210,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 		super(plugin, node, seed);
 		if(node.get("deposits")!=null) {
 		    deposits = (List<Object>) node.get("deposits");
-		    if(deposits==null)
+		    if(deposits==null || deposits.size()<1)
 		        deposits=getDefaults();
 			for(Object deposit_o : deposits) {
 			    Map<String,Object> deposit=(Map<String, Object>) deposit_o;
