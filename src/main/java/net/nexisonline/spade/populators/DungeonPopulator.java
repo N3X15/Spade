@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.nexisonline.spade.SpadeConf;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
@@ -23,7 +24,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	public DungeonPopulator(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		super(plugin, node, seed);
 		
-		this.maxRooms = (Integer) node.get("num-rooms");
+		this.maxRooms = SpadeConf.getInt(node,"num-rooms",13);
 		
 		m_density = new SimplexNoise(seed + 343543);
 		m_density.setFrequency(0.01);
