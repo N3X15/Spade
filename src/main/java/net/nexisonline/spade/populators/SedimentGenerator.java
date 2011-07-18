@@ -1,5 +1,7 @@
 package net.nexisonline.spade.populators;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import net.nexisonline.spade.SpadeLogging;
@@ -9,7 +11,6 @@ import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
-import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 /**
@@ -43,9 +44,9 @@ public class SedimentGenerator extends SpadeEffectGenerator {
 	}
 
 	@Override
-	public ConfigurationNode getConfiguration() {
-		ConfigurationNode cfg = Configuration.getEmptyNode();
-		cfg.setProperty("water-height",waterHeight);
+    public Map<String, Object> getConfiguration() {
+        Map<String,Object> cfg = new HashMap<String,Object>();
+		cfg.put("water-height",waterHeight);
 		return cfg;
 	}
 

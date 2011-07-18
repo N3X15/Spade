@@ -1,14 +1,15 @@
 package net.nexisonline.spade.populators;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 import toxi.math.noise.SimplexNoise;
@@ -71,9 +72,9 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	}
 	
 	@Override
-	public ConfigurationNode getConfiguration() {
-		ConfigurationNode n = Configuration.getEmptyNode();
-		n.setProperty("max-rooms",maxRooms);
+	public Map<String, Object> getConfiguration() {
+		Map<String,Object> n = new HashMap<String,Object>();
+		n.put("max-rooms",maxRooms);
 		return n;
 	}
 

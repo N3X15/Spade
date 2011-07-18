@@ -1,5 +1,7 @@
 package net.nexisonline.spade.populators;
 
+import java.util.Map;
+
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.World;
@@ -25,5 +27,5 @@ public abstract class SpadeEffectGenerator extends BlockPopulator {
 	
 	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) { return null; }
 
-	public abstract ConfigurationNode getConfiguration();
+	public abstract Map<String, Object> getConfiguration();
 }

@@ -1,5 +1,7 @@
 package net.nexisonline.spade.populators;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import net.nexisonline.spade.SpadeLogging;
@@ -7,7 +9,6 @@ import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 public class StalactiteGenerator extends SpadeEffectGenerator {
@@ -84,10 +85,10 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	}
 
 	@Override
-	public ConfigurationNode getConfiguration() {
-		ConfigurationNode node = Configuration.getEmptyNode();
-		node.setProperty("max-stalactites-per-chunk", maxStalactitesPerChunk);
-		node.setProperty("max-stalactite-length", maxStalactiteLength);
+    public Map<String, Object> getConfiguration() {
+        Map<String,Object> node = new HashMap<String,Object>();
+		node.put("max-stalactites-per-chunk", maxStalactitesPerChunk);
+		node.put("max-stalactite-length", maxStalactiteLength);
 		return node;
 	}
 }

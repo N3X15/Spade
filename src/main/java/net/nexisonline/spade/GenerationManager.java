@@ -3,6 +3,7 @@ package net.nexisonline.spade;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,6 @@ import net.nexisonline.spade.populators.SpadeEffectGenerator;
 import net.nexisonline.spade.populators.StalactiteGenerator;
 
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 public class GenerationManager {
@@ -52,41 +52,41 @@ public class GenerationManager {
         }
     }
     
-    private List<ConfigurationNode> getDefaultPopulators() {
-        List<ConfigurationNode> nodes = new ArrayList<ConfigurationNode>();
-        ConfigurationNode currentNode;
+    private List<Object> getDefaultPopulators() {
+        List<Object> nodes = new ArrayList<Object>();
+        Map<String,Object> currentNode;
         
         // Sediment
-        currentNode = Configuration.getEmptyNode();
-        currentNode.setProperty("name", SedimentGenerator.class.getName());
+        currentNode = new HashMap<String,Object>();
+        currentNode.put("name", SedimentGenerator.class.getName());
         nodes.add(currentNode);
         
         // Caves
-        currentNode = Configuration.getEmptyNode();
-        currentNode.setProperty("name", PonyCaveGenerator.class.getName());
+        currentNode = new HashMap<String,Object>();
+        currentNode.put("name", PonyCaveGenerator.class.getName());
         nodes.add(currentNode);
         
         // Ores
-        currentNode = Configuration.getEmptyNode();
-        currentNode.setProperty("name", OrePopulator.class.getName());
+        currentNode = new HashMap<String,Object>();
+        currentNode.put("name", OrePopulator.class.getName());
         nodes.add(currentNode);
         
         // Stalactites
-        currentNode = Configuration.getEmptyNode();
-        currentNode.setProperty("name", StalactiteGenerator.class.getName());
+        currentNode = new HashMap<String,Object>();
+        currentNode.put("name", StalactiteGenerator.class.getName());
         nodes.add(currentNode);
         
         // Dungeons
-        currentNode = Configuration.getEmptyNode();
-        currentNode.setProperty("name", DungeonPopulator.class.getName());
+        currentNode = new HashMap<String,Object>();
+        currentNode.put("name", DungeonPopulator.class.getName());
         nodes.add(currentNode);
         
         return nodes;
     }
     
-    public static ConfigurationNode getConfigNodeFor(SpadeEffectGenerator seg) {
-        ConfigurationNode node = seg.getConfiguration();
-        node.setProperty("name", seg.getClass().getName());
+    public static Map<String,Object> getConfigNodeFor(SpadeEffectGenerator seg) {
+        Map<String,Object> node = seg.getConfiguration();
+        node.put("name", seg.getClass().getName());
         return node;
     }
     
@@ -94,8 +94,8 @@ public class GenerationManager {
         return populators;
     }
     
-    public Collection<ConfigurationNode> getConfig() {
-        List<ConfigurationNode> nodes = new ArrayList<ConfigurationNode>();
+    public List<Object> getConfig() {
+        List<Object> nodes = new ArrayList<Object>();
         Integer i = 0;
         for (BlockPopulator pop : populators) {
             nodes.add(getConfigNodeFor((SpadeEffectGenerator) pop));

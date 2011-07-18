@@ -1,7 +1,9 @@
 package net.nexisonline.spade.populators;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.server.WorldGenClay;
@@ -293,13 +295,13 @@ public class OrePopulator extends SpadeEffectGenerator {
 	}
 
 	@Override
-	public ConfigurationNode getConfiguration() {
-		ConfigurationNode node = Configuration.getEmptyNode();
-		List<ConfigurationNode> deposits = new ArrayList<ConfigurationNode>();
+    public Map<String, Object> getConfiguration() {
+        Map<String,Object> node = new HashMap<String,Object>();
+		List<Object> deposits = new ArrayList<Object>();
 		for(DepositDef def : oreDefs) {
 			deposits.add(def.toConfigNode());
 		}
-		node.setProperty("deposits", deposits);
+		node.put("deposits", deposits);
 		return node;
 	}
 }

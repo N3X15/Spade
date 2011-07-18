@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -24,7 +24,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
 
 public class SpadeWorldListener extends WorldListener {
     private SpadePlugin  spade;
-    private List<String> worlds;
+    private Collection<String> worlds;
     private Map<String, Object> root;
     private Yaml yaml;
     
@@ -86,7 +86,7 @@ public class SpadeWorldListener extends WorldListener {
             co = root.get("worlds");
             if(co instanceof Map<?,?>) {
                 Map<String,Object> worldMap = (Map<String, Object>) root.get("worlds");
-                worlds = (List<String>) worldMap.keySet();
+                worlds = worldMap.keySet();
                 for (String worldName : this.worlds) {
                     Map<String,Object> currWorld = (Map<String, Object>) worldMap.get(worldName);
                     Map<String,Object> limits = (Map<String, Object>) currWorld.get("limits");

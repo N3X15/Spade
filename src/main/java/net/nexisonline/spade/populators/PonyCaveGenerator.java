@@ -1,10 +1,11 @@
 package net.nexisonline.spade.populators;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.util.config.Configuration;
 import org.bukkit.util.config.ConfigurationNode;
 
 import libnoiseforjava.module.RidgedSimplex;
@@ -146,9 +147,9 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 	}
 
 	@Override
-	public ConfigurationNode getConfiguration() {
-		ConfigurationNode cfg = Configuration.getEmptyNode();
-		return cfg;
+    public Map<String, Object> getConfiguration() {
+        Map<String,Object> n = new HashMap<String,Object>();
+		return n;
 	}
 }
 
