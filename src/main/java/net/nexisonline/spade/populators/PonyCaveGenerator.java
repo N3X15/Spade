@@ -35,7 +35,7 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 	SimplexNoise m_simplex5;
 	SimplexNoise m_simplex6;
 
-	public PonyCaveGenerator(SpadePlugin plugin,ConfigurationNode node,long seed) {
+	public PonyCaveGenerator(SpadePlugin plugin,Map<String,Object> node,long seed) {
 		super(plugin,node,seed);
 
 		// Configure
@@ -66,7 +66,7 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 	}
 
 
-	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		return new PonyCaveGenerator(plugin,node,seed);
 	}
 

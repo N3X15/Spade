@@ -10,7 +10,6 @@ import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.util.config.ConfigurationNode;
 
 import toxi.math.noise.SimplexNoise;
 
@@ -21,10 +20,10 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	private int maxRooms;
 	public List<Dungeon> queuedDungeons = new ArrayList<Dungeon>();
 	
-	public DungeonPopulator(SpadePlugin plugin, ConfigurationNode node, long seed) {
+	public DungeonPopulator(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		super(plugin, node, seed);
 		
-		this.maxRooms = node.getInt("num-rooms", 16);
+		this.maxRooms = (Integer) node.get("num-rooms");
 		
 		m_density = new SimplexNoise(seed + 343543);
 		m_density.setFrequency(0.01);
@@ -34,7 +33,7 @@ public class DungeonPopulator extends SpadeEffectGenerator
 	}
 	
 
-	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		return new DungeonPopulator(plugin,node,seed);
 	}
 

@@ -132,10 +132,10 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
 	}
 	
 	@Override
-	public ConfigurationNode getConfig() {
-		ConfigurationNode cfg = super.getConfig();
-		cfg.setProperty("water-level", WATER_HEIGHT);
-		cfg.setProperty("min-ocean-floor-height", OCEAN_FLOOR);
+	public Map<String,Object> getConfig() {
+		Map<String,Object> cfg = super.getConfig();
+		cfg.put("water-level", WATER_HEIGHT);
+		cfg.put("min-ocean-floor-height", OCEAN_FLOOR);
 		return cfg;
 	}
 }

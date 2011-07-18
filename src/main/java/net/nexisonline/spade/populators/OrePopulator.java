@@ -16,6 +16,7 @@ import net.minecraft.server.WorldGenLiquids;
 import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
+import net.nexisonline.spade.SpadeConf;
 import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
@@ -148,7 +149,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 				(new WorldGenDungeons()).a(getMCWorld(), random, x, y, z);
 				break;
 			case PONY_DUNGEON:
-				(new DungeonPopulator(plugin, config.getNode("dungeons"), seed)).populate(world, random, chunk);
+				(new DungeonPopulator(plugin, SpadeConf.getNode(config,"dungeons"), seed)).populate(world, random, chunk);
 				break;
 			case CLAY:
 				(new WorldGenClay(maxBlocks)).a(getMCWorld(), random, x, y, z);
@@ -181,18 +182,18 @@ public class OrePopulator extends SpadeEffectGenerator {
 			return ((CraftWorld)chunk.getWorld()).getHandle();
 		}
 
-		public ConfigurationNode toConfigNode() {
-			ConfigurationNode cfg = Configuration.getEmptyNode();
-			cfg.setProperty("depositType",depositType);
-			cfg.setProperty("blockType",blockType);
-			cfg.setProperty("minHeight",minHeight);
-			cfg.setProperty("maxHeight",maxHeight);
-			cfg.setProperty("minBlocks",minBlocks);
-			cfg.setProperty("maxBlocks",maxBlocks);
-			cfg.setProperty("minDeposits",minDeposits);
-			cfg.setProperty("maxDeposits",maxDeposits);
-			cfg.setProperty("rare",rare);
-			cfg.setProperty("rarity",rarity);
+		public Map<String,Object> toConfigNode() {
+			Map<String,Object> cfg = new HashMap<String,Object>();
+			cfg.put("depositType",depositType);
+			cfg.put("blockType",blockType);
+			cfg.put("minHeight",minHeight);
+			cfg.put("maxHeight",maxHeight);
+			cfg.put("minBlocks",minBlocks);
+			cfg.put("maxBlocks",maxBlocks);
+			cfg.put("minDeposits",minDeposits);
+			cfg.put("maxDeposits",maxDeposits);
+			cfg.put("rare",rare);
+			cfg.put("rarity",rarity);
 			return cfg;
 		}
 		
@@ -203,21 +204,26 @@ public class OrePopulator extends SpadeEffectGenerator {
 	}
 	private List<DepositDef> oreDefs = new ArrayList<DepositDef>();
 	private Random random;
+    private List<Object> deposits;
 	
-	public OrePopulator(SpadePlugin plugin, ConfigurationNode node,long seed) {
+	public OrePopulator(SpadePlugin plugin, Map<String,Object> node,long seed) {
 		super(plugin, node, seed);
-		if(node.getProperty("deposits")!=null) {
-			for(ConfigurationNode odn : node.getNodeList("deposits",getDefaults())) {
+		if(node.get("deposits")!=null) {
+		    deposits = (List<Object>) node.get("deposits");
+		    if(deposits==null)
+		        deposits=getDefaults();
+			for(Object deposit_o : deposits) {
+			    Map<String,Object> deposit=(Map<String, Object>) deposit_o;
 				DepositDef od = new DepositDef();
-				od.depositType = DepositType.valueOf(odn.getString("depositType","blob"));
-				od.blockType = odn.getInt("blockType",16);
-				od.minHeight = odn.getInt("minHeight", 0);
-				od.maxHeight = odn.getInt("maxHeight", 127);
-				od.minBlocks = odn.getInt("minBlocks", 1);
-				od.maxBlocks = odn.getInt("maxBlocks", 50);
-				od.minDeposits = odn.getInt("minDeposits", 0);
-				od.maxDeposits = odn.getInt("maxDeposits", 0);
-				od.rarity = odn.getInt("rarity", 4);
+				od.depositType = DepositType.valueOf( SpadeConf.getString(deposit,"depositType","blob"));
+				od.blockType = SpadeConf.getInt(deposit,"blockType",16);
+				od.minHeight = SpadeConf.getInt(deposit,"minHeight", 0);
+				od.maxHeight = SpadeConf.getInt(deposit,"maxHeight", 127);
+				od.minBlocks = SpadeConf.getInt(deposit,"minBlocks", 1);
+				od.maxBlocks = SpadeConf.getInt(deposit,"maxBlocks", 50);
+				od.minDeposits = SpadeConf.getInt(deposit,"minDeposits", 0);
+				od.maxDeposits = SpadeConf.getInt(deposit,"maxDeposits", 0);
+				od.rarity = SpadeConf.getInt(deposit,"rarity", 4);
 				oreDefs.add(od);
 			}
 		}
@@ -225,7 +231,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 	}
 	
 
-	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		return new OrePopulator(plugin,node,seed);
 	}
 	
@@ -246,8 +252,8 @@ public class OrePopulator extends SpadeEffectGenerator {
 	}
 	
 	// Translated from Notchcode.  You fuckers better donate, my fingers hurt.
-	private List<ConfigurationNode> getDefaults() {
-		List<ConfigurationNode> defs = new ArrayList<ConfigurationNode>();
+	private List<Object> getDefaults() {
+		List<Object> defs = new ArrayList<Object>();
 		DepositDef o;
         // Water lake
         defs.add(new DepositDef(DepositType.LAKE,Material.STATIONARY_WATER.getId(),0,128,4).toConfigNode());

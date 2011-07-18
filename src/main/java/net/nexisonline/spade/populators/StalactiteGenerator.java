@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import net.nexisonline.spade.SpadeConf;
 import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.bukkit.util.config.ConfigurationNode;
 
 public class StalactiteGenerator extends SpadeEffectGenerator {
 	private int X;
@@ -19,18 +19,18 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 	private int maxStalactitesPerChunk;
 	private int maxStalactiteLength;
 	
-	public StalactiteGenerator(SpadePlugin plugin, ConfigurationNode node, long seed) {
+	public StalactiteGenerator(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		super(plugin, node, seed);
 		
 		// Configure
-		maxStalactitesPerChunk = node.getInt("max-stalactites-per-chunk", 10);
-		maxStalactiteLength = node.getInt("max-stalactite-length", 15);
+		maxStalactitesPerChunk = SpadeConf.getInt(node,"max-stalactites-per-chunk", 10);
+		maxStalactiteLength = SpadeConf.getInt(node,"max-stalactite-length", 15);
 		
 		rnd=new Random((seed*1024)+15);
 	}
 	
 
-	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		return new StalactiteGenerator(plugin,node,seed);
 	}
 

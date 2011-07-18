@@ -11,10 +11,10 @@ import org.bukkit.util.config.ConfigurationNode;
 public abstract class SpadeEffectGenerator extends BlockPopulator {
 	protected World world;
 	protected SpadePlugin plugin;
-	protected ConfigurationNode config;
+	protected Map<String, Object> config;
 	protected long seed;
 
-	public SpadeEffectGenerator(SpadePlugin plugin,ConfigurationNode node, long seed) {
+	public SpadeEffectGenerator(SpadePlugin plugin,Map<String, Object> node, long seed) {
 		this.plugin=plugin;
 		this.config=node;
 		this.seed=seed;
@@ -25,7 +25,7 @@ public abstract class SpadeEffectGenerator extends BlockPopulator {
 			world.loadChunk(x, z);
 	}
 	
-	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) { return null; }
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map<String,Object> node, long seed) { return null; }
 
 	public abstract Map<String, Object> getConfiguration();
 }

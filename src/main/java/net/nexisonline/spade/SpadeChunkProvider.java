@@ -1,6 +1,7 @@
 package net.nexisonline.spade;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,9 +49,9 @@ public abstract class SpadeChunkProvider extends ChunkGenerator {
 		blocks[y + (z * 128 + (x * 128 * 16))] = block;
 	}
 
-	public ConfigurationNode getConfig() {
-		ConfigurationNode cfg = Configuration.getEmptyNode();
-		cfg.setProperty("populators",popmanager.getConfig());
+	public Map<String,Object> getConfig() {
+		Map<String,Object> cfg = new HashMap<String,Object>();
+		cfg.put("populators",popmanager.getConfig());
 		return cfg;
 	}
 }

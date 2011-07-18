@@ -15,7 +15,6 @@ import net.nexisonline.spade.populators.SpadeEffectGenerator;
 import net.nexisonline.spade.populators.StalactiteGenerator;
 
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.util.config.ConfigurationNode;
 
 public class GenerationManager {
     boolean                                     populate             = true;
@@ -41,7 +40,7 @@ public class GenerationManager {
                             SpadeLogging.severe("Unable to find populator: " + populatorName, null);
                             continue;
                         }
-                        Method m = c.getMethod("getInstance", SpadePlugin.class, ConfigurationNode.class, long.class);
+                        Method m = c.getMethod("getInstance", SpadePlugin.class, Map.class, long.class);
                         SpadeEffectGenerator seg = (SpadeEffectGenerator) m.invoke(null, plugin, segNode, seed);
                         populators.add(seg);
                     } catch (Exception e) {

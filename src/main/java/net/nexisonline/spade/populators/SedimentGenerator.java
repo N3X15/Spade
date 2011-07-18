@@ -22,13 +22,13 @@ public class SedimentGenerator extends SpadeEffectGenerator {
 
 	private int waterHeight;
 
-	public SedimentGenerator(SpadePlugin plugin, ConfigurationNode node, long seed) {
+	public SedimentGenerator(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		super(plugin, node, seed);
-		waterHeight = node.getInt("water-height", 63);
+		waterHeight = (Integer) node.get("water-height");
 	}
 	
 
-	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, ConfigurationNode node, long seed) {
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		return new SedimentGenerator(plugin,node,seed);
 	}
 
