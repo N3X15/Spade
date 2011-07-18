@@ -25,7 +25,7 @@ public abstract class SpadeEffectGenerator extends BlockPopulator {
 			world.loadChunk(x, z);
 	}
 	
-	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map<String,Object> node, long seed) { return null; }
+	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map node, long seed) { return null; }
 
 	public abstract Map<String, Object> getConfiguration();
 }

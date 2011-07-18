@@ -28,7 +28,9 @@ public class SedimentGenerator extends SpadeEffectGenerator {
 	}
 	
 
-	public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map<String,Object> node, long seed) {
+
+    public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map n, long seed) {
+        Map<String,Object> node = (Map<String,Object>)n;
 		return new SedimentGenerator(plugin,node,seed);
 	}
 
