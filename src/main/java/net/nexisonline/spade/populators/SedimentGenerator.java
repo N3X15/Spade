@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import net.nexisonline.spade.SpadeConf;
 import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
@@ -24,7 +25,7 @@ public class SedimentGenerator extends SpadeEffectGenerator {
 
 	public SedimentGenerator(SpadePlugin plugin, Map<String,Object> node, long seed) {
 		super(plugin, node, seed);
-		waterHeight = (Integer) node.get("water-height");
+		waterHeight = SpadeConf.getInt(node,"water-height",63);
 	}
 	
 
