@@ -82,7 +82,7 @@ public class SpadeWorldListener extends WorldListener {
     public void loadWorlds() {
         load();
         Object co = null;
-        if(root.containsKey("worlds")) {
+        if(root!=null && root.containsKey("worlds")) {
             co = root.get("worlds");
             if(co instanceof Map<?,?>) {
                 Map<String,Object> worldMap = (Map<String, Object>) root.get("worlds");
