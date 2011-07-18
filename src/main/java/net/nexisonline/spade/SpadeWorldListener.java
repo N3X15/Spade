@@ -10,20 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.nexisonline.spade.populators.DungeonPopulator;
+
 import org.bukkit.World;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.WorldListener;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.generator.BlockPopulator;
-import org.bukkit.util.config.Configuration;
-import org.bukkit.util.config.ConfigurationException;
-import org.bukkit.util.config.ConfigurationNode;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.reader.UnicodeReader;
-
-import net.nexisonline.spade.populators.*;
 
 public class SpadeWorldListener extends WorldListener {
     private SpadePlugin  spade;

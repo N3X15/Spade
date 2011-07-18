@@ -20,7 +20,6 @@ import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.util.config.ConfigurationNode;
 
 /**
  * @author N3X15

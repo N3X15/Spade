@@ -69,7 +69,8 @@ public class PonyCaveGenerator extends SpadeEffectGenerator
 		return new PonyCaveGenerator(plugin,node,seed);
 	}
 
-	public void populate(World world, Random random, Chunk chunk) {
+	@Override
+    public void populate(World world, Random random, Chunk chunk) {
 		int X=chunk.getX();
 		int Z=chunk.getZ();
 		SpadeLogging.info(String.format("Generating caves in chunk (%d,%d)",chunk.getX(),chunk.getZ()));

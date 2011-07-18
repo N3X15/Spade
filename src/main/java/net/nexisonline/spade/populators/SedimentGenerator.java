@@ -57,7 +57,7 @@ public class SedimentGenerator extends SpadeEffectGenerator {
         {
             for (int z = 0; z < 16; z++)
             {
-                int H=Math.max(Math.min(topBlockY(chunk, x, z),127),16);
+                //int H=Math.max(Math.min(topBlockY(chunk, x, z),127),16);
                 /*int nextH=0;
                 if(x!=15)
                 	nextH=Math.max(Math.min(topBlockY(chunk, x+1, z),127),16);

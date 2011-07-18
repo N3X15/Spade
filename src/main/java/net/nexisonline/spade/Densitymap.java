@@ -63,6 +63,6 @@ public class Densitymap {
 
 	private double it(int iter)
 	{
-		return (double)iter * (1.0 / 16.0);
+		return iter * (1.0 / 16.0);
 	}
 }

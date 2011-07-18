@@ -7,7 +7,6 @@ import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.World;
-import org.bukkit.util.config.ConfigurationNode;
 
 public class ChunkProviderFlatGrass extends SpadeChunkProvider {
 	public ChunkProviderFlatGrass(SpadePlugin plugin) {

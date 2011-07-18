@@ -92,12 +92,12 @@ public class InterpolatedDensityMap
 
 	private double getInterpolationAmount(int iteration)
 	{
-		return (double)iteration * (1.0 / 16.0);
+		return iteration * (1.0 / 16.0);
 	}
 
 	private double getFactor(int iter)
 	{
-		return (double)iter * (1.0 / 5.0);
+		return iter * (1.0 / 5.0);
 	}
 
 	private double lerp(double a, double b, double f)

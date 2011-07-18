@@ -15,8 +15,6 @@ import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.util.config.ConfigurationNode;
-
 import toxi.math.noise.SimplexOctaves;
 
 /**

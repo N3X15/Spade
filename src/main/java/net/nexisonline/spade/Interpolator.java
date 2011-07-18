@@ -175,7 +175,7 @@ public class Interpolator {
 			for (int x = 0; x < newdepth; x++) {
 				for (int y = 0; y < newwidth; y++) {
 					float i = (float) (((float)x) * 1 / 0.25);
-					float j = (float) (((float)y) / 0.25 * 1);
+					float j = (float) ((y) / 0.25 * 1);
 					float k = (float) (((float)z) * 1 / 0.25);
 					
 					ixl = (x + 0) % 4;

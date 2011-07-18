@@ -234,7 +234,7 @@ public class OrePopulator extends SpadeEffectGenerator {
         random.setSeed(world.getSeed());
         long xseed = random.nextLong() / 2L * 2L + 1L;
         long zseed = random.nextLong() / 2L * 2L + 1L;
-        random.setSeed((long) chunk.getX() * xseed + (long) chunk.getZ() * zseed ^ world.getSeed());
+        random.setSeed(chunk.getX() * xseed + chunk.getZ() * zseed ^ world.getSeed());
         // END Notchcode
         
         for(DepositDef ore : oreDefs) {

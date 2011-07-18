@@ -3,9 +3,6 @@ package net.nexisonline.spade;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.util.config.Configuration;
-import org.bukkit.util.config.ConfigurationNode;
-
 public class GenerationLimits {
 	public boolean round=false;
 	public int distanceSquared=10000;

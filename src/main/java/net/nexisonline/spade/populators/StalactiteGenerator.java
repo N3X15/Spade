@@ -33,7 +33,8 @@ public class StalactiteGenerator extends SpadeEffectGenerator {
 		return new StalactiteGenerator(plugin,node,seed);
 	}
 
-	public void populate(World world, Random rand, Chunk chunk) {
+	@Override
+    public void populate(World world, Random rand, Chunk chunk) {
 		SpadeLogging.info(String.format("Generating stalactites in chunk (%d,%d)",chunk.getX(),chunk.getZ()));
 		this.chunk=chunk;
 		this.X=chunk.getX();

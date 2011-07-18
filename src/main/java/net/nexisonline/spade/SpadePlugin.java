@@ -13,12 +13,9 @@ import net.nexisonline.spade.commands.TP2WorldCommand;
 
 import org.bukkit.World.Environment;
 import org.bukkit.event.Event;
-import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.config.Configuration;
-import org.bukkit.util.config.ConfigurationNode;
 
 /**
  * Sample plugin for Bukkit
@@ -30,6 +27,7 @@ public class SpadePlugin extends JavaPlugin {
 	private HashMap<String,SpadeChunkProvider> chunkProviders = new HashMap<String,SpadeChunkProvider>();
 	public HashMap<String, GenerationLimits> genLimits = new HashMap<String, GenerationLimits>();
 	private HashMap<String,SpadeChunkProvider> assignedProviders = new HashMap<String,SpadeChunkProvider>();
+    @Override
     public void onEnable() {
         // Register our events
         PluginManager pm = getServer().getPluginManager();
@@ -63,7 +61,8 @@ public class SpadePlugin extends JavaPlugin {
 		chunkProviders.put("wat", new ChunkProviderWat(this));
 		chunkProviders.put("doubleperlin", new ChunkProviderDoublePerlin(this));
 	}
-	public void onDisable() {
+	@Override
+    public void onDisable() {
     }
     
 	public Map<String, Object> loadWorld(String worldName, long seed, String cmName, String cpName, Map<String, Object> map) {
@@ -77,7 +76,7 @@ public class SpadePlugin extends JavaPlugin {
 			cp.onLoad(worldName,seed,map);
 		}
 		assignedProviders.put(worldName, cp);
-		getServer().createWorld(worldName, Environment.NORMAL, seed, (ChunkGenerator)cp);
+		getServer().createWorld(worldName, Environment.NORMAL, seed, cp);
 		return map;
 	}
 	public int getChunkRadius(String worldName) {
