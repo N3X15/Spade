@@ -85,8 +85,9 @@ public class SpadeWorldListener extends WorldListener {
         if(root!=null && root.containsKey("worlds")) {
             co = root.get("worlds");
             if(co instanceof Map<?,?>) {
-                Map<String,Object> worldMap = (Map<String, Object>) root.get("worlds");
+                Map<String,Object> worldMap = (Map<String, Object>) co;
                 worlds = worldMap.keySet();
+                SpadeLogging.info("Loaded worlds:");
                 for (String worldName : this.worlds) {
                     Map<String,Object> currWorld = (Map<String, Object>) worldMap.get(worldName);
                     Map<String,Object> limits = (Map<String, Object>) currWorld.get("limits");
@@ -103,6 +104,7 @@ public class SpadeWorldListener extends WorldListener {
                         chunkProvider = new HashMap<String,Object>();
                         chunkProvider.put("name", "stock");
                     }
+                    SpadeLogging.info(" + "+worldName+" (cp: "+(String)chunkProvider.get("name")+")");
                     spade.loadWorld(worldName, seed, (String)chunkManager.get("name"), (String)chunkProvider.get("name"), (Map<String,Object>)chunkProvider.get("config"));
                 }
             }
