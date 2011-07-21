@@ -158,6 +158,7 @@ public class SpadeWorldListener extends WorldListener {
     }
     
     public void saveWorlds() {
+        root.clear();
         Map<String,Object> worlds = new HashMap<String,Object>();
         for (World w : spade.getServer().getWorlds()) {
             String worldName = w.getName();
