@@ -158,7 +158,7 @@ public class SpadeWorldListener extends WorldListener {
     }
     
     public void saveWorlds() {
-        
+        Map<String,Object> worlds = new HashMap<String,Object>();
         for (World w : spade.getServer().getWorlds()) {
             String worldName = w.getName();
             Map<String,Object> world = new HashMap<String,Object>();
@@ -177,8 +177,9 @@ public class SpadeWorldListener extends WorldListener {
                 spade.genLimits.get(worldName.toLowerCase());
                 world.put("limits", (new GenerationLimits()).getConfig());
             }
-            root.put(worldName, world);
+            worlds.put(worldName, world);
         }
+        root.put("worlds", worlds);
         save();
     }
 }
