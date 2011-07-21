@@ -207,26 +207,25 @@ public class OrePopulator extends SpadeEffectGenerator {
     private List<Object> deposits;
 	
 	public OrePopulator(SpadePlugin plugin, Map<String,Object> node,long seed) {
-		super(plugin, node, seed);
-		if(node.get("deposits")!=null) {
-		    deposits = (List<Object>) node.get("deposits");
-		    if(deposits==null || deposits.size()<1)
-		        deposits=getDefaults();
-			for(Object deposit_o : deposits) {
-			    Map<String,Object> deposit=(Map<String, Object>) deposit_o;
-				DepositDef od = new DepositDef();
-				od.depositType = DepositType.valueOf( SpadeConf.getString(deposit,"depositType","blob"));
-				od.blockType = SpadeConf.getInt(deposit,"blockType",16);
-				od.minHeight = SpadeConf.getInt(deposit,"minHeight", 0);
-				od.maxHeight = SpadeConf.getInt(deposit,"maxHeight", 127);
-				od.minBlocks = SpadeConf.getInt(deposit,"minBlocks", 1);
-				od.maxBlocks = SpadeConf.getInt(deposit,"maxBlocks", 50);
-				od.minDeposits = SpadeConf.getInt(deposit,"minDeposits", 0);
-				od.maxDeposits = SpadeConf.getInt(deposit,"maxDeposits", 0);
-				od.rarity = SpadeConf.getInt(deposit,"rarity", 4);
-				oreDefs.add(od);
-			}
-		}
+	    super(plugin, node, seed);
+	    if(node.get("deposits")!=null)
+	        deposits = (List<Object>) node.get("deposits");
+	    if(deposits==null || deposits.size()<1)
+	        deposits=getDefaults();
+	    for(Object deposit_o : deposits) {
+	        Map<String,Object> deposit=(Map<String, Object>) deposit_o;
+	        DepositDef od = new DepositDef();
+	        od.depositType = DepositType.valueOf( SpadeConf.getString(deposit,"depositType","blob"));
+	        od.blockType = SpadeConf.getInt(deposit,"blockType",16);
+	        od.minHeight = SpadeConf.getInt(deposit,"minHeight", 0);
+	        od.maxHeight = SpadeConf.getInt(deposit,"maxHeight", 127);
+	        od.minBlocks = SpadeConf.getInt(deposit,"minBlocks", 1);
+	        od.maxBlocks = SpadeConf.getInt(deposit,"maxBlocks", 50);
+	        od.minDeposits = SpadeConf.getInt(deposit,"minDeposits", 0);
+	        od.maxDeposits = SpadeConf.getInt(deposit,"maxDeposits", 0);
+	        od.rarity = SpadeConf.getInt(deposit,"rarity", 4);
+	        oreDefs.add(od);
+	    }
 		random = new Random();
 	}
 	
