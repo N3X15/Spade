@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import net.nexisonline.spade.populators.DungeonPopulator;
+import net.nexisonline.spade.populators.*;
 
 import org.bukkit.World;
 import org.bukkit.event.world.ChunkLoadEvent;
@@ -43,6 +43,11 @@ public class SpadeWorldListener extends WorldListener {
     
     @Override
     public void onWorldLoad(WorldLoadEvent e) {
+        for(BlockPopulator p : e.getWorld().getPopulators()) {
+            if(p instanceof OrePopulator) {
+                ((OrePopulator) p).onWorldLoaded(e.getWorld());
+            }
+        }
     }
     
     @Override

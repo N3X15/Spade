@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.server.ChunkCoordinates;
 import net.minecraft.server.WorldGenClay;
 import net.minecraft.server.WorldGenDungeons;
 import net.minecraft.server.WorldGenFlowers;
@@ -205,6 +206,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 	private List<DepositDef> oreDefs = new ArrayList<DepositDef>();
 	private Random random;
     private List<Object> deposits;
+    private List<ChunkCoordinates> postponedChunks = new ArrayList<ChunkCoordinates>();
 	
 	public OrePopulator(SpadePlugin plugin, Map<String,Object> node,long seed) {
 	    super(plugin, node, seed);
@@ -228,6 +230,14 @@ public class OrePopulator extends SpadeEffectGenerator {
 	    }
 		random = new Random();
 	}
+    
+    public void onWorldLoaded(World w) {
+        Random rnd = new Random(w.getSeed());
+        for(ChunkCoordinates cc : postponedChunks) {
+            Chunk c = world.getChunkAt(cc.x, cc.z);
+            populate(w,rnd,c);
+        }
+    }
 	
 
     public static SpadeEffectGenerator getInstance(SpadePlugin plugin, Map n, long seed) {
@@ -237,6 +247,11 @@ public class OrePopulator extends SpadeEffectGenerator {
 	
 	@Override
 	public void populate(World world, Random rand, Chunk chunk) {
+        if(((CraftWorld)world).getHandle()==null) {
+            postponedChunks .add(new ChunkCoordinates(chunk.getX(), 0, chunk.getZ()));
+            return;
+        }
+        
 		SpadeLogging.info(String.format("Generating %d ores in chunk (%d,%d)",oreDefs.size(),chunk.getX(),chunk.getZ()));
 		// Shamelessly stolen from Notch's code to avoid fucking up the existing sediment.
         random.setSeed(world.getSeed());
