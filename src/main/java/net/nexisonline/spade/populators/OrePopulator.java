@@ -180,7 +180,10 @@ public class OrePopulator extends SpadeEffectGenerator {
 		}
 
 		private net.minecraft.server.World getMCWorld() {
-			return ((CraftWorld)chunk.getWorld()).getHandle();
+			net.minecraft.server.World w = ((CraftWorld)chunk.getWorld()).getHandle();
+			if(w==null)
+			    SpadeLogging.severe("w==null",null);
+			return w;
 		}
 
 		public Map<String,Object> toConfigNode() {
