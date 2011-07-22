@@ -10,6 +10,7 @@ import java.util.Random;
 
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
+import net.nexisonline.spade.SpadeConf;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Material;
@@ -47,8 +48,8 @@ public class ChunkProviderGemini extends SpadeChunkProvider {
         super.onLoad(worldName,worldSeed,map);
         
         /** Configure **/
-        WATER_HEIGHT=(Integer)map.get("water-level");
-        OCEAN_FLOOR=(Integer)map.get("min-ocean-floor-height");
+        WATER_HEIGHT=SpadeConf.getInt(map,"water-level",63);
+        OCEAN_FLOOR=SpadeConf.getInt(map,"min-ocean-floor-height",32);
         
         try 
         {
