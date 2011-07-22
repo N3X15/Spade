@@ -142,41 +142,45 @@ public class OrePopulator extends SpadeEffectGenerator {
 		}
 
 		private void addDeposit(int x, int y, int z) {
-			switch(depositType) {
-			case LAKE:
-				(new WorldGenLakes(blockType)).a(getMCWorld(), random, x, y, z);
-				break;
-			case NOTCH_DUNGEON:
-				(new WorldGenDungeons()).a(getMCWorld(), random, x, y, z);
-				break;
-			case PONY_DUNGEON:
-				(new DungeonPopulator(plugin, SpadeConf.getNode(config,"dungeons"), seed)).populate(world, random, chunk);
-				break;
-			case CLAY:
-				(new WorldGenClay(maxBlocks)).a(getMCWorld(), random, x, y, z);
-				break;
-			case BLOB:
-				(new WorldGenMinable(blockType,maxBlocks)).a(getMCWorld(), random, x, y, z);
-				break;
-			case FLOWER:
-				(new WorldGenFlowers(maxBlocks)).a(getMCWorld(), random, x, y, z);
-				break;
-			case REED:
-				(new WorldGenReed()).a(getMCWorld(), random, x, y, z);
-				break;
-			case PUMPKIN:
-				(new WorldGenPumpkin()).a(getMCWorld(), random, x, y, z);
-				break;
-			case LIQUID:
-				(new WorldGenLiquids(blockType)).a(getMCWorld(), random, x, y, z);
-				break;
-			case LIGHTSTONE_A:
-				(new WorldGenLightStone1()).a(getMCWorld(), random, x, y, z);
-				break;
-			case LIGHTSTONE_B:
-				(new WorldGenLightStone2()).a(getMCWorld(), random, x, y, z);
-				break;
-			}
+		    try {
+		        switch(depositType) {
+		            case LAKE:
+		                (new WorldGenLakes(blockType)).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case NOTCH_DUNGEON:
+		                (new WorldGenDungeons()).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case PONY_DUNGEON:
+		                (new DungeonPopulator(plugin, SpadeConf.getNode(config,"dungeons"), seed)).populate(world, random, chunk);
+		                break;
+		            case CLAY:
+		                (new WorldGenClay(maxBlocks)).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case BLOB:
+		                (new WorldGenMinable(blockType,maxBlocks)).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case FLOWER:
+		                (new WorldGenFlowers(maxBlocks)).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case REED:
+		                (new WorldGenReed()).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case PUMPKIN:
+		                (new WorldGenPumpkin()).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case LIQUID:
+		                (new WorldGenLiquids(blockType)).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case LIGHTSTONE_A:
+		                (new WorldGenLightStone1()).a(getMCWorld(), random, x, y, z);
+		                break;
+		            case LIGHTSTONE_B:
+		                (new WorldGenLightStone2()).a(getMCWorld(), random, x, y, z);
+		                break;
+		        }
+		    } catch(NullPointerException e) {
+		        SpadeLogging.severe("NPE during ore gen:", e);
+		    }
 		}
 
 		private net.minecraft.server.World getMCWorld() {
