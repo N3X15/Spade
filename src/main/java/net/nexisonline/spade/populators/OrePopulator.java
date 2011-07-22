@@ -184,7 +184,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 
 		public Map<String,Object> toConfigNode() {
 			Map<String,Object> cfg = new HashMap<String,Object>();
-			cfg.put("depositType",depositType);
+			cfg.put("depositType",depositType.name());
 			cfg.put("blockType",blockType);
 			cfg.put("minHeight",minHeight);
 			cfg.put("maxHeight",maxHeight);
