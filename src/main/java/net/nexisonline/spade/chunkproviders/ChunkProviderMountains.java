@@ -80,57 +80,10 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
         
         byte[] blocks = new byte[16 * 16 * 128];
         int minHeight = Integer.MAX_VALUE;
-        /*
-        Heightmap hm = new Heightmap(4, 4);
-        for (int x = 0; x < 4; x++) {
-            for (int z = 0; z < 4; z++) {
-                // Generate our continental noise.
-                hm.set(x, z, continentNoise.getValue(((x * 4) + (X * 16)) * 0.01, ((z * 4) + (Z * 16)) * 0.01, 0));// *5d; // 2.0
-            }
-        }
-        hm = Interpolator.LinearExpandHeightmap(hm, 16, 16);
-        
-        for (int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
-                final int height = (int) ((hm.get(x, z) * 32d) + 96d);
-                if (height < minHeight) {
-                    minHeight = height;
-                }
-                for (int y = 0; y < 128; y++) {
-                    
-                    byte block = (y <= height) ? (byte) 1 : (byte) 0; // Fill;
-                    block = (block > 0) ? (byte) 1 : (byte) 0;
-                    // If below height, set rock. Otherwise, set air.
-                    block = ((y <= 63) && (block == 0)) ? (byte) 9 : block; // Water
-                    
-                    // Origin point + sand to prevent 5000 years of loading.
-                    if ((x == 0) && (z == 0) && (X == x) && (Z == z) && (y <= 63)) {
-                        block = (byte) ((y == 63) ? 12 : 7);
-                    }
-                    
-                    // Old cave stuff, handled by CraftBukkit now.
-                    // double _do = ((CaveNoise.GetValue(x + (X * chunksize.X),
-                    // z + (Z * chunksize.Z), y * CaveDivisor) + 1) / 2.0);
-                    // bool d3 = _do > CaveThreshold;
-                    
-                    // if(d3)
-                    // {
-                    // if (y <= 63)
-                    // block = 3;
-                    // else
-                    // block = 0;
-                    // }
-                    // else
-                    // block = (d3) ? b[x, y, z] : (byte)1;
-                    setBlockByte(blocks, x, y, z, (byte) ((y < 2) ? Material.BEDROCK.getId() : block));
-                }
-            }
-        }
-        */
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 // Generate our continental noise.
-                final int height = (int) ((continentNoise.getValue((x + (X * 16)) * 0.01, (z + (Z * 16)) * 0.01, 0) * 32d) + 96d);
+                final int height = (int) ((continentNoise.getValue((x + (X * 16)) * 0.01, (z + (Z * 16)) * 0.01, 0) * 32d) + 80d);
                 if (height < minHeight) {
                     minHeight = height;
                 }
