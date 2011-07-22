@@ -178,8 +178,8 @@ public class OrePopulator extends SpadeEffectGenerator {
 		                (new WorldGenLightStone2()).a(getMCWorld(), random, x, y, z);
 		                break;
 		        }
-		    } catch(NullPointerException e) {
-		        SpadeLogging.severe("NPE during ore gen:", e);
+		    } catch(Exception e) {
+		        SpadeLogging.severe("Exception during ore gen", e);
 		    }
 		}
 
