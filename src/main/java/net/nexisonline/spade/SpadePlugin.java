@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.nexisonline.spade.chunkproviders.ChunkProviderDoublePerlin;
 import net.nexisonline.spade.chunkproviders.ChunkProviderFlatGrass;
+import net.nexisonline.spade.chunkproviders.ChunkProviderGemini;
 import net.nexisonline.spade.chunkproviders.ChunkProviderMountains;
 import net.nexisonline.spade.chunkproviders.ChunkProviderSurrealIslands;
 import net.nexisonline.spade.chunkproviders.ChunkProviderWat;
@@ -59,7 +60,8 @@ public class SpadePlugin extends JavaPlugin {
 		chunkProviders.put("mountains", new ChunkProviderMountains(this));
 		chunkProviders.put("islands", new ChunkProviderSurrealIslands(this));
 		chunkProviders.put("wat", new ChunkProviderWat(this));
-		chunkProviders.put("doubleperlin", new ChunkProviderDoublePerlin(this));
+        chunkProviders.put("doubleperlin", new ChunkProviderDoublePerlin(this));
+        chunkProviders.put("gemini", new ChunkProviderGemini(this));
 	}
 	@Override
     public void onDisable() {
