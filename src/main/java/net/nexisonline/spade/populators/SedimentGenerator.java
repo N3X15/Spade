@@ -77,11 +77,11 @@ public class SedimentGenerator extends SpadeEffectGenerator {
                     if (thisblock == Material.STONE.getId() 
                     	&& supportBlock==Material.STONE.getId())
                     {
-                    	int depth= 10*(y/128);/*/nextH*/;
+                    	int depth= 6;//10*(y/128);/*/nextH*/;
                         if (y + depth >= YH)
                             continue;
                         int ddt = chunk.getBlock(x, y+depth, z).getTypeId();
-                        Biome bt = Biome.RAINFOREST; // TODO Figure out how to get a biome.
+                        Biome bt = chunk.getBlock(x, y, z).getBiome();
                         switch (ddt)
                         {
                             case 0: // Air
