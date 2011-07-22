@@ -43,10 +43,11 @@ public class SpadeWorldListener extends WorldListener {
     
     @Override
     public void onWorldLoad(WorldLoadEvent e) {
-        SpadeLogging.info("onWorldLoad: "+e.getWorld().getName());
-        for(BlockPopulator p : e.getWorld().getPopulators()) {
+        World w = e.getWorld();
+        SpadeLogging.info("onWorldLoad: "+w.getName());
+        for(BlockPopulator p : w.getPopulators()) {
             if(p instanceof OrePopulator) {
-                ((OrePopulator) p).onWorldLoaded(e.getWorld());
+                ((OrePopulator) p).onWorldLoaded(w);
             }
         }
     }

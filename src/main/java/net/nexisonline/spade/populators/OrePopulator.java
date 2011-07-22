@@ -247,6 +247,7 @@ public class OrePopulator extends SpadeEffectGenerator {
         Random rnd = new Random(w.getSeed());
         loaded=true;
         for(ChunkCoordinates cc : postponedChunks) {
+            if(cc==null) continue;
             Chunk c = world.getChunkAt(cc.x, cc.z);
             populate(w,rnd,c);
         }
