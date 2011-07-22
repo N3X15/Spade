@@ -186,7 +186,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 		public Map<String,Object> toConfigNode() {
 			Map<String,Object> cfg = new HashMap<String,Object>();
 			cfg.put("depositType",depositType.name());
-			cfg.put("blockType",blockType);
+			cfg.put("blockType",Material.getMaterial(blockType).name());
 			cfg.put("minHeight",minHeight);
 			cfg.put("maxHeight",maxHeight);
 			cfg.put("minBlocks",minBlocks);
@@ -218,7 +218,18 @@ public class OrePopulator extends SpadeEffectGenerator {
 	        Map<String,Object> deposit=(Map<String, Object>) deposit_o;
 	        DepositDef od = new DepositDef();
 	        od.depositType = DepositType.valueOf( SpadeConf.getString(deposit,"depositType","blob"));
-	        od.blockType = SpadeConf.getInt(deposit,"blockType",16);
+	        Object bt = deposit.get("blockType");
+	        if(bt instanceof String) {
+	            try {
+	                od.blockType = Integer.parseInt((String)bt);
+	            } catch(NumberFormatException e) {
+	                od.blockType = Material.getMaterial((String)bt).getId();
+	            }
+	        } else if(bt instanceof Integer) {
+                    od.blockType = (Integer)bt;
+            } else {
+                od.blockType = 16;
+            }
 	        od.minHeight = SpadeConf.getInt(deposit,"minHeight", 0);
 	        od.maxHeight = SpadeConf.getInt(deposit,"maxHeight", 127);
 	        od.minBlocks = SpadeConf.getInt(deposit,"minBlocks", 1);
