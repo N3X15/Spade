@@ -247,7 +247,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 	
 	@Override
 	public void populate(World world, Random rand, Chunk chunk) {
-        if(((CraftWorld)world).getHandle()==null) {
+        if(((CraftWorld)chunk.getWorld()).getHandle()==null) {
             postponedChunks .add(new ChunkCoordinates(chunk.getX(), 0, chunk.getZ()));
             return;
         }
