@@ -58,15 +58,15 @@ public class ChunkProviderGemini extends SpadeChunkProvider {
 
             m_xTurbulence = new SimplexNoise(((int)worldSeed * 1024) + 1);
             m_xTurbulence.setAmplitude(35);
-            m_xTurbulence.setFrequency(0.01f);
+            m_xTurbulence.setFrequency(0.02f);
 
             m_yTurbulence = new SimplexNoise(((int)worldSeed * 1024) + 2);
             m_yTurbulence.setAmplitude(35);
-            m_yTurbulence.setFrequency(0.01f);  
+            m_yTurbulence.setFrequency(0.02f);  
 
             m_zTurbulence = new SimplexNoise(((int)worldSeed * 1024) + 3);
             m_zTurbulence.setAmplitude(35);
-            m_zTurbulence.setFrequency(0.01f);
+            m_zTurbulence.setFrequency(0.02f);
 
             m_heightOffset = new SimplexNoise(((int)worldSeed * 1024) + 4);
             m_heightOffset.setAmplitude(32);
