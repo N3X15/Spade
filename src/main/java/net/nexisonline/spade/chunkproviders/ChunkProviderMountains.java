@@ -80,6 +80,7 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
         
         byte[] blocks = new byte[16 * 16 * 128];
         int minHeight = Integer.MAX_VALUE;
+        /*
         Heightmap hm = new Heightmap(4, 4);
         for (int x = 0; x < 4; x++) {
             for (int z = 0; z < 4; z++) {
@@ -121,6 +122,25 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
                     // }
                     // else
                     // block = (d3) ? b[x, y, z] : (byte)1;
+                    setBlockByte(blocks, x, y, z, (byte) ((y < 2) ? Material.BEDROCK.getId() : block));
+                }
+            }
+        }
+        */
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                // Generate our continental noise.
+                final int height = (int) ((continentNoise.getValue((x + (X * 16)) * 0.01, (z + (Z * 16)) * 0.01, 0) * 32d) + 96d);
+                if (height < minHeight) {
+                    minHeight = height;
+                }
+                for (int y = 0; y < 128; y++) {
+                    
+                    byte block = (y <= height) ? (byte) 1 : (byte) 0; // Fill;
+                    block = (block > 0) ? (byte) 1 : (byte) 0;
+                    // If below height, set rock. Otherwise, set air.
+                    block = ((y <= 63) && (block == 0)) ? (byte) 9 : block; // Water
+                    
                     setBlockByte(blocks, x, y, z, (byte) ((y < 2) ? Material.BEDROCK.getId() : block));
                 }
             }
