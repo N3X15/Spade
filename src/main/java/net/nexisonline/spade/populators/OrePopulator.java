@@ -200,7 +200,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 		
 		@Override
 		public String toString() {
-			return String.format("ORE {0}->{1}", depositType.name(), Material.getMaterial(blockType).name());
+			return String.format("ORE %s -> %s", depositType.name(), Material.getMaterial(blockType).name());
 		}
 	}
 	private List<DepositDef> oreDefs = new ArrayList<DepositDef>();
