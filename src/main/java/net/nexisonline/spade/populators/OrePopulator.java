@@ -179,7 +179,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 		                break;
 		        }
 		    } catch(Exception e) {
-		        SpadeLogging.severe("Exception during ore gen", e);
+		        //SpadeLogging.severe("Exception during ore gen", e);
 		    }
 		}
 
@@ -283,7 +283,7 @@ public class OrePopulator extends SpadeEffectGenerator {
         // END Notchcode
         
         for(DepositDef ore : oreDefs) {
-    		SpadeLogging.info("OrePopulator: Populating ("+chunk.getX()+","+chunk.getZ()+") with "+ore.toString());
+    		//SpadeLogging.info("OrePopulator: Populating ("+chunk.getX()+","+chunk.getZ()+") with "+ore.toString());
         	ore.populate(chunk,chunk.getX(),chunk.getZ(),random);
         }
 	}
