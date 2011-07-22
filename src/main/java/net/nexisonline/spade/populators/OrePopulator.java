@@ -203,6 +203,7 @@ public class OrePopulator extends SpadeEffectGenerator {
 			return String.format("ORE %s -> %s", depositType.name(), Material.getMaterial(blockType).name());
 		}
 	}
+	private boolean loaded=false;
 	private List<DepositDef> oreDefs = new ArrayList<DepositDef>();
 	private Random random;
     private List<Object> deposits;
@@ -244,6 +245,7 @@ public class OrePopulator extends SpadeEffectGenerator {
     
     public void onWorldLoaded(World w) {
         Random rnd = new Random(w.getSeed());
+        loaded=true;
         for(ChunkCoordinates cc : postponedChunks) {
             Chunk c = world.getChunkAt(cc.x, cc.z);
             populate(w,rnd,c);
@@ -258,8 +260,8 @@ public class OrePopulator extends SpadeEffectGenerator {
 	
 	@Override
 	public void populate(World world, Random rand, Chunk chunk) {
-        if(((CraftWorld)chunk.getWorld()).getHandle()==null) {
-            postponedChunks .add(new ChunkCoordinates(chunk.getX(), 0, chunk.getZ()));
+        if(!loaded) {
+            postponedChunks.add(new ChunkCoordinates(chunk.getX(), 0, chunk.getZ()));
             return;
         }
         
