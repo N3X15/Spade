@@ -67,6 +67,8 @@ public class OrePopulator extends SpadeEffectGenerator {
 		private int Z;
 		private Random random;
 		public List<Biome> validBiomes = new ArrayList<Biome>();
+        private int x_o;
+        private int z_o;
 
 		public DepositDef() {}
 		
@@ -106,7 +108,9 @@ public class OrePopulator extends SpadeEffectGenerator {
 		public void populate(Chunk chunk, int X, int Z, Random random) {
 			this.chunk=chunk;
 			this.X=X;
+			this.x_o=X*16;
 			this.Z=Z;
+            this.z_o=Z*16;
 			this.random=random;
 
 			if(rarity>0)
@@ -121,9 +125,9 @@ public class OrePopulator extends SpadeEffectGenerator {
 				max = randInRange(minDeposits,maxDeposits);
 			int rarityshift = (rare) ? 8:0;
 			for(int i = 0;i<max;i++) {
-				int x = X + random.nextInt(16) + rarityshift;
+				int x = x_o + random.nextInt(16) + rarityshift;
 				int y = randInRange(minHeight,Math.min(127, maxHeight));
-				int z = Z + random.nextInt(16) + rarityshift;
+				int z = z_o + random.nextInt(16) + rarityshift;
 				addDeposit(x, y, z);
 			}
 		}
@@ -134,9 +138,9 @@ public class OrePopulator extends SpadeEffectGenerator {
 		private void addByRarity() {
 			int rarityshift = (rare) ? 8:0;
 			if (random.nextInt(rarity) == 0) {
-				int x = X + random.nextInt(16) + rarityshift;
+				int x = x_o + random.nextInt(16) + rarityshift;
 				int y = randInRange(minHeight,Math.min(127, maxHeight));
-				int z = Z + random.nextInt(16) + rarityshift;
+				int z = z_o + random.nextInt(16) + rarityshift;
 				addDeposit(x, y, z);
 			}
 		}
