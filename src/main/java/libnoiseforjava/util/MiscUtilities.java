@@ -26,22 +26,18 @@
 package libnoiseforjava.util;
 
 public class MiscUtilities {
-
-	// Performs linear interpolation between two 8-bit channel values.
-	public static short blendChannel(int red, int red2, float alpha) {
-		double c0 = red / 255.0;
-		double c1 = red2 / 255.0;
-		return (short) (((c1 * alpha) + (c0 * (1.0f - alpha))) * 255.0f);
-	}
-
-	// Performs linear interpolation between two colors
-	public static ColorCafe linearInterpColor(ColorCafe color0,
-			ColorCafe color1, float alpha) {
-		ColorCafe color = new ColorCafe(blendChannel(color0.red, color1.red,
-				alpha), blendChannel(color0.green, color1.green, alpha),
-				blendChannel(color0.blue, color1.blue, alpha), blendChannel(
-						color0.alpha, color1.alpha, alpha));
-		return color;
-	}
-
+    
+    // Performs linear interpolation between two 8-bit channel values.
+    public static short blendChannel(final int red, final int red2, final float alpha) {
+        final double c0 = red / 255.0;
+        final double c1 = red2 / 255.0;
+        return (short) (((c1 * alpha) + (c0 * (1.0f - alpha))) * 255.0f);
+    }
+    
+    // Performs linear interpolation between two colors
+    public static ColorCafe linearInterpColor(final ColorCafe color0, final ColorCafe color1, final float alpha) {
+        final ColorCafe color = new ColorCafe(blendChannel(color0.red, color1.red, alpha), blendChannel(color0.green, color1.green, alpha), blendChannel(color0.blue, color1.blue, alpha), blendChannel(color0.alpha, color1.alpha, alpha));
+        return color;
+    }
+    
 }

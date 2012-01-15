@@ -30,166 +30,162 @@ import libnoiseforjava.Misc;
 import libnoiseforjava.exception.ExceptionInvalidParam;
 
 public class Curve extends ModuleBase {
-	// / Noise module that maps the output value from a source module onto an
-	// / arbitrary function curve.
-	// /
-	// / This noise module maps the output value from the source module onto an
-	// / application-defined curve. This curve is defined by a number of
-	// / <i>control points</i>; each control point has an <i>input value</i>
-	// / that maps to an <i>output value</i>.
-	// /
-	// / To add the control points to this curve, call the addControlPoint()
-	// / method. Note that the class ControlPoint follows the class Curve in
-	// / this file.
-	// /
-	// / Since this curve is a cubic spline, an application must add a minimum
-	// / of four control points to the curve. If this is not done, the
-	// / getValue() method fails. Each control point can have any input and
-	// / output value, although no two control points can have the same input
-	// / value. There is no limit to the number of control points that can be
-	// / added to the curve.
-	// /
-	// / This noise module requires one source module
-
-	int controlPointCount;
-	ControlPoint[] controlPoints;
-
-	public Curve(ModuleBase sourceModule) throws ExceptionInvalidParam {
-		super(1);
-		setSourceModule(0, sourceModule);
-		controlPointCount = 0;
-		controlPoints = new ControlPoint[1];
-		controlPoints[0] = new ControlPoint(0.0, 0.0);
-	}
-
-	public void addControlPoint(double inputValue, double outputValue)
-			throws ExceptionInvalidParam {
-		// Find the insertion point for the new control point and insert the new
-		// point at that position. The control point array will remain sorted by
-		// input value.
-		int insertionPos = findInsertionPos(inputValue);
-		insertAtPos(insertionPos, inputValue, outputValue);
-	}
-
-	public void clearAllControlPoints() {
-		controlPoints = null;
-		controlPointCount = 0;
-	}
-
-	public int findInsertionPos(double inputValue) throws ExceptionInvalidParam {
-		int insertionPos;
-		for (insertionPos = 0; insertionPos < controlPointCount; insertionPos++) {
-			if (inputValue < controlPoints[insertionPos].inputValue)
-				// We found the array index in which to insert the new control
-				// point.
-				// Exit now.
-				break;
-			else if (inputValue == controlPoints[insertionPos].inputValue)
-				// Each control point is required to contain a unique input
-				// value, so
-				// throw an exception.
-				throw new ExceptionInvalidParam("Invalid Parameter in Curve");
-		}
-		return insertionPos;
-	}
-
-	@Override
-	public double getValue(double x, double y, double z) {
-		assert (sourceModules[0] != null);
-		assert (controlPointCount >= 4);
-
-		// Get the output value from the source module.
-		double sourceModuleValue = sourceModules[0].getValue(x, y, z);
-
-		// Find the first element in the control point array that has an input
-		// value
-		// larger than the output value from the source module.
-		int indexPos;
-		for (indexPos = 0; indexPos < controlPointCount; indexPos++) {
-			if (sourceModuleValue < controlPoints[indexPos].inputValue)
-				break;
-
-		}
-
-		// Find the four nearest control points so that we can perform cubic
-		// interpolation.
-		int index0 = Misc.ClampValue(indexPos - 2, 0, controlPointCount - 1);
-		int index1 = Misc.ClampValue(indexPos - 1, 0, controlPointCount - 1);
-		int index2 = Misc.ClampValue(indexPos, 0, controlPointCount - 1);
-		int index3 = Misc.ClampValue(indexPos + 1, 0, controlPointCount - 1);
-
-		// If some control points are missing (which occurs if the value from
-		// the
-		// source module is greater than the largest input value or less than
-		// the
-		// smallest input value of the control point array), get the
-		// corresponding
-		// output value of the nearest control point and exit now.
-		if (index1 == index2) {
-			return controlPoints[index1].outputValue;
-		}
-
-		// Compute the alpha value used for cubic interpolation.
-		double input0 = controlPoints[index1].inputValue;
-		double input1 = controlPoints[index2].inputValue;
-		double alpha = (sourceModuleValue - input0) / (input1 - input0);
-
-		// Now perform the cubic interpolation given the alpha value.
-		return Interp.cubicInterp(controlPoints[index0].outputValue,
-				controlPoints[index1].outputValue,
-				controlPoints[index2].outputValue,
-				controlPoints[index3].outputValue, alpha);
-	}
-
-	public void insertAtPos(int insertionPos, double inputValue,
-			double outputValue) {
-		// Make room for the new control point at the specified position within
-		// the
-		// control point array. The position is determined by the input value of
-		// the control point; the control points must be sorted by input value
-		// within that array.
-		ControlPoint[] newControlPoints = new ControlPoint[controlPointCount + 1];
-
-		for (int t = 0; t < (controlPointCount + 1); t++)
-			newControlPoints[t] = new ControlPoint();
-
-		for (int i = 0; i < controlPointCount; i++) {
-			if (i < insertionPos) {
-				newControlPoints[i] = controlPoints[i];
-			} else {
-				newControlPoints[i + 1] = controlPoints[i];
-			}
-		}
-
-		controlPoints = newControlPoints;
-		++controlPointCount;
-
-		// Now that we've made room for the new control point within the array,
-		// add
-		// the new control point.
-		controlPoints[insertionPos].inputValue = inputValue;
-		controlPoints[insertionPos].outputValue = outputValue;
-	}
+    // / Noise module that maps the output value from a source module onto an
+    // / arbitrary function curve.
+    // /
+    // / This noise module maps the output value from the source module onto an
+    // / application-defined curve. This curve is defined by a number of
+    // / <i>control points</i>; each control point has an <i>input value</i>
+    // / that maps to an <i>output value</i>.
+    // /
+    // / To add the control points to this curve, call the addControlPoint()
+    // / method. Note that the class ControlPoint follows the class Curve in
+    // / this file.
+    // /
+    // / Since this curve is a cubic spline, an application must add a minimum
+    // / of four control points to the curve. If this is not done, the
+    // / getValue() method fails. Each control point can have any input and
+    // / output value, although no two control points can have the same input
+    // / value. There is no limit to the number of control points that can be
+    // / added to the curve.
+    // /
+    // / This noise module requires one source module
+    
+    int controlPointCount;
+    ControlPoint[] controlPoints;
+    
+    public Curve(final ModuleBase sourceModule) throws ExceptionInvalidParam {
+        super(1);
+        setSourceModule(0, sourceModule);
+        controlPointCount = 0;
+        controlPoints = new ControlPoint[1];
+        controlPoints[0] = new ControlPoint(0.0, 0.0);
+    }
+    
+    public void addControlPoint(final double inputValue, final double outputValue) throws ExceptionInvalidParam {
+        // Find the insertion point for the new control point and insert the new
+        // point at that position. The control point array will remain sorted by
+        // input value.
+        final int insertionPos = findInsertionPos(inputValue);
+        insertAtPos(insertionPos, inputValue, outputValue);
+    }
+    
+    public void clearAllControlPoints() {
+        controlPoints = null;
+        controlPointCount = 0;
+    }
+    
+    public int findInsertionPos(final double inputValue) throws ExceptionInvalidParam {
+        int insertionPos;
+        for (insertionPos = 0; insertionPos < controlPointCount; insertionPos++) {
+            if (inputValue < controlPoints[insertionPos].inputValue) {
+                // We found the array index in which to insert the new control
+                // point.
+                // Exit now.
+                break;
+            } else if (inputValue == controlPoints[insertionPos].inputValue)
+                // Each control point is required to contain a unique input
+                // value, so
+                // throw an exception.
+                throw new ExceptionInvalidParam("Invalid Parameter in Curve");
+        }
+        return insertionPos;
+    }
+    
+    @Override
+    public double getValue(final double x, final double y, final double z) {
+        assert (sourceModules[0] != null);
+        assert (controlPointCount >= 4);
+        
+        // Get the output value from the source module.
+        final double sourceModuleValue = sourceModules[0].getValue(x, y, z);
+        
+        // Find the first element in the control point array that has an input
+        // value
+        // larger than the output value from the source module.
+        int indexPos;
+        for (indexPos = 0; indexPos < controlPointCount; indexPos++) {
+            if (sourceModuleValue < controlPoints[indexPos].inputValue) {
+                break;
+            }
+            
+        }
+        
+        // Find the four nearest control points so that we can perform cubic
+        // interpolation.
+        final int index0 = Misc.ClampValue(indexPos - 2, 0, controlPointCount - 1);
+        final int index1 = Misc.ClampValue(indexPos - 1, 0, controlPointCount - 1);
+        final int index2 = Misc.ClampValue(indexPos, 0, controlPointCount - 1);
+        final int index3 = Misc.ClampValue(indexPos + 1, 0, controlPointCount - 1);
+        
+        // If some control points are missing (which occurs if the value from
+        // the
+        // source module is greater than the largest input value or less than
+        // the
+        // smallest input value of the control point array), get the
+        // corresponding
+        // output value of the nearest control point and exit now.
+        if (index1 == index2)
+            return controlPoints[index1].outputValue;
+        
+        // Compute the alpha value used for cubic interpolation.
+        final double input0 = controlPoints[index1].inputValue;
+        final double input1 = controlPoints[index2].inputValue;
+        final double alpha = (sourceModuleValue - input0) / (input1 - input0);
+        
+        // Now perform the cubic interpolation given the alpha value.
+        return Interp.cubicInterp(controlPoints[index0].outputValue, controlPoints[index1].outputValue, controlPoints[index2].outputValue, controlPoints[index3].outputValue, alpha);
+    }
+    
+    public void insertAtPos(final int insertionPos, final double inputValue, final double outputValue) {
+        // Make room for the new control point at the specified position within
+        // the
+        // control point array. The position is determined by the input value of
+        // the control point; the control points must be sorted by input value
+        // within that array.
+        final ControlPoint[] newControlPoints = new ControlPoint[controlPointCount + 1];
+        
+        for (int t = 0; t < (controlPointCount + 1); t++) {
+            newControlPoints[t] = new ControlPoint();
+        }
+        
+        for (int i = 0; i < controlPointCount; i++) {
+            if (i < insertionPos) {
+                newControlPoints[i] = controlPoints[i];
+            } else {
+                newControlPoints[i + 1] = controlPoints[i];
+            }
+        }
+        
+        controlPoints = newControlPoints;
+        ++controlPointCount;
+        
+        // Now that we've made room for the new control point within the array,
+        // add
+        // the new control point.
+        controlPoints[insertionPos].inputValue = inputValue;
+        controlPoints[insertionPos].outputValue = outputValue;
+    }
 }
 
 // / This class defines a control point.
 // /
 // / Control points are used for defining splines.
 class ControlPoint {
-	// / The input value.
-	double inputValue;
-
-	// / The output value that is mapped from the input value.
-	double outputValue;
-
-	ControlPoint() {
-		inputValue = 0.0;
-		outputValue = 0.0;
-	}
-
-	ControlPoint(double inputValue, double outputValue) {
-		this.inputValue = inputValue;
-		this.outputValue = outputValue;
-	}
-
+    // / The input value.
+    double inputValue;
+    
+    // / The output value that is mapped from the input value.
+    double outputValue;
+    
+    ControlPoint() {
+        inputValue = 0.0;
+        outputValue = 0.0;
+    }
+    
+    ControlPoint(final double inputValue, final double outputValue) {
+        this.inputValue = inputValue;
+        this.outputValue = outputValue;
+    }
+    
 }

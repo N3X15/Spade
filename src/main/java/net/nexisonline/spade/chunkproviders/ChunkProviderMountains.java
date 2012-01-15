@@ -13,8 +13,6 @@ import java.util.logging.Logger;
 import libnoiseforjava.NoiseGen.NoiseQuality;
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
-import net.nexisonline.spade.Heightmap;
-import net.nexisonline.spade.Interpolator;
 import net.nexisonline.spade.SpadeChunkProvider;
 import net.nexisonline.spade.SpadePlugin;
 
@@ -27,12 +25,12 @@ import org.bukkit.World;
  */
 @SuppressWarnings("deprecation")
 public class ChunkProviderMountains extends SpadeChunkProvider {
-    private RidgedMulti        terrainNoise;
-    private Perlin             continentNoise;
-    private int                continentNoiseOctaves = 16;
-    private final NoiseQuality noiseQuality          = NoiseQuality.QUALITY_STD;
+    private RidgedMulti terrainNoise;
+    private Perlin continentNoise;
+    private int continentNoiseOctaves = 16;
+    private final NoiseQuality noiseQuality = NoiseQuality.QUALITY_STD;
     
-    public ChunkProviderMountains(SpadePlugin plugin) {
+    public ChunkProviderMountains(final SpadePlugin plugin) {
         super(plugin);
     }
     
@@ -42,7 +40,7 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
      * @see org.bukkit.ChunkProvider#onLoad(org.bukkit.World, long)
      */
     @Override
-    public void onLoad(String worldName, long worldSeed, Map<String, Object> map) {
+    public void onLoad(final String worldName, final long worldSeed, final Map<String, Object> map) {
         super.onLoad(worldName, worldSeed, map);
         
         final double Frequency = 0.1;
@@ -72,13 +70,12 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
     /*
      * (non-Javadoc)
      * 
-     * @see org.bukkit.ChunkProvider#generateChunk(int, int, byte[],
-     * org.bukkit.block.Biome[], double[])
+     * @see org.bukkit.ChunkProvider#generateChunk(int, int, byte[], org.bukkit.block.Biome[], double[])
      */
     @Override
-    public byte[] generate(World world, Random random, int X, int Z) {
+    public byte[] generate(final World world, final Random random, final int X, final int Z) {
         
-        byte[] blocks = new byte[16 * 16 * 128];
+        final byte[] blocks = new byte[16 * 16 * 128];
         int minHeight = Integer.MAX_VALUE;
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {

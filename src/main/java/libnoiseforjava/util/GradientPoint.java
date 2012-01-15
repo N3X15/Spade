@@ -26,42 +26,42 @@
 package libnoiseforjava.util;
 
 public class GradientPoint {
-	// / Defines a point used to build a color gradient.
-	// /
-	// / A color gradient is a list of gradually-changing colors. A color
-	// / gradient is defined by a list of <i>gradient points</i>. Each
-	// / gradient point has a position and a color. In a color gradient, the
-	// / colors between two adjacent gradient points are linearly interpolated.
-	// /
-	// / The ColorGradient class defines a color gradient by a list of these
-	// / objects.
-
-	double position;
-	ColorCafe color;
-
-	public GradientPoint() {
-		position = 0.0;
-		color = new ColorCafe(0, 0, 0, 0);
-	}
-
-	public GradientPoint(double position, ColorCafe color) {
-		this.position = position;
-		this.color = color;
-	}
-
-	public double getPosition() {
-		return position;
-	}
-
-	public ColorCafe getColor() {
-		return color;
-	}
-
-	public void setPosition(double position) {
-		this.position = position;
-	}
-
-	public void setColor(ColorCafe color) {
-		this.color = color;
-	}
+    // / Defines a point used to build a color gradient.
+    // /
+    // / A color gradient is a list of gradually-changing colors. A color
+    // / gradient is defined by a list of <i>gradient points</i>. Each
+    // / gradient point has a position and a color. In a color gradient, the
+    // / colors between two adjacent gradient points are linearly interpolated.
+    // /
+    // / The ColorGradient class defines a color gradient by a list of these
+    // / objects.
+    
+    double position;
+    ColorCafe color;
+    
+    public GradientPoint() {
+        position = 0.0;
+        color = new ColorCafe(0, 0, 0, 0);
+    }
+    
+    public GradientPoint(final double position, final ColorCafe color) {
+        this.position = position;
+        this.color = color;
+    }
+    
+    public double getPosition() {
+        return position;
+    }
+    
+    public ColorCafe getColor() {
+        return color;
+    }
+    
+    public void setPosition(final double position) {
+        this.position = position;
+    }
+    
+    public void setColor(final ColorCafe color) {
+        this.color = color;
+    }
 }

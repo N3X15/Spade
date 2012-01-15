@@ -28,27 +28,25 @@ package libnoiseforjava.module;
 import libnoiseforjava.exception.ExceptionInvalidParam;
 
 public class Multiply extends ModuleBase {
-	// / Noise module that outputs the product of the two output values from
-	// / two source modules.
-	// /
-	// / @image html modulemultiply.png
-	// /
-	// / This noise module requires two source modules.
-
-	public Multiply(ModuleBase sourceModuleOne, ModuleBase sourceModuleTwo)
-			throws ExceptionInvalidParam {
-		super(2);
-		setSourceModule(0, sourceModuleOne);
-		setSourceModule(1, sourceModuleTwo);
-	}
-
-	@Override
-	public double getValue(double x, double y, double z) {
-		assert (sourceModules[0] != null);
-		assert (sourceModules[1] != null);
-
-		return sourceModules[0].getValue(x, y, z)
-				* sourceModules[1].getValue(x, y, z);
-	}
-
+    // / Noise module that outputs the product of the two output values from
+    // / two source modules.
+    // /
+    // / @image html modulemultiply.png
+    // /
+    // / This noise module requires two source modules.
+    
+    public Multiply(final ModuleBase sourceModuleOne, final ModuleBase sourceModuleTwo) throws ExceptionInvalidParam {
+        super(2);
+        setSourceModule(0, sourceModuleOne);
+        setSourceModule(1, sourceModuleTwo);
+    }
+    
+    @Override
+    public double getValue(final double x, final double y, final double z) {
+        assert (sourceModules[0] != null);
+        assert (sourceModules[1] != null);
+        
+        return sourceModules[0].getValue(x, y, z) * sourceModules[1].getValue(x, y, z);
+    }
+    
 }

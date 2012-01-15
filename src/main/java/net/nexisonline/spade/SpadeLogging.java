@@ -8,16 +8,16 @@ import java.util.logging.Logger;
 
 /**
  * @author Rob
- *
+ * 
  */
 public class SpadeLogging {
-	public static Logger log = Logger.getLogger("Minecraft");
-	
-	public static void info(String message) {
-		log.info(message);
-	}
-
-	public static void severe(String msg, Exception e) {
-		log.log(Level.SEVERE, msg, e);
-	}
+    public static Logger log = Logger.getLogger("Minecraft");
+    
+    public static void info(final String message) {
+        log.info(message);
+    }
+    
+    public static void severe(final String msg, final Exception e) {
+        log.log(Level.SEVERE, msg, e);
+    }
 }

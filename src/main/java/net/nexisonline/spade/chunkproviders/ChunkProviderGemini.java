@@ -26,123 +26,109 @@ import toxi.math.noise.SimplexNoise;
  */
 public class ChunkProviderGemini extends SpadeChunkProvider {
     private int WATER_HEIGHT = 32;
-    private int OCEAN_FLOOR=16;
-
+    private int OCEAN_FLOOR = 16;
+    
     SimplexNoise m_primaryNoise;
     SimplexNoise m_xTurbulence;
     SimplexNoise m_yTurbulence;
     SimplexNoise m_zTurbulence;
     SimplexNoise m_heightOffset;
-
-    private InterpolatedDensityMap density;
-
-    public ChunkProviderGemini(SpadePlugin plugin) 
-    {
+    
+    private final InterpolatedDensityMap density;
+    
+    public ChunkProviderGemini(final SpadePlugin plugin) {
         super(plugin);
         density = new InterpolatedDensityMap();
     }
     
     @Override
-    public void onLoad(String worldName, long worldSeed, Map<String, Object> map) 
-    {
-        super.onLoad(worldName,worldSeed,map);
+    public void onLoad(final String worldName, final long worldSeed, final Map<String, Object> map) {
+        super.onLoad(worldName, worldSeed, map);
         
         /** Configure **/
-        WATER_HEIGHT=SpadeConf.getInt(map,"water-level",63);
-        OCEAN_FLOOR=SpadeConf.getInt(map,"min-ocean-floor-height",32);
+        WATER_HEIGHT = SpadeConf.getInt(map, "water-level", 63);
+        OCEAN_FLOOR = SpadeConf.getInt(map, "min-ocean-floor-height", 32);
         
-        try 
-        {
-            m_primaryNoise = new SimplexNoise(((int)worldSeed * 1024));
+        try {
+            m_primaryNoise = new SimplexNoise(((int) worldSeed * 1024));
             m_primaryNoise.setFrequency(0.01f);
-
-            m_xTurbulence = new SimplexNoise(((int)worldSeed * 1024) + 1);
+            
+            m_xTurbulence = new SimplexNoise(((int) worldSeed * 1024) + 1);
             m_xTurbulence.setAmplitude(35);
             m_xTurbulence.setFrequency(0.02f);
-
-            m_yTurbulence = new SimplexNoise(((int)worldSeed * 1024) + 2);
+            
+            m_yTurbulence = new SimplexNoise(((int) worldSeed * 1024) + 2);
             m_yTurbulence.setAmplitude(35);
-            m_yTurbulence.setFrequency(0.02f);  
-
-            m_zTurbulence = new SimplexNoise(((int)worldSeed * 1024) + 3);
+            m_yTurbulence.setFrequency(0.02f);
+            
+            m_zTurbulence = new SimplexNoise(((int) worldSeed * 1024) + 3);
             m_zTurbulence.setAmplitude(35);
             m_zTurbulence.setFrequency(0.02f);
-
-            m_heightOffset = new SimplexNoise(((int)worldSeed * 1024) + 4);
+            
+            m_heightOffset = new SimplexNoise(((int) worldSeed * 1024) + 4);
             m_heightOffset.setAmplitude(32);
-            m_heightOffset.setFrequency(0.001f);            
-        }
-        catch (Exception e) 
-        {
+            m_heightOffset.setFrequency(0.001f);
+        } catch (final Exception e) {
         }
     }
-
+    
     @Override
-    public byte[] generate(World world, Random rand, int X, int Z) 
-    {
-        byte[] blocks = new byte[16*128*16];
+    public byte[] generate(final World world, final Random rand, final int X, final int Z) {
+        final byte[] blocks = new byte[16 * 128 * 16];
         // Shift the height up by quite a bit. It doesn't like to be very high.
-        double heightOffset = m_heightOffset.sample(X, 0, Z) + 42;
-        for (int x = 0; x < 16; x+=5) 
-        {
-            for (int y = 0; y <= 128; y += 16) 
-            {
-                for (int z = 0; z < 16; z+=5) 
-                {
-                    double posX = (x + (X * 16));
-                    double posY = (y - 64);
-                    double posZ = (z + (Z * 16));
-
-                    float warpX = (float) (posX + m_xTurbulence.sample(posX, posY, posZ));
-                    float warpY = (float) (posY + m_yTurbulence.sample(posX, posY, posZ));
-                    float warpZ = (float) (posZ + m_zTurbulence.sample(posX, posY, posZ));
-
+        final double heightOffset = m_heightOffset.sample(X, 0, Z) + 42;
+        for (int x = 0; x < 16; x += 5) {
+            for (int y = 0; y <= 128; y += 16) {
+                for (int z = 0; z < 16; z += 5) {
+                    final double posX = (x + (X * 16));
+                    final double posY = (y - 64);
+                    final double posZ = (z + (Z * 16));
+                    
+                    final float warpX = (float) (posX + m_xTurbulence.sample(posX, posY, posZ));
+                    final float warpY = (float) (posY + m_yTurbulence.sample(posX, posY, posZ));
+                    final float warpZ = (float) (posZ + m_zTurbulence.sample(posX, posY, posZ));
+                    
                     float fdensity = (float) m_primaryNoise.sample(warpX, warpY, warpZ);
                     fdensity -= (warpY - heightOffset) / 32;
-
-                    density.setDensity(x, y, z, (double)fdensity);
+                    
+                    density.setDensity(x, y, z, fdensity);
                 }
             }
         }
-
+        
         density.interpolate();
         double minDensity = Double.MAX_VALUE;
         double maxDensity = Double.MIN_VALUE;
-
-        for (int x = 0; x < 16; ++x) 
-        {
-            for (int y = 0; y < 128; ++y) 
-            {
-                for (int z = 0; z < 16; ++z) 
-                {
+        
+        for (int x = 0; x < 16; ++x) {
+            for (int y = 0; y < 128; ++y) {
+                for (int z = 0; z < 16; ++z) {
                     byte block = 0;
-                    double d = density.getDensity(x, y, z);
+                    final double d = density.getDensity(x, y, z);
                     maxDensity = Math.max(maxDensity, d);
                     minDensity = Math.min(minDensity, d);
-
-                    if ((int) d > 0) 
-                    {
+                    
+                    if ((int) d > 0) {
                         block = 1;
-                    } 
-                    else 
-                    {
+                    } else {
                         block = (byte) ((y < WATER_HEIGHT) ? Material.STATIONARY_WATER.getId() : 0);
                     }
-
-                    if (y == 1)
+                    
+                    if (y == 1) {
                         block = 7;
-
-                    setBlockByte(blocks,x,y,z,block);
+                    }
+                    
+                    setBlockByte(blocks, x, y, z, block);
                 }
             }
         }
-
+        
         return blocks;
     }
     
     @Override
-    public Map<String,Object> getConfig() {
-        Map<String,Object> cfg = super.getConfig();
+    public Map<String, Object> getConfig() {
+        final Map<String, Object> cfg = super.getConfig();
         cfg.put("water-level", WATER_HEIGHT);
         cfg.put("min-ocean-floor-height", OCEAN_FLOOR);
         return cfg;

@@ -9,31 +9,31 @@ import net.nexisonline.spade.SpadePlugin;
 import org.bukkit.World;
 
 public class ChunkProviderFlatGrass extends SpadeChunkProvider {
-	public ChunkProviderFlatGrass(SpadePlugin plugin) {
-		super(plugin);
-	}
-	
-	private byte[] template;
-	
-	@Override
-    public void onLoad(String worldName, long worldSeed, Map<String, Object> map) {
-        super.onLoad(worldName,worldSeed,map);
-		template=new byte[16*128*16];
-		for (int x = 0; x < 16; x++) {
-			for (int z = 0; z < 16; z++) {
-				double h = 64;
-				for (int y = 0; y < h; y++) {
-					setBlockByte(template,x,y,z,(byte) ((y < 2) ? 7 : 1));
-				}
-			}
-		}
-	}
-
-	@Override
-	public byte[] generate(World world, Random random, int X, int Z) {
-		return template;
-		
-		//Logger.getLogger("Minecraft").info(String.format("[Flatgrass] Chunk (%d,%d)", X, Z));
-	}
-
+    public ChunkProviderFlatGrass(final SpadePlugin plugin) {
+        super(plugin);
+    }
+    
+    private byte[] template;
+    
+    @Override
+    public void onLoad(final String worldName, final long worldSeed, final Map<String, Object> map) {
+        super.onLoad(worldName, worldSeed, map);
+        template = new byte[16 * 128 * 16];
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                final double h = 64;
+                for (int y = 0; y < h; y++) {
+                    setBlockByte(template, x, y, z, (byte) ((y < 2) ? 7 : 1));
+                }
+            }
+        }
+    }
+    
+    @Override
+    public byte[] generate(final World world, final Random random, final int X, final int Z) {
+        return template;
+        
+        //Logger.getLogger("Minecraft").info(String.format("[Flatgrass] Chunk (%d,%d)", X, Z));
+    }
+    
 }

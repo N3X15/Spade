@@ -9,10 +9,10 @@
 	<description>A plugin to demonstrate the power of Bukkit</description>
 	<url>http://github.com/N3X15/Spade</url>
 	<repositories>
-		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/artifactory/repo</url>
-		</repository>
+        <repository>
+            <id>bukkit-repo</id>
+            <url>http://repo.bukkit.org/artifactory/repo</url>
+        </repository>
 		<repository>
 			<id>nexisonline-repo</id>
 			<url>http://repo.nexisonline.net:8080/nexus/content/groups/public/</url>
@@ -58,14 +58,14 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.1-R1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.1-R1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

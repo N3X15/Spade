@@ -28,28 +28,26 @@ package libnoiseforjava.module;
 import libnoiseforjava.exception.ExceptionInvalidParam;
 
 public class Power extends ModuleBase {
-	// / Noise module that raises the output value from a first source module
-	// / to the power of the output value from a second source module.
-	// /
-	// / The first source module must have an index value of 0.
-	// /
-	// / The second source module must have an index value of 1.
-	// /
-	// / This noise module requires two source modules.
-
-	public Power(ModuleBase sourceModuleOne, ModuleBase sourceModuleTwo)
-			throws ExceptionInvalidParam {
-		super(2);
-		setSourceModule(0, sourceModuleOne);
-		setSourceModule(1, sourceModuleTwo);
-	}
-
-	@Override
-	public double getValue(double x, double y, double z) {
-		assert (sourceModules[0] != null);
-		assert (sourceModules[1] != null);
-
-		return Math.pow(sourceModules[0].getValue(x, y, z),
-				sourceModules[1].getValue(x, y, z));
-	}
+    // / Noise module that raises the output value from a first source module
+    // / to the power of the output value from a second source module.
+    // /
+    // / The first source module must have an index value of 0.
+    // /
+    // / The second source module must have an index value of 1.
+    // /
+    // / This noise module requires two source modules.
+    
+    public Power(final ModuleBase sourceModuleOne, final ModuleBase sourceModuleTwo) throws ExceptionInvalidParam {
+        super(2);
+        setSourceModule(0, sourceModuleOne);
+        setSourceModule(1, sourceModuleTwo);
+    }
+    
+    @Override
+    public double getValue(final double x, final double y, final double z) {
+        assert (sourceModules[0] != null);
+        assert (sourceModules[1] != null);
+        
+        return Math.pow(sourceModules[0].getValue(x, y, z), sourceModules[1].getValue(x, y, z));
+    }
 }

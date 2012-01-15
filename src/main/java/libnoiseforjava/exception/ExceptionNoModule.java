@@ -26,14 +26,14 @@
 package libnoiseforjava.exception;
 
 public class ExceptionNoModule extends Exception {
-
-	/**
+    
+    /**
     * 
     */
-	private static final long serialVersionUID = -4820882012470782847L;
-
-	public ExceptionNoModule(String message) {
-		super(message);
-	}
-
+    private static final long serialVersionUID = -4820882012470782847L;
+    
+    public ExceptionNoModule(final String message) {
+        super(message);
+    }
+    
 }
