@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
+import net.minecraft.server.BiomeBase;
 import net.minecraft.server.ChunkCoordinates;
+import net.minecraft.server.WorldGenBigTree;
 import net.minecraft.server.WorldGenClay;
 import net.minecraft.server.WorldGenDungeons;
 import net.minecraft.server.WorldGenFlowers;
@@ -22,6 +25,9 @@ import net.minecraft.server.WorldGenLiquids;
 import net.minecraft.server.WorldGenMinable;
 import net.minecraft.server.WorldGenPumpkin;
 import net.minecraft.server.WorldGenReed;
+import net.minecraft.server.WorldGenSwampTree;
+import net.minecraft.server.WorldGenTrees;
+import net.minecraft.server.WorldGenerator;
 import net.nexisonline.spade.SpadeConf;
 import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
@@ -46,7 +52,11 @@ public class OrePopulator extends SpadeEffectGenerator {
         CACTUS,
         LIQUID,
         LIGHTSTONE_A,
-        LIGHTSTONE_B
+        LIGHTSTONE_B,
+        TREE,
+        BIG_TREE,
+        SMALL_TREE,
+        SWAMP_TREE
     }
     
     /**
@@ -70,6 +80,7 @@ public class OrePopulator extends SpadeEffectGenerator {
         public List<Biome> validBiomes = new ArrayList<Biome>();
         private int x_o;
         private int z_o;
+        public HashMap<String, Object> extra = new HashMap<String, Object>();
         
         public DepositDef() {
         }
@@ -184,10 +195,39 @@ public class OrePopulator extends SpadeEffectGenerator {
                     case LIGHTSTONE_B:
                         (new WorldGenLightStone2()).a(getMCWorld(), random, x, y, z);
                         break;
+                    case TREE: // Default tree
+                    case BIG_TREE:
+                    case SMALL_TREE:
+                    case SWAMP_TREE:
+                        // <N3X15> since there are no trees
+                        // <GravelBot> (Dead_Beef) shit in my mouth why?
+                        // Note: Notchcode below.
+                        WorldGenerator wg = getTreeByType(x, z);
+                        wg.a(1.0D, 1.0D, 1.0D); // Scale?
+                        wg.a(getMCWorld(), random, x, getMCWorld().getHighestBlockYAt(x, z), z);
+                        break;
                 }
             } catch (final Exception e) {
                 //SpadeLogging.severe("Exception during ore gen", e);
             }
+        }
+        
+        private WorldGenerator getTreeByType(int x, int z) {
+            switch (depositType) {
+                case TREE:
+                    return getBiomeBaseAt(x, z).a(random);
+                case BIG_TREE:
+                    return new WorldGenBigTree(false);
+                case SMALL_TREE:
+                    return new WorldGenTrees(false);
+                case SWAMP_TREE:
+                    return new WorldGenSwampTree();
+            }
+            return null;
+        }
+        
+        private BiomeBase getBiomeBaseAt(int x, int z) {
+            return getMCWorld().getWorldChunkManager().getBiome(x, z);
         }
         
         private net.minecraft.server.World getMCWorld() {
@@ -210,6 +250,8 @@ public class OrePopulator extends SpadeEffectGenerator {
             cfg.put("maxDeposits", maxDeposits);
             cfg.put("rare", rare);
             cfg.put("rarity", rarity);
+            for (Entry<String, Object> e : extra.entrySet())
+                cfg.put(e.getKey(), e.getValue());
             return cfg;
         }
         
@@ -257,6 +299,12 @@ public class OrePopulator extends SpadeEffectGenerator {
             od.minDeposits = SpadeConf.getInt(deposit, "minDeposits", 0);
             od.maxDeposits = SpadeConf.getInt(deposit, "maxDeposits", 0);
             od.rarity = SpadeConf.getInt(deposit, "rarity", 4);
+            for (String key : deposit.keySet()) {
+                if (key.equalsIgnoreCase("depositType") || key.equalsIgnoreCase("blockType") || key.equalsIgnoreCase("minHeight") || key.equalsIgnoreCase("maxHeight") || key.equalsIgnoreCase("minBlocks") || key.equalsIgnoreCase("maxBlocks") || key.equalsIgnoreCase("minDeposits") || key.equalsIgnoreCase("maxDeposits") || key.equalsIgnoreCase("rare") || key.equalsIgnoreCase("rarity")) {
+                    continue;
+                }
+                od.extra.put(key, deposit.get(key));
+            }
             oreDefs.add(od);
         }
         random = new Random();
@@ -302,7 +350,7 @@ public class OrePopulator extends SpadeEffectGenerator {
     }
     
     // Translated from Notchcode.  You fuckers better donate, my fingers hurt.
-    private List<Object> getDefaults() {
+    public List<Object> getDefaults() {
         final List<Object> defs = new ArrayList<Object>();
         DepositDef o;
         // Water lake
@@ -343,6 +391,24 @@ public class OrePopulator extends SpadeEffectGenerator {
         o = new DepositDef(DepositType.CACTUS, Material.CACTUS.getId(), 0, 128, 0, 0, 10, 10);
         o.validBiomes.add(Biome.DESERT);
         defs.add(o.toConfigNode());
+        // Trees
+        o = new DepositDef(DepositType.TREE, Material.WOOD.getId(), 0, 128, 0, 1, 5, 5);
+        o.validBiomes.add(Biome.EXTREME_HILLS);
+        o.validBiomes.add(Biome.FOREST);
+        o.validBiomes.add(Biome.FOREST_HILLS);
+        o.validBiomes.add(Biome.ICE_DESERT);
+        o.validBiomes.add(Biome.ICE_MOUNTAINS);
+        o.validBiomes.add(Biome.ICE_PLAINS);
+        o.validBiomes.add(Biome.PLAINS);
+        o.validBiomes.add(Biome.RAINFOREST);
+        o.validBiomes.add(Biome.SAVANNA);
+        o.validBiomes.add(Biome.SEASONAL_FOREST);
+        o.validBiomes.add(Biome.SMALL_MOUNTAINS);
+        o.validBiomes.add(Biome.SWAMPLAND);
+        o.validBiomes.add(Biome.TAIGA);
+        o.validBiomes.add(Biome.TAIGA_HILLS);
+        defs.add(o.toConfigNode());
+        
         // Liquids (Lava, Water)
         defs.add(new DepositDef(DepositType.LIQUID, Material.WATER.getId(), 8, 128, 0, 0, 50, 50).toConfigNode());
         defs.add(new DepositDef(DepositType.LIQUID, Material.LAVA.getId(), 8, 120, 0, 0, 20, 20).toConfigNode());

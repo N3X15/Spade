@@ -118,9 +118,10 @@ public class SpadeWorldListener extends WorldListener {
                 }
             }
         } else {
+            root = new HashMap<String, Object>();
             for (final World w : spade.getServer().getWorlds()) {
                 final String worldName = w.getName();
-                final Map<String, Object> world = root = new HashMap<String, Object>();
+                final Map<String, Object> world = new HashMap<String, Object>();
                 {
                     final Map<String, Object> chunkProvider = new HashMap<String, Object>();
                     chunkProvider.put("name", "stock");
