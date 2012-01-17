@@ -33,7 +33,7 @@ public class ChunkProviderFlatGrass extends SpadeChunkProvider {
     public byte[] generate(final World world, final Random random, final int X, final int Z) {
         return template;
         
-        //Logger.getLogger("Minecraft").info(String.format("[Flatgrass] Chunk (%d,%d)", X, Z));
+        //SpadeLogging.debug(String.format("[Flatgrass] Chunk (%d,%d)", X, Z));
     }
     
 }

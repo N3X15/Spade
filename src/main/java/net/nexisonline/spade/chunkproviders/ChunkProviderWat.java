@@ -155,7 +155,7 @@ public class ChunkProviderWat extends SpadeChunkProvider {
             }
         }
         
-        //Logger.getLogger("Minecraft").info(String.format("[wat] Chunk (%d,%d)",X,Z));
+        //SpadeLogging.debug(String.format("[wat] Chunk (%d,%d)",X,Z));
         return blocks;
     }
 }

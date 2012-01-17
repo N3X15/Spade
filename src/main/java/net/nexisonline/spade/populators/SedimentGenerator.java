@@ -32,11 +32,6 @@ public class SedimentGenerator extends SpadeEffectGenerator {
         return new SedimentGenerator(plugin, node, seed);
     }
     
-    private boolean blockIsSolid(final byte b) {
-        final Material mat = Material.getMaterial(b);
-        return (mat != Material.AIR) && (mat != Material.WATER) && (mat != Material.STATIONARY_WATER) && (mat != Material.LAVA) && (mat != Material.STATIONARY_LAVA);
-    }
-    
     @Override
     public Map<String, Object> getConfiguration() {
         final Map<String, Object> cfg = new HashMap<String, Object>();

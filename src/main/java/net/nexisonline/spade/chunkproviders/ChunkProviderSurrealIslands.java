@@ -7,10 +7,10 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.logging.Logger;
 
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
+import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Material;
@@ -127,7 +127,7 @@ public class ChunkProviderSurrealIslands extends SpadeChunkProvider {
                 }
             }
         }
-        Logger.getLogger("Minecraft").info(String.format("[Islands] Chunk (%d,%d) (densityRange= [%.2f,%.2f])", X, Z, minDensity, maxDensity));
+        SpadeLogging.debug(String.format("[Islands] Chunk (%d,%d) (densityRange= [%.2f,%.2f])", X, Z, minDensity, maxDensity));
         return blocks;
     }
     

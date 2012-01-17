@@ -8,12 +8,12 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.logging.Logger;
 
 import libnoiseforjava.NoiseGen.NoiseQuality;
 import libnoiseforjava.module.Perlin;
 import libnoiseforjava.module.RidgedMulti;
 import net.nexisonline.spade.SpadeChunkProvider;
+import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Material;
@@ -95,7 +95,7 @@ public class ChunkProviderMountains extends SpadeChunkProvider {
                 }
             }
         }
-        Logger.getLogger("Minecraft").info(String.format("[Mountains] Chunk (%d,%d) Min Height: %dm", X, Z, minHeight));
+        SpadeLogging.debug(String.format("[Mountains] Chunk (%d,%d) Min Height: %dm", X, Z, minHeight));
         return blocks;
     }
 }

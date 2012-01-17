@@ -202,7 +202,7 @@ public class OrePopulator extends SpadeEffectGenerator {
                         // <N3X15> since there are no trees
                         // <GravelBot> (Dead_Beef) shit in my mouth why?
                         // Note: Notchcode below.
-                        WorldGenerator wg = getTreeByType(x, z);
+                        final WorldGenerator wg = getTreeByType(x, z);
                         wg.a(1.0D, 1.0D, 1.0D); // Scale?
                         wg.a(getMCWorld(), random, x, getMCWorld().getHighestBlockYAt(x, z), z);
                         break;
@@ -212,7 +212,7 @@ public class OrePopulator extends SpadeEffectGenerator {
             }
         }
         
-        private WorldGenerator getTreeByType(int x, int z) {
+        private WorldGenerator getTreeByType(final int x, final int z) {
             switch (depositType) {
                 case TREE:
                     return getBiomeBaseAt(x, z).a(random);
@@ -226,7 +226,7 @@ public class OrePopulator extends SpadeEffectGenerator {
             return null;
         }
         
-        private BiomeBase getBiomeBaseAt(int x, int z) {
+        private BiomeBase getBiomeBaseAt(final int x, final int z) {
             return getMCWorld().getWorldChunkManager().getBiome(x, z);
         }
         
@@ -250,8 +250,9 @@ public class OrePopulator extends SpadeEffectGenerator {
             cfg.put("maxDeposits", maxDeposits);
             cfg.put("rare", rare);
             cfg.put("rarity", rarity);
-            for (Entry<String, Object> e : extra.entrySet())
+            for (final Entry<String, Object> e : extra.entrySet()) {
                 cfg.put(e.getKey(), e.getValue());
+            }
             return cfg;
         }
         
@@ -299,7 +300,7 @@ public class OrePopulator extends SpadeEffectGenerator {
             od.minDeposits = SpadeConf.getInt(deposit, "minDeposits", 0);
             od.maxDeposits = SpadeConf.getInt(deposit, "maxDeposits", 0);
             od.rarity = SpadeConf.getInt(deposit, "rarity", 4);
-            for (String key : deposit.keySet()) {
+            for (final String key : deposit.keySet()) {
                 if (key.equalsIgnoreCase("depositType") || key.equalsIgnoreCase("blockType") || key.equalsIgnoreCase("minHeight") || key.equalsIgnoreCase("maxHeight") || key.equalsIgnoreCase("minBlocks") || key.equalsIgnoreCase("maxBlocks") || key.equalsIgnoreCase("minDeposits") || key.equalsIgnoreCase("maxDeposits") || key.equalsIgnoreCase("rare") || key.equalsIgnoreCase("rarity")) {
                     continue;
                 }

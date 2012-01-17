@@ -70,7 +70,7 @@ public class Densitymap {
                 map[x][y - 15][z] = lerp(map[x][y][z], map[x][y - 16][z], it(15));
             }
         } catch (final Exception e) {
-            System.out.println("Error setting density. You probably didn't initialize the interpolator.");
+            SpadeLogging.severe("Error setting density. You probably didn't initialize the interpolator.", null);
         }
     }
     

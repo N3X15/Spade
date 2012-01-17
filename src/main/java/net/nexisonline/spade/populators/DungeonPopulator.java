@@ -42,7 +42,7 @@ public class DungeonPopulator extends SpadeEffectGenerator {
         //		SpadeLogging.info(String.format("Generating dungeons in chunk (%d,%d) (maxrooms = %d)",chunk.getX(),chunk.getZ(),this.maxRooms));
         world = w;
         final double density = m_density.noise(chunk.getX() * 16, chunk.getZ() * 16);
-        //Logger.getLogger("Minecraft").info(String.format("Density: %.2f", density));
+        //SpadeLogging.debug(String.format("Density: %.2f", density));
         
         final int chunkY = m_random.nextInt(64);
         
@@ -61,7 +61,7 @@ public class DungeonPopulator extends SpadeEffectGenerator {
                 x += chunk.getX() * 16;
                 z += chunk.getZ() * 16;
                 
-                //Logger.getLogger("Minecraft").info(String.format("Width: %d Height: %d Depth: %d", width, height, depth));
+                //SpadeLogging.debug(String.format("Width: %d Height: %d Depth: %d", width, height, depth));
                 queuedDungeons.add(new Dungeon(this, world, x, y, z, width, height, depth));
             }
         }

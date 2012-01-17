@@ -7,10 +7,10 @@ package net.nexisonline.spade.chunkproviders;
 
 import java.util.Map;
 import java.util.Random;
-import java.util.logging.Logger;
 
 import net.nexisonline.spade.InterpolatedDensityMap;
 import net.nexisonline.spade.SpadeChunkProvider;
+import net.nexisonline.spade.SpadeLogging;
 import net.nexisonline.spade.SpadePlugin;
 
 import org.bukkit.Material;
@@ -54,7 +54,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider {
     public byte[] generate(final World world, final Random random, final int X, final int Z) {
         final byte[] blocks = new byte[16 * 16 * 128];
         if (!plugin.shouldGenerateChunk(worldName, X, Z)) {
-            Logger.getLogger("Minecraft").info(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)", X, Z));
+            SpadeLogging.debug(String.format("[DoublePerlin] SKIPPING Chunk (%d,%d)", X, Z));
             return blocks;
         }
         
@@ -100,7 +100,7 @@ public class ChunkProviderDoublePerlin extends SpadeChunkProvider {
                 }
             }
         }
-        //Logger.getLogger("Minecraft").info(String.format("[DoublePerlin %d] Chunk (%d,%d)",m_perlinGenerator.getSeed(),X,Z));
+        //SpadeLogging.debug(String.format("[DoublePerlin %d] Chunk (%d,%d)",m_perlinGenerator.getSeed(),X,Z));
         return blocks;
     }
 }
