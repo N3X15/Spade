@@ -14,3 +14,6 @@ commands:
   regen:
     description: Regenerate the chunk you're standing in
     usage: /regen chunk
+  spade:
+    description: Advanced spade options
+    usage: nope
