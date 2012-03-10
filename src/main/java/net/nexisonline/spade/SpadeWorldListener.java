@@ -14,8 +14,10 @@ import net.nexisonline.spade.populators.DungeonPopulator;
 import net.nexisonline.spade.populators.OrePopulator;
 
 import org.bukkit.World;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.event.world.WorldListener;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.generator.BlockPopulator;
@@ -23,7 +25,7 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.reader.UnicodeReader;
 
-public class SpadeWorldListener extends WorldListener {
+public class SpadeWorldListener implements Listener {
     private final SpadePlugin spade;
     private Collection<String> worlds;
     private Map<String, Object> root;
@@ -33,7 +35,7 @@ public class SpadeWorldListener extends WorldListener {
         spade = plugin;
     }
     
-    @Override
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onChunkLoad(final ChunkLoadEvent e) {
         for (final BlockPopulator bp : e.getWorld().getPopulators()) {
             if (bp instanceof DungeonPopulator) {
@@ -42,7 +44,7 @@ public class SpadeWorldListener extends WorldListener {
         }
     }
     
-    @Override
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onWorldLoad(final WorldLoadEvent e) {
         final World w = e.getWorld();
         SpadeLogging.info("onWorldLoad: " + w.getName());
@@ -53,7 +55,7 @@ public class SpadeWorldListener extends WorldListener {
         }
     }
     
-    @Override
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onWorldSave(final WorldSaveEvent e) {
         saveWorlds();
     }

@@ -14,7 +14,7 @@ import net.nexisonline.spade.commands.SpadeCommand;
 import net.nexisonline.spade.commands.TP2WorldCommand;
 
 import org.bukkit.World.Environment;
-import org.bukkit.event.Event;
+import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,9 +34,7 @@ public class SpadePlugin extends JavaPlugin {
     public void onEnable() {
         // Register our events
         final PluginManager pm = getServer().getPluginManager();
-        pm.registerEvent(Event.Type.WORLD_LOAD, worldListener, Event.Priority.Monitor, this);
-        pm.registerEvent(Event.Type.WORLD_SAVE, worldListener, Event.Priority.Monitor, this);
-        pm.registerEvent(Event.Type.CHUNK_LOAD, worldListener, Event.Priority.Monitor, this);
+        pm.registerEvents(worldListener, this);
         
         // Register our commands
         //getCommand("setworldgen").setExecutor(new SetWorldGenCommand(this));
@@ -82,7 +80,9 @@ public class SpadePlugin extends JavaPlugin {
             cp.onLoad(worldName, seed, map);
         }
         assignedProviders.put(worldName, cp);
-        getServer().createWorld(worldName, Environment.NORMAL, seed, cp);
+        WorldCreator wc = new WorldCreator(worldName);
+        wc = wc.environment(Environment.NORMAL).generator(cp).seed(seed);
+        wc.createWorld();
         return map;
     }
     
