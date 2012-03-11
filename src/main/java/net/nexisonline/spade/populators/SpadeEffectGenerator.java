@@ -25,7 +25,7 @@ public abstract class SpadeEffectGenerator extends BlockPopulator {
         }
     }
     
-    public static SpadeEffectGenerator getInstance(final SpadePlugin plugin, final Map node, final long seed) {
+    public static SpadeEffectGenerator getInstance(final SpadePlugin plugin, final Map<String, Object> node, final long seed) {
         return null;
     }
     

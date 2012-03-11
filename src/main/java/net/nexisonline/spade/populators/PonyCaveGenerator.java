@@ -63,7 +63,7 @@ public class PonyCaveGenerator extends SpadeEffectGenerator {
         m_ridged2.setAmplitude(11);
     }
     
-    public static SpadeEffectGenerator getInstance(final SpadePlugin plugin, final Map n, final long seed) {
+    public static SpadeEffectGenerator getInstance(final SpadePlugin plugin, final Map<String, Object> n, final long seed) {
         final Map<String, Object> node = n;
         return new PonyCaveGenerator(plugin, node, seed);
     }

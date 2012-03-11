@@ -23,7 +23,6 @@ import org.bukkit.World;
  * @author N3X15
  * 
  */
-@SuppressWarnings("deprecation")
 public class ChunkProviderMountains extends SpadeChunkProvider {
     private RidgedMulti terrainNoise;
     private Perlin continentNoise;

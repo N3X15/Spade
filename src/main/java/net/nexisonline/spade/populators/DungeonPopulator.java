@@ -32,7 +32,7 @@ public class DungeonPopulator extends SpadeEffectGenerator {
         m_random = new Random(seed + 3531244);
     }
     
-    public static SpadeEffectGenerator getInstance(final SpadePlugin plugin, final Map n, final long seed) {
+    public static SpadeEffectGenerator getInstance(final SpadePlugin plugin, final Map<String, Object> n, final long seed) {
         final Map<String, Object> node = n;
         return new DungeonPopulator(plugin, node, seed);
     }

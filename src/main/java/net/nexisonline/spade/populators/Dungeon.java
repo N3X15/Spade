@@ -12,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 public class Dungeon {
@@ -93,7 +94,7 @@ public class Dungeon {
                             if ((placeSpawner == 0) && (currentBlock != 0) && canPlaceBlock(x, y, z)) {
                                 final Block spawner = world.getBlockAt(x, y, z);
                                 spawner.setType(Material.MOB_SPAWNER);
-                                ((CreatureSpawner) spawner.getState()).setCreatureTypeId(getRandomMob());
+                                ((CreatureSpawner) spawner.getState()).setSpawnedType(getRandomMob());
                             } else if ((placeChest == 0) && (currentBlock != 0) && canPlaceBlock(x, y, z)) {
                                 final Block block = world.getBlockAt(x, y, z);
                                 block.setType(Material.CHEST);
@@ -162,19 +163,21 @@ public class Dungeon {
         dungeonPopulator.queuedDungeons.remove(this);
     }
     
-    private String getRandomMob() {
-        final int i = m_random.nextInt(4);
+    private EntityType getRandomMob() {
+        final int i = m_random.nextInt(5);
         
         if (i == 0)
-            return "Skeleton";
+            return EntityType.SKELETON;
         else if (i == 1)
-            return "Zombie";
+            return EntityType.ZOMBIE;
         else if (i == 2)
-            return "Creeper";
+            return EntityType.CREEPER;
         else if (i == 3)
-            return "Spider";
+            return EntityType.SPIDER;
+        else if (i == 4)
+            return EntityType.ENDERMAN;
         else
-            return "";
+            return EntityType.OCELOT;
     }
     
     private ItemStack getOre() {
